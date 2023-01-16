@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  a {
+    @apply hover:text-red-700;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: #000;
+    color: #fff;
+  }
+
+  aside code {
+    background: transparent !important;
+  }
+}
