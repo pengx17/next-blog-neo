@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Date from "./date";
+import {Date} from "./date";
 import { getPosts } from "../lib/data";
 
 export default async function Home() {
@@ -13,22 +13,20 @@ export default async function Home() {
         </span>
       </div>
       <div className="sm:flex-1 sm:py-24 max-h-full overflow-auto px-12 py-12">
-        {posts
-          .filter((d) => !d.draft)
-          .map(({ id, date, title }) => (
-            <div className="mb-6" key={id}>
-              <Link
-                href={`/posts/${id}`}
-                className="text-xl font-semibold font-serif"
-              >
-                {title}
-              </Link>
-              <br />
-              <span className="text-xs text-gray-600">
-                <Date dateString={date} />
-              </span>
-            </div>
-          ))}
+        {posts.map(({ slug, date, name }) => (
+          <div className="mb-6" key={slug}>
+            <Link
+              href={`/posts/${slug}`}
+              className="text-xl font-semibold font-serif"
+            >
+              {name}
+            </Link>
+            <br />
+            <span className="text-xs text-gray-600">
+              <Date dateString={date} />
+            </span>
+          </div>
+        ))}
       </div>
     </section>
   );
