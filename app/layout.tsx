@@ -2,6 +2,7 @@
 import Script from "next/script";
 import { GA_TRACKING_ID } from "../lib/gtag";
 import "./global.css";
+import './prism.css';
 
 const siteTitle = "pengx17";
 const isProduction = process.env.NODE_ENV === "production";

@@ -4,6 +4,8 @@ import {
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { cache } from "react"; // tbh I don't know what it is ...
+import { NotionToMarkdown } from "notion-to-md";
+import { mdToHTML } from "./md-to-html";
 
 const databaseId = "489f42b0a9244c6393451288a880c158";
 
@@ -11,6 +13,8 @@ const databaseId = "489f42b0a9244c6393451288a880c158";
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
+
+const n2m = new NotionToMarkdown({ notionClient: notion });
 
 const parseProperties = <T extends object>(
   properties: PageObjectResponse["properties"]
@@ -26,6 +30,8 @@ const parseProperties = <T extends object>(
           return [key, value.number];
         case "checkbox":
           return [key, value.checkbox];
+        case 'date':
+          return [key, value.date.start];
         default:
           return [key, value];
       }
@@ -55,6 +61,10 @@ export const getPosts = cache(async () => {
       },
     },
     sorts: [
+      {
+        property: "Date",
+        direction: "descending",
+      },
       {
         timestamp: "created_time",
         direction: "descending",
@@ -119,4 +129,16 @@ export const getPostById = cache(async (id: string) => {
   );
 
   return result;
+});
+
+export const getPostHTML = cache(async (id: string) => {
+  const start = performance.now();
+  const mdblocks = await n2m.pageToMarkdown(id);
+  // await initHighlighter();
+  const md = n2m.toMarkdownString(mdblocks);
+  const html = await mdToHTML(md);
+  console.log(
+    `getPostHTML took ${(performance.now() - start).toFixed(2)}ms for ${id}`
+  );
+  return html;
 });

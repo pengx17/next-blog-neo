@@ -2,19 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  a {
-    @apply hover:text-red-700;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 2px;
-  }
+a {
+  @apply hover:text-red-700;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
 
-  ::selection {
-    background-color: #000;
-    color: #fff;
-  }
+::selection {
+  background-color: #000;
+  color: #fff;
+}
 
-  aside code {
-    background: transparent !important;
-  }
+aside code {
+  background: transparent !important;
+}
+
+.inline-code {
+  @apply bg-gray-100 rounded;
+  padding: 0.2rem 0.4rem;
+  line-height: 1;
+  font-size: 0.8em;
 }

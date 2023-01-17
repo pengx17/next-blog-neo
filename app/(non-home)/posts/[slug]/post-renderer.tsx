@@ -1,4 +1,4 @@
-import { getPostById, PostProperties } from "../../../../lib/data";
+import { getPostHTML, PostProperties } from "../../../../lib/data";
 import { createSectionWrapper } from "./components";
 import { Date } from "../../../date";
 import { use } from "react";
@@ -14,17 +14,12 @@ export function PostRenderer({ id, name, date }: PostProperties) {
       <div className="text-gray-600 mb-8 ml-0.5">
         <Date dateString={date} />
       </div>
-      <PostBlocks id={id} />
-    </>
-  );
-}
-
-function PostBlocks({ id }: { id: string }) {
-  const post = use(getPostById(id));
-  return (
-    <>
-      <section></section>
-      <pre>{JSON.stringify(post, null, 2)}</pre>
+      <div
+        className="post-content"
+        dangerouslySetInnerHTML={{
+          __html: use(getPostHTML(id)),
+        }}
+      />
     </>
   );
 }
