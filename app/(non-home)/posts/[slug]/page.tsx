@@ -1,4 +1,4 @@
-import { getPostById, getPosts } from "../../../../lib/data";
+import { getPosts } from "../../../../lib/data";
 import { PostRenderer } from "./post-renderer";
 
 export default async function Post({ params }) {
