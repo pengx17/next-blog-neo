@@ -1,5 +1,6 @@
 module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}"],
+  content: ["./{app,lib}/**/*.{js,ts,jsx,tsx}"],
+  safelist: [],
   theme: {
     fontFamily: {
       sans: ["Source Sans Pro", "Noto Sans SC", "sans-serif"],
