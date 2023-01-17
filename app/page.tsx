@@ -31,3 +31,5 @@ export default async function Home() {
     </section>
   );
 }
+
+export const revalidate = 60;

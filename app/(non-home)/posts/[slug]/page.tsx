@@ -25,3 +25,5 @@ export async function generateStaticParams() {
     slug: item.slug,
   }));
 }
+
+export const revalidate = 60;
