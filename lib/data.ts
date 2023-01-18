@@ -23,19 +23,20 @@ const parseProperties = <T extends object>(
     .map(([key, value]) => {
       switch (value.type) {
         case "rich_text":
-          return [key, value.rich_text[0].plain_text];
+          return [key, value.rich_text?.[0].plain_text];
         case "title":
-          return [key, value.title[0].plain_text];
+          return [key, value.title?.[0].plain_text];
         case "number":
           return [key, value.number];
         case "checkbox":
           return [key, value.checkbox];
-        case 'date':
-          return [key, value.date.start];
+        case "date":
+          return [key, value.date?.start];
         default:
           return [key, value];
       }
     })
+    .filter(([, v]) => v != null)
     .flatMap(([k, v]) => [
       [k, v],
       [k.toString().toLowerCase(), v],
@@ -98,6 +99,7 @@ const getPostBlocks = async (
   const filteredResults = results
     .filter((r) => "type" in r)
     .map((r: BlockObjectResponse) => r);
+
   if (has_more) {
     return [...filteredResults, ...(await getPostBlocks(id, next_cursor))];
   } else {
@@ -132,13 +134,38 @@ export const getPostById = cache(async (id: string) => {
 });
 
 export const getPostHTML = cache(async (id: string) => {
-  const start = performance.now();
-  const mdblocks = await n2m.pageToMarkdown(id);
-  // await initHighlighter();
-  const md = n2m.toMarkdownString(mdblocks);
-  const html = await mdToHTML(md);
-  console.log(
-    `getPostHTML took ${(performance.now() - start).toFixed(2)}ms for ${id}`
-  );
-  return html;
+  try {
+    const start = performance.now();
+    const post = await getPostById(id);
+    const mdblocks = await n2m.blocksToMarkdown(post.blocks);
+
+    // const comments = (
+    //   await Promise.all(
+    //     post.blocks.map(async (block) => {
+    //       try {
+    //         const { results } = await notion.comments.list({
+    //           block_id: block.id,
+    //         });
+    //         return results;
+    //       } catch (_) {
+    //         return [];
+    //       }
+    //     })
+    //   )
+    // ).flat();
+
+    const md = n2m.toMarkdownString(mdblocks);
+    let html = await mdToHTML(md);
+    // html =
+    //   html +
+    //   `<br /> post: <pre>${JSON.stringify(post, null, 2)}</pre>` +
+    //   `<br /> comments: <pre>${JSON.stringify(comments, null, 2)}</pre>`;
+    console.log(
+      `getPostHTML took ${(performance.now() - start).toFixed(2)}ms for ${id}`
+    );
+    return html;
+  } catch (err) {
+    console.error(err);
+    return "failed to get post";
+  }
 });
