@@ -52,38 +52,40 @@ export interface PostProperties {
 }
 
 export const getPosts = cache(async () => {
-  const { results } = await notion.databases.query({
-    database_id: databaseId,
-    page_size: 100,
-    filter: {
-      property: "Publish",
-      checkbox: {
-        equals: true,
+  try {
+    const start = performance.now();
+    console.log('getting all posts ...')
+    const { results } = await notion.databases.query({
+      database_id: databaseId,
+      page_size: 100, // should be enough
+      filter: {
+        property: "Publish",
+        checkbox: {
+          equals: true,
+        },
       },
-    },
-    sorts: [
-      {
-        property: "Date",
-        direction: "descending",
-      },
-      {
-        timestamp: "created_time",
-        direction: "descending",
-      },
-    ],
-  });
+    });
 
-  const flattenedResults = (
-    results as PageObjectResponse[]
-  ).map<PostProperties>((r) => {
-    return {
-      id: r.id,
-      date: r.created_time,
-      ...parseProperties("properties" in r ? r.properties : {}),
-    };
-  });
+    const flattenedResults = (
+      results as PageObjectResponse[]
+    ).map<PostProperties>((r) => {
+      return {
+        id: r.id,
+        date: r.created_time,
+        ...parseProperties("properties" in r ? r.properties : {}),
+      };
+    });
 
-  return flattenedResults;
+    flattenedResults.sort((a, b) => b.date.localeCompare(a.date));
+
+    console.log(
+      `getPostHTML took ${(performance.now() - start).toFixed(2)}ms`
+    );
+    return flattenedResults;
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
 });
 
 const getPostBlocks = async (
@@ -133,33 +135,35 @@ export const getPostById = cache(async (id: string) => {
   return result;
 });
 
+const getCommentsForBlocks = cache(async (blocks: BlockObjectResponse[]) => {
+  const comments = (
+    await Promise.all(
+      blocks.map(async (block) => {
+        try {
+          const { results } = await notion.comments.list({
+            block_id: block.id,
+          });
+          return results;
+        } catch (_) {
+          return [];
+        }
+      })
+    )
+  ).flat();
+
+  return comments;
+});
+
 export const getPostHTML = cache(async (id: string) => {
   try {
     const start = performance.now();
     const post = await getPostById(id);
     const mdblocks = await n2m.blocksToMarkdown(post.blocks);
 
-    // const comments = (
-    //   await Promise.all(
-    //     post.blocks.map(async (block) => {
-    //       try {
-    //         const { results } = await notion.comments.list({
-    //           block_id: block.id,
-    //         });
-    //         return results;
-    //       } catch (_) {
-    //         return [];
-    //       }
-    //     })
-    //   )
-    // ).flat();
-
     const md = n2m.toMarkdownString(mdblocks);
+
     let html = await mdToHTML(md);
-    // html =
-    //   html +
-    //   `<br /> post: <pre>${JSON.stringify(post, null, 2)}</pre>` +
-    //   `<br /> comments: <pre>${JSON.stringify(comments, null, 2)}</pre>`;
+
     console.log(
       `getPostHTML took ${(performance.now() - start).toFixed(2)}ms for ${id}`
     );

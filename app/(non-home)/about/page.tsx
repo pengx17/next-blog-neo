@@ -2,7 +2,7 @@ export default function About() {
   return (
     <>
       <h1 className="font-serif text-4xl font-bold my-4">About</h1>
-      <h3 className="font-serif text-xl my-4">
+      <h3 className="text-xl my-4">
         A{" "}
         <ruby>
           Senior
@@ -10,9 +10,16 @@ export default function About() {
         </ruby>{" "}
         Frontend Developer
       </h3>
-      <h3 className="font-serif text-lg my-4">
+
+      <h3 className="my-4">
         <a href="https://pengx17.github.io/" target="_blank" rel="noreferrer">
           Archived Blog
+        </a>
+      </h3>
+
+      <h3 className="my-4">
+        <a href="https://twitter.com/pengx17" target="_blank" rel="noreferrer">
+          Twitter: pengx17
         </a>
       </h3>
     </>
