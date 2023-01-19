@@ -3,18 +3,19 @@ import {
   BlockObjectResponse,
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { cache } from "react"; // tbh I don't know what it is ...
 import { NotionToMarkdown } from "notion-to-md";
+import { cache } from "react"; // tbh I don't know what it is ...
+import { lazy } from "./lazy";
 import { mdToHTML } from "./md-to-html";
 
 const databaseId = "489f42b0a9244c6393451288a880c158";
 
 // Initializing a client
-const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
+const notion = lazy(() => {
+  return new Client({ auth: process.env.NOTION_TOKEN, timeoutMs: 5000 });
 });
 
-const n2m = new NotionToMarkdown({ notionClient: notion });
+const n2m = lazy(() => new NotionToMarkdown({ notionClient: notion.value }));
 
 const parseProperties = <T extends object>(
   properties: PageObjectResponse["properties"]
@@ -51,11 +52,11 @@ export interface PostProperties {
   date: string;
 }
 
-export const getPosts = cache(async () => {
+export const getPosts = cache(async (retry = 3) => {
   try {
     const start = performance.now();
-    console.log('getting all posts ...')
-    const { results } = await notion.databases.query({
+    console.log("getting all posts from Notion API ...");
+    const { results } = await notion.value.databases.query({
       database_id: databaseId,
       page_size: 100, // should be enough
       filter: {
@@ -79,11 +80,14 @@ export const getPosts = cache(async () => {
     flattenedResults.sort((a, b) => b.date.localeCompare(a.date));
 
     console.log(
-      `getPostHTML took ${(performance.now() - start).toFixed(2)}ms`
+      `getting all posts took ${(performance.now() - start).toFixed(2)}ms`
     );
     return flattenedResults;
   } catch (e) {
     console.error(e);
+    if (retry > 0) {
+      return getPosts(retry - 1);
+    }
     return [];
   }
 });
@@ -92,11 +96,12 @@ const getPostBlocks = async (
   id: string,
   startCursor?: string
 ): Promise<BlockObjectResponse[]> => {
-  const { results, has_more, next_cursor } = await notion.blocks.children.list({
-    block_id: id,
-    page_size: 50,
-    start_cursor: startCursor,
-  });
+  const { results, has_more, next_cursor } =
+    await notion.value.blocks.children.list({
+      block_id: id,
+      page_size: 50,
+      start_cursor: startCursor,
+    });
 
   const filteredResults = results
     .filter((r) => "type" in r)
@@ -111,7 +116,7 @@ const getPostBlocks = async (
 
 export const getPostById = cache(async (id: string) => {
   const start = performance.now();
-  const page = await notion.pages.retrieve({
+  const page = await notion.value.pages.retrieve({
     page_id: id,
   });
 
@@ -140,7 +145,7 @@ const getCommentsForBlocks = cache(async (blocks: BlockObjectResponse[]) => {
     await Promise.all(
       blocks.map(async (block) => {
         try {
-          const { results } = await notion.comments.list({
+          const { results } = await notion.value.comments.list({
             block_id: block.id,
           });
           return results;
@@ -158,9 +163,9 @@ export const getPostHTML = cache(async (id: string) => {
   try {
     const start = performance.now();
     const post = await getPostById(id);
-    const mdblocks = await n2m.blocksToMarkdown(post.blocks);
+    const mdblocks = await n2m.value.blocksToMarkdown(post.blocks);
 
-    const md = n2m.toMarkdownString(mdblocks);
+    const md = n2m.value.toMarkdownString(mdblocks);
 
     let html = await mdToHTML(md);
 
@@ -168,6 +173,24 @@ export const getPostHTML = cache(async (id: string) => {
       `getPostHTML took ${(performance.now() - start).toFixed(2)}ms for ${id}`
     );
     return html;
+  } catch (err) {
+    console.error(err);
+    return "failed to get post";
+  }
+});
+
+export const getPostMD = cache(async (id: string) => {
+  try {
+    const start = performance.now();
+    const post = await getPostById(id);
+    const mdblocks = await n2m.value.blocksToMarkdown(post.blocks);
+
+    const md = n2m.value.toMarkdownString(mdblocks);
+
+    console.log(
+      `getPostMD took ${(performance.now() - start).toFixed(2)}ms for ${id}`
+    );
+    return md;
   } catch (err) {
     console.error(err);
     return "failed to get post";

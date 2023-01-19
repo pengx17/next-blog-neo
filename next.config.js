@@ -10,6 +10,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ['pbs.twimg.com'],
+    formats: ['image/avif', 'image/webp']
+  }
 };
 
 module.exports = nextConfig;
