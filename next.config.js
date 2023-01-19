@@ -11,9 +11,16 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['pbs.twimg.com'],
-    formats: ['image/avif', 'image/webp']
-  }
+    remotePatterns: [
+      {
+        hostname: "**.amazonaws.com",
+      },
+      {
+        hostname: "pbs.twimg.com",
+      },
+    ],
+    formats: ["image/avif", "image/webp"],
+  },
 };
 
 module.exports = nextConfig;
