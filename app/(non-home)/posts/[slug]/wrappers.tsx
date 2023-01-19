@@ -8,7 +8,6 @@ import { notesContext } from "./notes-context";
 // @ts-ignore
 import { TweetClient } from "react-static-tweets/client";
 import { FloatingNote } from "./floating-note";
-import { mdToHTML } from "../../../../lib/md-to-html";
 
 const cx = (...args: string[]) => {
   return args.filter(Boolean).join(" ");
@@ -26,7 +25,7 @@ const Anchor = (props) => {
     const noteId = props.href.slice(1);
 
     if (notes?.[noteId]) {
-      const noteHTML = mdToHTML(notes[noteId]);
+      const noteHTML = notes[noteId];
       const note = <div dangerouslySetInnerHTML={{ __html: noteHTML }} />;
       return <FloatingNote label={props.children}>{note}</FloatingNote>;
     }

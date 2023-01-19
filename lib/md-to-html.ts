@@ -12,6 +12,9 @@ const remarkHtml = unified()
   .use(remarkRehype)
   .use(rehypePrism)
   .use(rehypeSlug)
+  .use(rehypeAddClasses, {
+    a: "underline",
+  })
   .use(rehypeStringify);
 
 export const mdToHTML = cache((md: string) => {

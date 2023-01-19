@@ -18,14 +18,14 @@ export default async function Post({ params }) {
   const { compiledSource } = await mdToCompiled(md);
 
   return (
-    <article className="w-full">
+    <div className="w-full">
       <PostRenderer
         {...post}
         notes={notes}
         tweetAstMap={tweetAstMap}
         compiledSource={compiledSource}
       />
-    </article>
+    </div>
   );
 }
 

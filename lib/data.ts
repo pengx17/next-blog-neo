@@ -6,6 +6,7 @@ import {
 import { NotionToMarkdown } from "notion-to-md";
 import { cache } from "react"; // tbh I don't know what it is ...
 import { lazy } from "./lazy";
+import { mdToHTML } from "./md-to-html";
 
 const databaseId = "489f42b0a9244c6393451288a880c158";
 
@@ -167,10 +168,8 @@ const getPageNotes = async (database_id: string) => {
           return b.type !== "child_database";
         })
       );
-      return [
-        notePage.id.replaceAll("-", ""),
-        n2m.value.toMarkdownString(mdblocks),
-      ] as const;
+      const md = n2m.value.toMarkdownString(mdblocks);
+      return [notePage.id.replaceAll("-", ""), mdToHTML(md)] as const;
     })
   );
 
