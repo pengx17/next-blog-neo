@@ -11,7 +11,7 @@ const databaseId = "489f42b0a9244c6393451288a880c158";
 
 // Initializing a client
 const notion = lazy(() => {
-  return new Client({ auth: process.env.NOTION_TOKEN, timeoutMs: 5000 });
+  return new Client({ auth: process.env.NOTION_TOKEN, timeoutMs: 10000 });
 });
 
 const n2m = lazy(() => {
@@ -139,7 +139,10 @@ export const getBlock = cache(async (id: string) => {
 // in my case, I have an inline database named "notes" which contains the notes of the page
 const findNotesDatabaseId = (blocks: BlockObjectResponse[]) => {
   return blocks.find((b) => {
-    return b.type === "child_database" && b.child_database.title === "notes";
+    return (
+      b.type === "child_database" &&
+      b.child_database.title.toLowerCase().startsWith("note")
+    );
   })?.id;
 };
 

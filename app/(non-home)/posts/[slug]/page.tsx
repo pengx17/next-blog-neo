@@ -13,7 +13,7 @@ export default async function Post({ params }) {
     return <div>404 not found</div>;
   }
 
-  const { md } = await getPageMD(post.id);
+  const { md, notes } = await getPageMD(post.id);
   const tweetAstMap = await cacheTwitterEmbedsAst(md);
   const { compiledSource } = await mdToCompiled(md);
 
@@ -21,6 +21,7 @@ export default async function Post({ params }) {
     <article className="w-full">
       <PostRenderer
         {...post}
+        notes={notes}
         tweetAstMap={tweetAstMap}
         compiledSource={compiledSource}
       />
