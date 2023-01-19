@@ -6,7 +6,6 @@ import {
 import { NotionToMarkdown } from "notion-to-md";
 import { cache } from "react"; // tbh I don't know what it is ...
 import { lazy } from "./lazy";
-import { mdToHTML } from "./md-to-html";
 
 const databaseId = "489f42b0a9244c6393451288a880c158";
 
@@ -15,7 +14,10 @@ const notion = lazy(() => {
   return new Client({ auth: process.env.NOTION_TOKEN, timeoutMs: 5000 });
 });
 
-const n2m = lazy(() => new NotionToMarkdown({ notionClient: notion.value }));
+const n2m = lazy(() => {
+  const _n2m = new NotionToMarkdown({ notionClient: notion.value });
+  return _n2m;
+});
 
 const parseProperties = <T extends object>(
   properties: PageObjectResponse["properties"]
@@ -59,12 +61,15 @@ export const getPosts = cache(async (retry = 3) => {
     const { results } = await notion.value.databases.query({
       database_id: databaseId,
       page_size: 100, // should be enough
-      filter: {
-        property: "Publish",
-        checkbox: {
-          equals: true,
-        },
-      },
+      filter:
+        process.env.NODE_ENV === "production"
+          ? {
+              property: "Publish",
+              checkbox: {
+                equals: true,
+              },
+            }
+          : undefined,
     });
 
     const flattenedResults = (
@@ -92,7 +97,7 @@ export const getPosts = cache(async (retry = 3) => {
   }
 });
 
-const getPostBlocks = async (
+export const getBlocks = async (
   id: string,
   startCursor?: string
 ): Promise<BlockObjectResponse[]> => {
@@ -108,13 +113,75 @@ const getPostBlocks = async (
     .map((r: BlockObjectResponse) => r);
 
   if (has_more) {
-    return [...filteredResults, ...(await getPostBlocks(id, next_cursor))];
+    return [...filteredResults, ...(await getBlocks(id, next_cursor))];
   } else {
     return filteredResults;
   }
 };
 
-export const getPostById = cache(async (id: string) => {
+export const getBlock = cache(async (id: string) => {
+  const start = performance.now();
+  const result = await notion.value.blocks.retrieve({
+    block_id: id,
+  });
+
+  if (!("type" in result)) {
+    return null;
+  }
+
+  console.log(
+    `getBlock took ${(performance.now() - start).toFixed(2)}ms for ${id}`
+  );
+
+  return result;
+});
+
+// in my case, I have an inline database named "notes" which contains the notes of the page
+const findNotesDatabaseId = (blocks: BlockObjectResponse[]) => {
+  return blocks.find((b) => {
+    return b.type === "child_database" && b.child_database.title === "notes";
+  })?.id;
+};
+
+const getPageNotes = async (database_id: string) => {
+  const start = performance.now();
+
+  const { results } = await notion.value.databases.query({
+    database_id: database_id,
+    page_size: 100, // should be enough
+  });
+
+  const filteredResults = results.filter<PageObjectResponse>(
+    // @ts-ignore
+    (r) => "properties" in r
+  );
+
+  const notes = await Promise.all(
+    filteredResults.map(async (notePage) => {
+      const blocks = await getBlocks(notePage.id);
+      const mdblocks = await n2m.value.blocksToMarkdown(
+        blocks.filter((b) => {
+          return b.type !== "child_database";
+        })
+      );
+      return [
+        notePage.id.replaceAll("-", ""),
+        n2m.value.toMarkdownString(mdblocks),
+      ] as const;
+    })
+  );
+
+  console.log(
+    `getPageNotes took ${(performance.now() - start).toFixed(
+      2
+    )}ms for ${database_id}`
+  );
+
+  return Object.fromEntries(notes);
+};
+
+// for testing only
+export const getPageById = cache(async (id: string) => {
   const start = performance.now();
   const page = await notion.value.pages.retrieve({
     page_id: id,
@@ -124,75 +191,43 @@ export const getPostById = cache(async (id: string) => {
     return null;
   }
 
-  const blocks = await getPostBlocks(page.id);
+  const blocks = await getBlocks(page.id);
 
   const result = {
     id: page.id,
     date: page.created_time,
+    parent: page.parent,
     ...parseProperties<PostProperties>(page.properties),
     blocks: blocks,
   };
 
   console.log(
-    `getPostById took ${(performance.now() - start).toFixed(2)}ms for ${id}`
+    `getPageById took ${(performance.now() - start).toFixed(2)}ms for ${id}`
   );
 
   return result;
 });
 
-const getCommentsForBlocks = cache(async (blocks: BlockObjectResponse[]) => {
-  const comments = (
-    await Promise.all(
-      blocks.map(async (block) => {
-        try {
-          const { results } = await notion.value.comments.list({
-            block_id: block.id,
-          });
-          return results;
-        } catch (_) {
-          return [];
-        }
+export const getPageMD = cache(async (id: string) => {
+  try {
+    console.log("getting page blocks and notes from Notion API ...");
+    const start = performance.now();
+    const blocks = await getBlocks(id);
+    const mdblocks = await n2m.value.blocksToMarkdown(
+      blocks.filter((b) => {
+        return b.type !== "child_database";
       })
-    )
-  ).flat();
-
-  return comments;
-});
-
-export const getPostHTML = cache(async (id: string) => {
-  try {
-    const start = performance.now();
-    const post = await getPostById(id);
-    const mdblocks = await n2m.value.blocksToMarkdown(post.blocks);
-
-    const md = n2m.value.toMarkdownString(mdblocks);
-
-    let html = await mdToHTML(md);
-
-    console.log(
-      `getPostHTML took ${(performance.now() - start).toFixed(2)}ms for ${id}`
     );
-    return html;
-  } catch (err) {
-    console.error(err);
-    return "failed to get post";
-  }
-});
-
-export const getPostMD = cache(async (id: string) => {
-  try {
-    const start = performance.now();
-    const post = await getPostById(id);
-    const mdblocks = await n2m.value.blocksToMarkdown(post.blocks);
-
+    const notesDbId = findNotesDatabaseId(blocks);
+    const notes = notesDbId ? await getPageNotes(notesDbId) : {};
     const md = n2m.value.toMarkdownString(mdblocks);
 
     console.log(
       `getPostMD took ${(performance.now() - start).toFixed(2)}ms for ${id}`
     );
-    return md;
+    return { md, notes };
   } catch (err) {
     console.error(err);
-    return "failed to get post";
+    return { md: "failed to get post" };
   }
 });

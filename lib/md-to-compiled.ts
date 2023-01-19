@@ -3,11 +3,12 @@ import { cache } from "react";
 import rehypeAddClasses from "rehype-add-classes";
 import rehypePrism from "rehype-prism-plus";
 import rehypeSlug from "rehype-slug";
+import rehypeWrapAll from "rehype-wrap-all";
 
 export const mdToCompiled = cache(async (md: string) => {
   return await serialize(md, {
     mdxOptions: {
-      development: process.env.NODE_ENV !== 'production',
+      development: process.env.NODE_ENV !== "production",
       remarkPlugins: [],
       rehypePlugins: [
         rehypePrism,
@@ -29,7 +30,14 @@ export const mdToCompiled = cache(async (md: string) => {
             a: "underline",
           },
         ],
+        [
+          rehypeWrapAll,
+          {
+            selector: ["p", "blockquote", "pre", "ul", "ol", "hr"].join(","),
+            wrapper: "section",
+          },
+        ],
       ],
     },
   });
-})
+});

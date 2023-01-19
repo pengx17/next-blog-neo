@@ -28,6 +28,8 @@ specifiers:
   rehype-sanitize: ^5.0.1
   rehype-slug: ^5.1.0
   rehype-stringify: ^9.0.3
+  rehype-wrap: ^1.1.0
+  rehype-wrap-all: ^1.1.0
   remark-gfm: ^3.0.1
   remark-parse: ^10.0.1
   remark-rehype: ^10.1.0
@@ -68,6 +70,8 @@ devDependencies:
   rehype-sanitize: 5.0.1
   rehype-slug: 5.1.0
   rehype-stringify: 9.0.3
+  rehype-wrap: 1.1.0
+  rehype-wrap-all: 1.1.0
   remark-gfm: 3.0.1
   remark-parse: 10.0.1
   remark-rehype: 10.1.0
@@ -1245,6 +1249,10 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
 
+  /bcp-47-match/1.0.3:
+    resolution: {integrity: sha512-LggQ4YTdjWQSKELZF5JwchnBa1u0pIQSZf5lSdOHEdbVP55h0qICA/FUp3+W99q0xqxYa1ZQizTUH87gecII5w==}
+    dev: true
+
   /bcp-47-match/2.0.3:
     resolution: {integrity: sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==}
     dev: true
@@ -1665,6 +1673,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-type: 4.0.0
+    dev: true
+
+  /direction/1.0.4:
+    resolution: {integrity: sha512-GYqKi1aH7PJXxdhTeZBFrg8vUBeKXi+cNprXsC1kpJcbcVnV9wBsrOu1cQEdG0WeQwlfHiy3XvnKfIrJ2R0NzQ==}
+    hasBin: true
     dev: true
 
   /direction/2.0.1:
@@ -3072,6 +3085,25 @@ packages:
       nth-check: 1.0.2
       property-information: 3.2.0
       space-separated-tokens: 1.1.5
+      zwitch: 1.0.5
+    dev: true
+
+  /hast-util-select/4.0.2:
+    resolution: {integrity: sha512-8EEG2//bN5rrzboPWD2HdS3ugLijNioS1pqOTIolXNf67xxShYw4SQEmVXd3imiBG+U2bC2nVTySr/iRAA7Cjg==}
+    dependencies:
+      bcp-47-match: 1.0.3
+      comma-separated-tokens: 1.0.8
+      css-selector-parser: 1.4.1
+      direction: 1.0.4
+      hast-util-has-property: 1.0.4
+      hast-util-is-element: 1.1.0
+      hast-util-to-string: 1.0.4
+      hast-util-whitespace: 1.0.4
+      not: 0.1.0
+      nth-check: 2.1.1
+      property-information: 5.6.0
+      space-separated-tokens: 1.1.5
+      unist-util-visit: 2.0.3
       zwitch: 1.0.5
     dev: true
 
@@ -4973,6 +5005,24 @@ packages:
       '@types/hast': 2.3.4
       hast-util-to-html: 8.0.4
       unified: 10.1.2
+    dev: true
+
+  /rehype-wrap-all/1.1.0:
+    resolution: {integrity: sha512-AFiCZqyJXnD2NF4ZjuVpW9aZuD+bz5YdkIF+bL66jmExdh6efgb9LAtUx+Rw1puMwRPGPqBXXYl9bEzi59Cq8g==}
+    engines: {node: '>=8.0'}
+    dependencies:
+      hast-util-parse-selector: 2.2.5
+      hast-util-select: 4.0.2
+      unist-util-visit: 2.0.3
+    dev: true
+
+  /rehype-wrap/1.1.0:
+    resolution: {integrity: sha512-wu1bi74XSvVy2Nwy0AQd5kLwIsk+a8qgDWUxYkfvoh9qQ/CExAE3mx7OjD6r0v70bUSZF3irypeMVmpNFYj0Tg==}
+    engines: {node: '>=8.0'}
+    dependencies:
+      hast-util-parse-selector: 2.2.5
+      hast-util-select: 4.0.2
+      unist-util-visit: 2.0.3
     dev: true
 
   /remark-gfm/3.0.1:

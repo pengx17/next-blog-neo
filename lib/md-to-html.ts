@@ -5,6 +5,7 @@ import rehypePrism from "rehype-prism-plus";
 import rehypeStringify from "rehype-stringify";
 import rehypeAddClasses from "rehype-add-classes";
 import rehypeSlug from "rehype-slug";
+import { cache } from "react";
 
 const remarkHtml = unified()
   .use(remarkParse)
@@ -27,7 +28,7 @@ const remarkHtml = unified()
   })
   .use(rehypeStringify);
 
-export const mdToHTML = async (md: string) => {
-  const vfile = await remarkHtml.process(md);
+export const mdToHTML = cache((md: string) => {
+  const vfile = remarkHtml.processSync(md);
   return String(vfile);
-};
+});

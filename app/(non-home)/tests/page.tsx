@@ -1,19 +1,12 @@
-import fsp from "fs/promises";
-
-import path from "path";
+import { getPageMD, getBlocks, getPageById } from "../../../lib/data";
 import { mdToCompiled } from "../../../lib/md-to-compiled";
 import { PostRenderer } from "../posts/[slug]/post-renderer";
 
-import { cacheTwitterEmbedsAst } from '../../../lib/scan-embeds'
-
 export default async function Tests() {
-  const md = await fsp.readFile(
-    path.resolve(process.cwd(), "./test.md"),
-    "utf-8"
-  );
+  const { md, notes } = await getPageMD("53c58560d34c4dd590d3335dcaa33421");
 
+  const page = await getPageById("53c58560d34c4dd590d3335dcaa33421");
   const { compiledSource } = await mdToCompiled(md);
-  const tweetAstMap = await cacheTwitterEmbedsAst(md);
 
   return (
     <>
@@ -21,14 +14,11 @@ export default async function Tests() {
 
       <hr />
 
-      <PostRenderer
-        id="test"
-        slug="test"
-        tweetAstMap={tweetAstMap}
-        compiledSource={compiledSource}
-        name="test"
-        date="2021-01-01"
-      />
+      <pre>{md}</pre>
+      <pre>{JSON.stringify(notes, null, 2)}</pre>
+      <pre>{JSON.stringify(page, null, 2)}</pre>
+
+      <PostRenderer {...page} notes={notes} compiledSource={compiledSource} />
     </>
   );
 }

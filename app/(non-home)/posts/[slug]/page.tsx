@@ -1,4 +1,4 @@
-import { getPostMD, getPosts } from "../../../../lib/data";
+import { getPageMD, getPosts } from "../../../../lib/data";
 import { mdToCompiled } from "../../../../lib/md-to-compiled";
 import { cacheTwitterEmbedsAst } from "../../../../lib/scan-embeds";
 import { PostRenderer } from "./post-renderer";
@@ -13,7 +13,7 @@ export default async function Post({ params }) {
     return <div>404 not found</div>;
   }
 
-  const md = await getPostMD(post.id);
+  const { md } = await getPageMD(post.id);
   const tweetAstMap = await cacheTwitterEmbedsAst(md);
   const { compiledSource } = await mdToCompiled(md);
 
