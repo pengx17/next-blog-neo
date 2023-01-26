@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React from "react";
+import React, { use } from "react";
 import { getTweetIdFromUrl } from "../../../lib/utils";
 
 import Link from "next/link";
@@ -7,12 +7,13 @@ import { Tweet } from "react-static-tweets";
 import LinkPreview from "../../../components/link-preview";
 import { FloatingNote } from "./floating-note";
 import { Popover } from "../../../components/popover";
+import { getPageById, getPosts } from "../../../lib/notion-data";
 
 const cx = (...args: string[]) => {
   return args.filter(Boolean).join(" ");
 };
 
-const Anchor = ({ context, children, href, ...props }) => {
+const Anchor = async ({ context, children, href, ...props }) => {
   const { notes, tweetAstMap } = context;
   if (children === "embed") {
     const tweetId = getTweetIdFromUrl(href);
@@ -30,10 +31,48 @@ const Anchor = ({ context, children, href, ...props }) => {
       const noteHTML = notes[noteId];
       const note = <div dangerouslySetInnerHTML={{ __html: noteHTML }} />;
       return <FloatingNote label={children}>{note}</FloatingNote>;
-    } else {
-      return <Link {...props} href={"/posts" + href} />;
     }
   }
+
+  if ("link_to_page" === children) {
+    try {
+      const post = await getPageById(href, false);
+      if (post) {
+        return (
+          <Link
+            {...props}
+            className={cx(props.className, "underline decoration-dashed")}
+            href={"/posts/" + post.slug}
+          >
+            {post.name}
+          </Link>
+        );
+      }
+    } catch (__) {
+      // ignore
+    }
+  }
+
+  if (href.startsWith("/posts/") || href.startsWith("https://www.notion.so/")) {
+    const pid = (href as string).split("/").pop();
+    try {
+      const post = await getPageById(pid, false);
+      if (post) {
+        return (
+          <Link
+            {...props}
+            className={cx(props.className, "underline decoration-dashed")}
+            href={"/posts/" + post.slug}
+          >
+            {children}
+          </Link>
+        );
+      }
+    } catch (__) {
+      // ignore
+    }
+  }
+
   return (
     <Popover content={<LinkPreview url={href} />}>
       <a

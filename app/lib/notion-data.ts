@@ -59,7 +59,7 @@ export interface PostProperties {
   date: string;
 }
 
-export const getPosts = cache(async (retry = 3) => {
+export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
   try {
     const start = performance.now();
     console.log("getting all posts from Notion API ...");
@@ -186,8 +186,7 @@ const getPageNotes = async (database_id: string) => {
   return Object.fromEntries(notes);
 };
 
-// for testing only
-export const getPageById = cache(async (id: string) => {
+export const getPageById = cache(async (id: string, fetchBlocks = true) => {
   const start = performance.now();
   const page = await notion.value.pages.retrieve({
     page_id: id,
@@ -197,19 +196,23 @@ export const getPageById = cache(async (id: string) => {
     return null;
   }
 
-  const blocks = await getBlocks(page.id);
-
   const result = {
     id: page.id,
     date: page.created_time,
     parent: page.parent,
     ...parseProperties<PostProperties>(page.properties),
-    blocks: blocks,
   };
+
+  if (fetchBlocks) {
+    const blocks = await getBlocks(page.id);
+    Object.assign(result, { blocks });
+  }
 
   console.log(
     `getPageById took ${(performance.now() - start).toFixed(2)}ms for ${id}`
   );
+
+  console.log(result)
 
   return result;
 });
