@@ -1,3 +1,5 @@
+import LinkPreview from "../../components/link-preview";
+
 export default function About() {
   return (
     <>
@@ -17,11 +19,7 @@ export default function About() {
         </a>
       </h3>
 
-      <h3 className="my-4">
-        <a href="https://twitter.com/pengx17" target="_blank" rel="noreferrer">
-          Twitter: pengx17
-        </a>
-      </h3>
+      <LinkPreview url="https://twitter.com/pengx17" />
     </>
   );
 }

@@ -1,6 +1,4 @@
-import { getPageMD, getPosts } from "../../../../lib/data";
-import { mdToCompiled } from "../../../../lib/md-to-compiled";
-import { cacheTwitterEmbedsAst } from "../../../../lib/scan-embeds";
+import { getPosts } from "../../../lib/notion-data";
 import { PostRenderer } from "./post-renderer";
 
 export default async function Post({ params }) {
@@ -13,18 +11,9 @@ export default async function Post({ params }) {
     return <div>404 not found</div>;
   }
 
-  const { md, notes } = await getPageMD(post.id);
-  const tweetAstMap = await cacheTwitterEmbedsAst(md);
-  const { compiledSource } = await mdToCompiled(md);
-
   return (
     <div className="w-full">
-      <PostRenderer
-        {...post}
-        notes={notes}
-        tweetAstMap={tweetAstMap}
-        compiledSource={compiledSource}
-      />
+      <PostRenderer {...post} />
     </div>
   );
 }

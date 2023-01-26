@@ -11,6 +11,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@notionhq/client": "^2.2.3",
+    "@tippyjs/react": "^4.2.6",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
@@ -21,6 +22,7 @@
     "encoding": "^0.1.13",
     "eslint": "^8.32.0",
     "eslint-config-next": "^13.1.5",
+    "link-preview-js": "^3.0.4",
     "next": "^13.1.5",
     "next-mdx-remote": "^4.3.0",
     "node-global-proxy": "^1.0.1",

@@ -1,5 +1,5 @@
-import { getPageMD, getBlocks, getPageById } from "../../../lib/data";
-import { mdToCompiled } from "../../../lib/md-to-compiled";
+import { getPageMD, getBlocks, getPageById } from "../../lib/notion-data";
+import { mdToCompiled } from "../../lib/md-to-compiled";
 import { PostRenderer } from "../posts/[slug]/post-renderer";
 
 export default async function Tests() {

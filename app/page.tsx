@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {Date} from "./date";
-import { getPosts } from "../lib/data";
+import { getPosts } from "./lib/notion-data";
 
 export default async function Home() {
   const posts = await getPosts();
