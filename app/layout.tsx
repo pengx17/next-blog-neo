@@ -1,11 +1,7 @@
 /* eslint-disable @next/next/no-page-custom-font */
-import Script from "next/script";
-
 import "./global.css";
 import "./prism.css";
 import { AnalyticsWrapper } from "./components/analytics";
-
-const siteTitle = "pengx17";
 
 export default function RootLayout({
   // Layouts must accept a children prop.
