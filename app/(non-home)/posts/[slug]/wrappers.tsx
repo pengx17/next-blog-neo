@@ -29,7 +29,7 @@ const Anchor = ({ context, children, href, ...props }) => {
     if (notes?.[noteId]) {
       const noteHTML = notes[noteId];
       const note = <div dangerouslySetInnerHTML={{ __html: noteHTML }} />;
-      return <FloatingNote label={props.children}>{note}</FloatingNote>;
+      return <FloatingNote label={children}>{note}</FloatingNote>;
     } else {
       return <Link {...props} href={"/posts" + href} />;
     }
