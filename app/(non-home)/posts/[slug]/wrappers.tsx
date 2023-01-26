@@ -6,35 +6,39 @@ import Link from "next/link";
 import { Tweet } from "react-static-tweets";
 import LinkPreview from "../../../components/link-preview";
 import { FloatingNote } from "./floating-note";
-import { LinkPreviewAnchor } from "../../../components/link-preview-anchor";
+import { Popover } from "../../../components/popover";
 
 const cx = (...args: string[]) => {
   return args.filter(Boolean).join(" ");
 };
 
-const Anchor = ({ context, ...props }) => {
+const Anchor = ({ context, children, href, ...props }) => {
   const { notes, tweetAstMap } = context;
-  if (props.children === "embed") {
-    const tweetId = getTweetIdFromUrl(props.href);
+  if (children === "embed") {
+    const tweetId = getTweetIdFromUrl(href);
     if (tweetId) {
       return <Tweet ast={tweetAstMap[tweetId]} />;
     }
   }
-  if (props.children === "bookmark") {
-    return <LinkPreview url={props.href} />;
+  if (children === "bookmark") {
+    return <LinkPreview url={href} />;
   }
-  if (props.href.startsWith("/")) {
-    const noteId = props.href.slice(1);
+  if (href.startsWith("/")) {
+    const noteId = href.slice(1);
 
     if (notes?.[noteId]) {
       const noteHTML = notes[noteId];
       const note = <div dangerouslySetInnerHTML={{ __html: noteHTML }} />;
       return <FloatingNote label={props.children}>{note}</FloatingNote>;
     } else {
-      return <Link {...props} href={"/posts" + props.href} />;
+      return <Link {...props} href={"/posts" + href} />;
     }
   }
-  return <LinkPreviewAnchor {...props} />;
+  return (
+    <Popover content={<LinkPreview url={href} />}>
+      <a style={{ textDecorationLine: "underline" }} {...props} />
+    </Popover>
+  );
 };
 
 const hWrapper = (Tag, defaultClassName) =>

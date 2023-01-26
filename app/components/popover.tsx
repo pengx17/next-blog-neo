@@ -3,9 +3,7 @@
 import React from "react";
 import Tippy from "@tippyjs/react";
 
-import LinkPreview from "./link-preview";
-
-export function LinkPreviewAnchor({ ...props }) {
+export function Popover({ content, children }) {
   return (
     <Tippy
       interactive
@@ -13,9 +11,9 @@ export function LinkPreviewAnchor({ ...props }) {
       animation="fade"
       maxWidth={620}
       arrow={false}
-      content={<LinkPreview url={props.href} />}
+      content={content}
     >
-      <a style={{ textDecorationLine: "underline" }} {...props} />
+      {children}
     </Tippy>
   );
 }
