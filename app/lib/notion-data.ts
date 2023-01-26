@@ -212,8 +212,6 @@ export const getPageById = cache(async (id: string, fetchBlocks = true) => {
     `getPageById took ${(performance.now() - start).toFixed(2)}ms for ${id}`
   );
 
-  console.log(result)
-
   return result;
 });
 
