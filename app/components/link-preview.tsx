@@ -112,13 +112,22 @@ type LinkPreviewMetadata = Pick<
 
 const getLinkPreview = React.cache(
   async (href: string): Promise<LinkPreviewMetadata | null> => {
-    const data = await fetchLinkPreview(href);
+    try {
+      const data = await fetchLinkPreview(href);
 
-    // @ts-ignore
-    return adaptMeta({
-      url: href,
-      ...data,
-    });
+      // @ts-ignore
+      return adaptMeta({
+        url: href,
+        ...data,
+      });
+    } catch (err) {
+      // @ts-ignore
+      return adaptMeta({
+        url: href,
+        error: err,
+        contentType: "placeholder",
+      });
+    }
   }
 );
 

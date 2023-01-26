@@ -16,7 +16,7 @@ export function FloatingNote({ label, children, ...props }) {
       setTimeout(() => {
         let el = triggerRef.current;
         do {
-          el = el.parentElement;
+          el = el?.parentElement;
         } while (el && el.tagName !== "SECTION");
         el = el?.querySelector("[data-aside-container]");
         setAnchor(el);
