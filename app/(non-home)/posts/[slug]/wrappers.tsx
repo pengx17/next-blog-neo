@@ -20,7 +20,7 @@ const Anchor = ({ context, children, href, ...props }) => {
       return <Tweet ast={tweetAstMap[tweetId]} />;
     }
   }
-  if (children === "bookmark") {
+  if (["bookmark", "link_preview"].includes(children)) {
     return <LinkPreview url={href} />;
   }
   if (href.startsWith("/")) {
@@ -36,7 +36,15 @@ const Anchor = ({ context, children, href, ...props }) => {
   }
   return (
     <Popover content={<LinkPreview url={href} />}>
-      <a style={{ textDecorationLine: "underline" }} {...props} />
+      <a
+        href={href}
+        className={cx(props.className, "underline")}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...props}
+      >
+        {children}
+      </a>
     </Popover>
   );
 };
