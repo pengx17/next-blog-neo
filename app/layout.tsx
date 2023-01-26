@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import Script from "next/script";
-import { GA_TRACKING_ID } from "../lib/gtag";
+
 import "./global.css";
-import './prism.css';
+import "./prism.css";
+import { AnalyticsWrapper } from "./components/analytics";
 
 const siteTitle = "pengx17";
-const isProduction = process.env.NODE_ENV === "production";
 
 export default function RootLayout({
   // Layouts must accept a children prop.
@@ -17,37 +17,9 @@ export default function RootLayout({
   return (
     <html lang="zh_CN" className="antialiased font-sans">
       <head>
-        {/* Global Site Tag (gtag.js) - Google Analytics */}
-        {isProduction && (
-          <>
-            <Script
-              strategy="afterInteractive"
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-            />
-            <Script
-              id="gtag-init"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-              }}
-            />
-          </>
-        )}
         <link rel="icon" href="/favicon.jpeg" />
         <meta name="description" content="A personal blog by pengx17" />
-        <meta
-          property="og:image"
-          content={`https://og-image.vercel.app/${encodeURI(
-            siteTitle
-          )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.zeit.co%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
-        />
+        <title>pengx17</title>
         <meta
           name="twitter:card"
           content="https://avatars.githubusercontent.com/u/584378"
@@ -59,6 +31,7 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen items-center">
         {children}
+        <AnalyticsWrapper />
       </body>
     </html>
   );

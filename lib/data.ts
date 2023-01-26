@@ -12,7 +12,11 @@ const databaseId = "489f42b0a9244c6393451288a880c158";
 
 // Initializing a client
 const notion = lazy(() => {
-  return new Client({ auth: process.env.NOTION_TOKEN, timeoutMs: 10000 });
+  return new Client({
+    auth: process.env.NOTION_TOKEN,
+    timeoutMs: 10000,
+    fetch: global.fetch,
+  });
 });
 
 const n2m = lazy(() => {

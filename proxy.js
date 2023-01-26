@@ -10,4 +10,11 @@ if (process.env.HTTP_PROXY) {
   const setGlobalDispatcher = Undici.setGlobalDispatcher;
 
   setGlobalDispatcher(new ProxyAgent(process.env.HTTP_PROXY));
+
+  // also see https://github.com/nodejs/undici/issues/1650
+  global[Symbol.for("undici.globalDispatcher.1")] = new ProxyAgent(
+    process.env.HTTP_PROXY
+  );
+
+  console.log("proxy enabled: " + process.env.HTTP_PROXY);
 }
