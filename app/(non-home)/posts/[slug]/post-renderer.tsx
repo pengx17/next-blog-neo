@@ -5,7 +5,7 @@ import rehypeSlug from "rehype-slug";
 
 import { getPageMD, type PostProperties } from "../../../lib/notion-data";
 import { Date } from "../../../date";
-import { getMdxComponents } from "./wrappers";
+import { getMdxComponents } from "../../../components/mdx-components";
 import { use } from "react";
 import { cacheTwitterEmbedsAst } from "../../../lib/scan-embeds";
 

@@ -1,4 +1,4 @@
-import LinkPreview from "../../components/link-preview";
+import { TwitterTimelineEmbed } from "../../components/tweet-client";
 
 export default function About() {
   return (
@@ -19,7 +19,11 @@ export default function About() {
         </a>
       </h3>
 
-      <LinkPreview url="https://twitter.com/pengx17" />
+      <TwitterTimelineEmbed
+        sourceType="profile"
+        screenName="pengx17"
+        options={{ height: 800 }}
+      />
     </>
   );
 }

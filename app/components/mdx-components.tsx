@@ -1,13 +1,14 @@
 /* eslint-disable react/display-name */
-import React, { use } from "react";
-import { getTweetIdFromUrl } from "../../../lib/utils";
+import React from "react";
+import { getTweetIdFromUrl } from "../lib/utils";
 
 import Link from "next/link";
 import { Tweet } from "react-static-tweets";
-import LinkPreview from "../../../components/link-preview";
+import LinkPreview from "./link-preview";
+import { Popover } from "./popover";
+import { getPageById } from "../lib/notion-data";
 import { FloatingNote } from "./floating-note";
-import { Popover } from "../../../components/popover";
-import { getPageById } from "../../../lib/notion-data";
+import { TwitterTweetEmbed } from "./tweet-client";
 
 const cx = (...args: string[]) => {
   return args.filter(Boolean).join(" ");
@@ -17,8 +18,11 @@ const Anchor = async ({ context, children, href, ...props }) => {
   const { notes, tweetAstMap } = context;
   if (children === "embed") {
     const tweetId = getTweetIdFromUrl(href);
-    if (tweetId) {
+    if (tweetId && tweetAstMap[tweetId]) {
       return <Tweet ast={tweetAstMap[tweetId]} />;
+    } else if (tweetId) {
+      // fallback to client rendering
+      return <TwitterTweetEmbed tweetId={tweetId} />;
     }
   }
   if (["bookmark", "link_preview"].includes(children)) {
@@ -88,6 +92,11 @@ const Anchor = async ({ context, children, href, ...props }) => {
   );
 };
 
+const InlineNote = ({ context, label, children, href, ...props }) => {
+  console.log("InlineNote", { context, label, children, href, props });
+  return <FloatingNote {...props} label={label}>{children}</FloatingNote>;
+}
+
 const hWrapper = (Tag, defaultClassName) =>
   React.forwardRef(({ className, children, ...rest }: any, ref) => {
     return (
@@ -147,6 +156,7 @@ interface MdxContext {
 export const getMdxComponents = (ctx: MdxContext) => {
   const mdxComponents = {
     a: Anchor,
+    Note: InlineNote,
     // inline code
     code: (props) => {
       if (typeof props.children === "string") {
@@ -162,7 +172,8 @@ export const getMdxComponents = (ctx: MdxContext) => {
         return <code {...props} />;
       }
     },
-    p: wrapNative("p", "leading-ease"),
+    // p -> div
+    p: wrapNative("div", "leading-ease"),
     h1: hWrapper("h1", "text-3xl font-bold my-12 mb-8"),
     h2: hWrapper("h2", "text-2xl font-bold mt-12 mb-8"),
     h3: hWrapper("h3", "text-xl font-bold mt-8 mb-6"),
