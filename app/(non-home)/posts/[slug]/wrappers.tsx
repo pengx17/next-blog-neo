@@ -7,7 +7,7 @@ import { Tweet } from "react-static-tweets";
 import LinkPreview from "../../../components/link-preview";
 import { FloatingNote } from "./floating-note";
 import { Popover } from "../../../components/popover";
-import { getPageById, getPosts } from "../../../lib/notion-data";
+import { getPageById } from "../../../lib/notion-data";
 
 const cx = (...args: string[]) => {
   return args.filter(Boolean).join(" ");

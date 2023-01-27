@@ -57,7 +57,7 @@ export function FloatingNote({ label, children, ...props }) {
         textUnderlineOffset: "2px",
         backgroundColor: asideHovering ? "rgb(209, 213, 219)" : undefined,
       }}
-      className="cursor-pointer hover:bg-gray-300 transition underline"
+      className="cursor-pointer hover:bg-gray-300 transition underline break-all"
       {...props}
     >
       {label ?? "💭"}
