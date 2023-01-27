@@ -8,7 +8,7 @@ specifiers:
   '@types/react': ^18.0.27
   '@types/react-dom': ^18.0.10
   '@vercel/analytics': ^0.1.8
-  '@vercel/node': ^2.8.15
+  '@vercel/node': ^2.8.16
   autoprefixer: ^10.4.13
   date-fns: ^2.29.3
   encoding: ^0.1.13
@@ -55,7 +55,7 @@ devDependencies:
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
   '@vercel/analytics': 0.1.8_react@18.2.0
-  '@vercel/node': 2.8.15_encoding@0.1.13
+  '@vercel/node': 2.8.16_encoding@0.1.13
   autoprefixer: 10.4.13_postcss@8.4.21
   date-fns: 2.29.3
   encoding: 0.1.13
@@ -923,20 +923,20 @@ packages:
       react: 18.2.0
     dev: true
 
-  /@vercel/build-utils/5.9.0:
-    resolution: {integrity: sha512-LJRhd/ritLGHH+YvZ+DC7AW3Jr87UZHFHz2h2ENULDZ8qAo5LJH+y+Cg11uxfXkhQKK2f/AZQJXyKVyu1BBwdQ==}
+  /@vercel/build-utils/6.0.0:
+    resolution: {integrity: sha512-2AoVcDUyQCj516KrRNH92NeKI+KZGnVGjHkcb+VcXxGspYpKL/gC+AdFtC05qbgxX1e8U95Yd8ROucTftHErWw==}
     dev: true
 
   /@vercel/node-bridge/3.1.10:
     resolution: {integrity: sha512-0DQzF5pdyP+xd5f1Ss2fAO+9xIvzUhngRAPazwg4XHZE9iLkv2L+A1u3L8NYi4hoUlAAZQ5GF3txlm/oBn4tNw==}
     dev: true
 
-  /@vercel/node/2.8.15_encoding@0.1.13:
-    resolution: {integrity: sha512-pS445kGQGi4xN2vd/95mp5E86WrVEV7VH/u7f2G0Q5jCbcw590czJv1U+FLlW5OrznuuGT0LbNRKA0TBAUrbfA==}
+  /@vercel/node/2.8.16_encoding@0.1.13:
+    resolution: {integrity: sha512-aLuPHOm29cYjCK649/5j/zbYFXxRtNYcnNFdBd2gVg2II54SfByYIx/Tw3A6PeQmR23piBwPZMI5uEuYC0TGmA==}
     dependencies:
       '@edge-runtime/vm': 2.0.0
       '@types/node': 14.18.33
-      '@vercel/build-utils': 5.9.0
+      '@vercel/build-utils': 6.0.0
       '@vercel/node-bridge': 3.1.10
       '@vercel/static-config': 2.0.11
       edge-runtime: 2.0.0
