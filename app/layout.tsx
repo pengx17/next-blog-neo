@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import "./global.css";
-import "./prism.css";
 import { AnalyticsWrapper } from "./components/analytics";
 
 export default function RootLayout({

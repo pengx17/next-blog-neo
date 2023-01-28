@@ -1,12 +1,13 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 
-import rehypePrism from "rehype-prism-plus";
 import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 
-import { getPageMD, type PostProperties } from "../../../lib/notion-data";
-import { Date } from "../../../date";
-import { getMdxComponents } from "../../../components/mdx-components";
 import { use } from "react";
+import { getMdxComponents } from "../../../components/mdx-components";
+import { Date } from "../../../date";
+import { getPageMD, type PostProperties } from "../../../lib/notion-data";
+import rehypeShiki from "../../../lib/rehype-shiki";
 import { cacheTwitterEmbedsAst } from "../../../lib/scan-embeds";
 
 export function PostRenderer({ id, name, date }: PostProperties) {
@@ -26,8 +27,8 @@ export function PostRenderer({ id, name, date }: PostProperties) {
         options={{
           mdxOptions: {
             // development: process.env.NODE_ENV !== "production",
-            remarkPlugins: [],
-            rehypePlugins: [rehypePrism, rehypeSlug],
+            remarkPlugins: [remarkGfm],
+            rehypePlugins: [rehypeSlug, rehypeShiki],
           },
         }}
         source={md}

@@ -17,7 +17,8 @@ aside code {
   background: transparent !important;
 }
 
-.inline-code {
+/* inline code */
+:not(pre) > code[class*="language-"] {
   @apply bg-gray-100 rounded;
   padding: 0.2rem 0.4rem;
   line-height: 1;

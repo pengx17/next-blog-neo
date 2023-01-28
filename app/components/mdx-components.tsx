@@ -156,22 +156,7 @@ export const getMdxComponents = (ctx: MdxContext) => {
   const mdxComponents = {
     a: Anchor,
     Note: InlineNote,
-    // inline code
-    code: (props) => {
-      if (typeof props.children === "string") {
-        return (
-          <code
-            className="bg-gray-100 rounded"
-            style={{ fontSize: "0.8em", padding: "0.1em 0.2em", lineHeight: 1 }}
-          >
-            {props.children?.trim()}
-          </code>
-        );
-      } else {
-        return <code {...props} />;
-      }
-    },
-    // p -> div
+    // p -> div so that it won't complain that div is not a valid child of p
     p: wrapNative("div", "leading-ease"),
     h1: hWrapper("h1", "text-3xl font-bold my-12 mb-8"),
     h2: hWrapper("h2", "text-2xl font-bold mt-12 mb-8"),
