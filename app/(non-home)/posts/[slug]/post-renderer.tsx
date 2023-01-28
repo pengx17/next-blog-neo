@@ -11,7 +11,8 @@ import { cacheTwitterEmbedsAst } from "../../../lib/scan-embeds";
 
 export function PostRenderer({ id, name, date }: PostProperties) {
   const { md, notes } = use(getPageMD(id));
-  const tweetAstMap = use(cacheTwitterEmbedsAst(md));
+  // disable static cache
+  const tweetAstMap = {} ?? use(cacheTwitterEmbedsAst(md));
   return (
     <>
       <h1 className="my-6 text-4xl font-serif font-bold leading-snug">
