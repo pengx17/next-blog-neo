@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { use } from "react";
 import {Date} from "./date";
 import { getPosts } from "./lib/notion-data";
 
-export default async function Home() {
-  const posts = await getPosts();
+export default function Home() {
+  const posts = use(getPosts());
   return (
     <section className="w-screen h-screen flex sm:items-center justify-self-center flex-col sm:flex-row">
       <div className="sm:flex-1 pl-12 py-2 mt-2 inline font-serif font-semibold">

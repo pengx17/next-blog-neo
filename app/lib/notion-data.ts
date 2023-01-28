@@ -1,10 +1,12 @@
+import 'server-only';
 import { Client } from "@notionhq/client";
 import {
   BlockObjectResponse,
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { NotionToMarkdown } from "notion-to-md";
-import { cache } from "react"; // tbh I don't know what it is ...
+// https://beta.nextjs.org/docs/data-fetching/caching#per-request-caching
+import { cache } from "react";
 import { lazy } from "./lazy";
 import { mdToHTML } from "./md-to-html";
 
@@ -102,27 +104,26 @@ export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
   }
 });
 
-export const getBlocks = async (
-  id: string,
-  startCursor?: string
-): Promise<BlockObjectResponse[]> => {
-  const { results, has_more, next_cursor } =
-    await notion.value.blocks.children.list({
-      block_id: id,
-      page_size: 50,
-      start_cursor: startCursor,
-    });
+export const getBlocks = cache(
+  async (id: string, startCursor?: string): Promise<BlockObjectResponse[]> => {
+    const { results, has_more, next_cursor } =
+      await notion.value.blocks.children.list({
+        block_id: id,
+        page_size: 50,
+        start_cursor: startCursor,
+      });
 
-  const filteredResults = results
-    .filter((r) => "type" in r)
-    .map((r: BlockObjectResponse) => r);
+    const filteredResults = results
+      .filter((r) => "type" in r)
+      .map((r: BlockObjectResponse) => r);
 
-  if (has_more) {
-    return [...filteredResults, ...(await getBlocks(id, next_cursor))];
-  } else {
-    return filteredResults;
+    if (has_more) {
+      return [...filteredResults, ...(await getBlocks(id, next_cursor))];
+    } else {
+      return filteredResults;
+    }
   }
-};
+);
 
 export const getBlock = cache(async (id: string) => {
   const start = performance.now();
@@ -151,7 +152,7 @@ const findNotesDatabaseId = (blocks: BlockObjectResponse[]) => {
   })?.id;
 };
 
-const getPageNotes = async (database_id: string) => {
+const getPageNotes = cache(async (database_id: string) => {
   const start = performance.now();
 
   const { results } = await notion.value.databases.query({
@@ -184,7 +185,7 @@ const getPageNotes = async (database_id: string) => {
   );
 
   return Object.fromEntries(notes);
-};
+});
 
 export const getPageById = cache(async (id: string, fetchBlocks = true) => {
   const start = performance.now();

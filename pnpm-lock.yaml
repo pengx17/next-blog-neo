@@ -38,6 +38,7 @@ specifiers:
   remark-gfm: ^3.0.1
   remark-parse: ^10.0.1
   remark-rehype: ^10.1.0
+  server-only: ^0.0.1
   static-tweets: ^2.0.0
   tailwindcss: ^3.2.4
   tsx: ^3.12.2
@@ -85,6 +86,7 @@ devDependencies:
   remark-gfm: 3.0.1
   remark-parse: 10.0.1
   remark-rehype: 10.1.0
+  server-only: 0.0.1
   static-tweets: 2.0.0_encoding@0.1.13
   tailwindcss: 3.2.4_postcss@8.4.21
   tsx: 3.12.2
@@ -5478,6 +5480,10 @@ packages:
     resolution: {integrity: sha512-Qr3TosvguFt8ePWqsvRfrKyQXIiW+nGbYpy8XK24NQHE83caxWt+mIymTT19DGFbNWNLfEwsrkSmN64lVWB9ag==}
     dependencies:
       randombytes: 2.1.0
+    dev: true
+
+  /server-only/0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
     dev: true
 
   /set-harmonic-interval/1.0.1:

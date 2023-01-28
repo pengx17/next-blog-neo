@@ -1,8 +1,9 @@
+import { use } from "react";
 import { getPosts } from "../../../lib/notion-data";
 import { PostRenderer } from "./post-renderer";
 
-export default async function Post({ params }) {
-  const posts = await getPosts();
+export default function Post({ params }) {
+  const posts = use(getPosts());
   const post = posts.find(
     (p) => p.slug === params.slug || p.id === params.slug
   );

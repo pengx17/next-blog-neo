@@ -15,6 +15,4 @@ if (process.env.HTTP_PROXY) {
   global[Symbol.for("undici.globalDispatcher.1")] = new ProxyAgent(
     process.env.HTTP_PROXY
   );
-
-  console.log("proxy enabled: " + process.env.HTTP_PROXY);
 }
