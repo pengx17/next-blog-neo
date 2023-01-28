@@ -93,7 +93,6 @@ const Anchor = async ({ context, children, href, ...props }) => {
 };
 
 const InlineNote = ({ context, label, children, href, ...props }) => {
-  console.log("InlineNote", { context, label, children, href, props });
   return <FloatingNote {...props} label={label}>{children}</FloatingNote>;
 }
 
