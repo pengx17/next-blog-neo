@@ -38,7 +38,7 @@ specifiers:
   remark-parse: ^10.0.1
   remark-rehype: ^10.1.0
   server-only: ^0.0.1
-  shiki: ^0.13.0
+  shiki: ^0.14.0
   static-tweets: ^2.0.0
   tailwindcss: ^3.2.4
   tsx: ^3.12.2
@@ -86,7 +86,7 @@ devDependencies:
   remark-parse: 10.0.1
   remark-rehype: 10.1.0
   server-only: 0.0.1
-  shiki: 0.13.0
+  shiki: 0.14.0
   static-tweets: 2.0.0_encoding@0.1.13
   tailwindcss: 3.2.4_postcss@8.4.21
   tsx: 3.12.2
@@ -1163,6 +1163,10 @@ packages:
   /ansi-regex/5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
+    dev: true
+
+  /ansi-sequence-parser/1.1.0:
+    resolution: {integrity: sha512-lEm8mt52to2fT8GhciPCGeCXACSz2UwIN4X2e2LJSnZ5uAbn2/dsYdOmUXq0AtWS5cpAupysIneExOgH0Vd2TQ==}
     dev: true
 
   /ansi-styles/3.2.1:
@@ -5471,9 +5475,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /shiki/0.13.0:
-    resolution: {integrity: sha512-QucKtRFyoHgivnde/6tXu+7ZfUhcg02qiFlUSa4X0jQvHVKdtrimWPlbg+q06H2EeNSuj9DcMhtB18GgtDLsmw==}
+  /shiki/0.14.0:
+    resolution: {integrity: sha512-fb9Fg1Yx/ElVJcTqPQIEOSfn7mSZlrT1W3CkymY08lL2Jsi+t7jPcZzKO1lCsQwlSDuyNhHvolnyA2OI4EgJNg==}
     dependencies:
+      ansi-sequence-parser: 1.1.0
       jsonc-parser: 3.2.0
       vscode-oniguruma: 1.7.0
       vscode-textmate: 8.0.0

@@ -15,6 +15,11 @@ const rehypeShiki = () => async (tree) => {
   const highlighter = await _hl$;
 
   visit(tree, (node, index, parent) => {
+    if (node.tagName === 'code' && parent.tagName !== 'pre') {
+      node.properties.className = 'inline-code';
+      return;
+    }
+
     // If child is pre, but it contains no code
     if (
       !(

@@ -57,6 +57,7 @@ const Anchor = async ({ context, children, href, ...props }) => {
     }
   }
 
+  // transform notion links to nextjs links (if it is in the same database)
   if (href.startsWith("/posts/") || href.startsWith("https://www.notion.so/")) {
     const pid = (href as string).split("/").pop();
     try {
