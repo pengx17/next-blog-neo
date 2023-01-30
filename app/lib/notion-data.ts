@@ -1,4 +1,4 @@
-import 'server-only';
+import "server-only";
 import { Client } from "@notionhq/client";
 import {
   BlockObjectResponse,
@@ -103,6 +103,13 @@ export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
     return [];
   }
 });
+
+export const getPostBySlug = cache(
+  async (slug: string): Promise<PostProperties | null> => {
+    const posts = await getPosts();
+    return posts.find((p) => p.slug === slug || p.id === slug);
+  }
+);
 
 export const getBlocks = cache(
   async (id: string, startCursor?: string): Promise<BlockObjectResponse[]> => {

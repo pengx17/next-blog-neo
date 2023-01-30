@@ -1,6 +1,42 @@
-/* eslint-disable @next/next/no-page-custom-font */
+import {
+  Fira_Code,
+  Noto_Serif_SC,
+  Source_Sans_Pro,
+  Source_Serif_Pro,
+} from "@next/font/google";
+
 import "./global.css";
 import { AnalyticsWrapper } from "./components/analytics";
+
+const cx = (...args: string[]) => {
+  return args.filter(Boolean).join(" ");
+};
+
+const firaCode = Fira_Code({
+  weight: "variable",
+  subsets: ["latin"],
+  variable: "--font-fira-code",
+});
+
+const notoSerifSC = Noto_Serif_SC({
+  weight: ["600", "700"],
+  subsets: ["latin"],
+  variable: "--font-noto-serif-sc",
+});
+
+const sourceSansPro = Source_Sans_Pro({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-source-sans-pro",
+  style: ["normal", "italic"],
+});
+
+const sourceSerifPro = Source_Serif_Pro({
+  weight: ["400", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-source-serif-pro",
+  style: ["normal", "italic"],
+});
 
 export default function RootLayout({
   // Layouts must accept a children prop.
@@ -10,20 +46,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh_CN" className="antialiased font-sans">
-      <head>
-        <link rel="icon" href="/favicon.jpeg" />
-        <meta name="description" content="A personal blog by pengx17" />
-        <title>pengx17</title>
-        <meta
-          name="twitter:card"
-          content="https://avatars.githubusercontent.com/u/584378"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Noto+Serif+SC:wght@600;700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="zh_CN"
+      className={cx(
+        "antialiased font-sans",
+        firaCode.variable,
+        notoSerifSC.variable,
+        sourceSansPro.variable,
+        sourceSerifPro.variable
+      )}
+    >
+      <head />
       <body className="flex flex-col min-h-screen items-center">
         {children}
         <AnalyticsWrapper />

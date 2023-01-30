@@ -1,5 +1,5 @@
 import Link from "next/link";
-import 'react-static-tweets/styles.css'
+import "react-static-tweets/styles.css";
 
 const BackHome = () => {
   return (
@@ -7,7 +7,7 @@ const BackHome = () => {
       <Link href="/" className="group relative">
         <code className="group-hover:opacity-0 transition-all">cd ~</code>
         <code className="group-hover:opacity-100 opacity-0 absolute left-0 top-0 whitespace-nowrap transition-all">
-          ← 🏠
+          🏠
         </code>
       </Link>
     </div>
@@ -17,7 +17,9 @@ const BackHome = () => {
 export default function RootLayout({ children }) {
   return (
     <main className="max-w-6xl w-full lg:p-12 p-6">
-      <div className="text-gray-500"><Link href="/">{"← home"}</Link></div>
+      <div className="text-gray-500">
+        <Link href="/">{"← home"}</Link>
+      </div>
       {children}
       <BackHome />
     </main>

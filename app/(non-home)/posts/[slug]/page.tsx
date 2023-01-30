@@ -1,12 +1,8 @@
-import { use } from "react";
-import { getPosts } from "../../../lib/notion-data";
+import { getPostBySlug, getPosts } from "../../../lib/notion-data";
 import { PostRenderer } from "./post-renderer";
 
-export default function Post({ params }) {
-  const posts = use(getPosts());
-  const post = posts.find(
-    (p) => p.slug === params.slug || p.id === params.slug
-  );
+export default async function Post({ params }) {
+  const post = await getPostBySlug(params.slug);
 
   if (!post) {
     return <div>404 not found</div>;

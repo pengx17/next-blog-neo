@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { use } from "react";
-import {Date} from "./date";
+import { Date } from "./date";
 import { getPosts } from "./lib/notion-data";
 
 export default function Home() {

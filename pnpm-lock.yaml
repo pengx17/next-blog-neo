@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/core': ^7.20.12
+  '@next/font': ^13.1.6
   '@notionhq/client': ^2.2.3
   '@tippyjs/react': ^4.2.6
   '@types/node': ^18.11.18
@@ -50,6 +51,7 @@ specifiers:
 
 devDependencies:
   '@babel/core': 7.20.12
+  '@next/font': 13.1.6
   '@notionhq/client': 2.2.3_encoding@0.1.13
   '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
   '@types/node': 18.11.18
@@ -514,6 +516,10 @@ packages:
     resolution: {integrity: sha512-o7cauUYsXjzSJkay8wKjpKJf2uLzlggCsGUkPu3lP09Pv97jYlekTC20KJrjQKmSv5DXV0R/uks2ZXhqjNkqAw==}
     dependencies:
       glob: 7.1.7
+    dev: true
+
+  /@next/font/13.1.6:
+    resolution: {integrity: sha512-AITjmeb1RgX1HKMCiA39ztx2mxeAyxl4ljv2UoSBUGAbFFMg8MO7YAvjHCgFhD39hL7YTbFjol04e/BPBH5RzQ==}
     dev: true
 
   /@next/swc-android-arm-eabi/13.1.6:

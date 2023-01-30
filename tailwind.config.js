@@ -3,9 +3,13 @@ module.exports = {
   safelist: [],
   theme: {
     fontFamily: {
-      sans: ["Source Sans Pro", "Noto Sans SC", "sans-serif"],
-      serif: ["Source Serif Pro", "Noto Serif SC", "serif"],
-      mono: ["Fira Code", "monospace"],
+      sans: ["var(--font-source-sans-pro)", "Noto Sans SC", "sans-serif"],
+      serif: [
+        "var(--font-source-serif-pro)",
+        "var(--font-noto-serif-sc)",
+        "serif",
+      ],
+      mono: ["var(--font-fira-code)", "monospace"],
     },
     extend: {
       lineHeight: {

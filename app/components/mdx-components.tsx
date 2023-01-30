@@ -94,8 +94,12 @@ const Anchor = async ({ context, children, href, ...props }) => {
 };
 
 const InlineNote = ({ context, label, children, href, ...props }) => {
-  return <FloatingNote {...props} label={label}>{children}</FloatingNote>;
-}
+  return (
+    <FloatingNote {...props} label={label}>
+      {children}
+    </FloatingNote>
+  );
+};
 
 const hWrapper = (Tag, defaultClassName) =>
   React.forwardRef(({ className, children, ...rest }: any, ref) => {
