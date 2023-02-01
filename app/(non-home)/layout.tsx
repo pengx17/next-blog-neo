@@ -11,7 +11,11 @@ const BackHome = () => {
   );
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <main className="max-w-6xl w-full lg:p-12 p-6">
       <div className="text-gray-500">
