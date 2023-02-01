@@ -4,9 +4,16 @@ import React from "react";
 import ReactDom from "react-dom";
 import { useHoverDirty, useWindowSize } from "react-use";
 
-export function FloatingNote({ label, children, ...props }) {
+export function FloatingNote({
+  label,
+  children,
+  ...props
+}: {
+  label: React.ReactNode;
+  children: React.ReactNode;
+}) {
   const triggerRef = React.useRef<HTMLElement>(null);
-  const [anchor, setAnchor] = React.useState<HTMLElement>(null);
+  const [anchor, setAnchor] = React.useState<HTMLElement>();
   const asideRef = React.useRef<HTMLElement>(null);
   const triggerHovering = useHoverDirty(triggerRef);
   const asideHovering = useHoverDirty(asideRef, !!anchor);
@@ -14,12 +21,10 @@ export function FloatingNote({ label, children, ...props }) {
   React.useEffect(() => {
     if (triggerRef.current && !anchor) {
       setTimeout(() => {
-        let el = triggerRef.current;
-        do {
-          el = el?.parentElement;
-        } while (el && el.tagName !== "SECTION");
-        el = el?.querySelector("[data-aside-container]");
-        setAnchor(el);
+        let el = triggerRef.current
+          ?.closest("section")
+          ?.querySelector<HTMLElement>("[data-aside-container]");
+        setAnchor(el ?? undefined);
       }, 100);
     }
   }, [triggerRef, anchor]);
@@ -33,7 +38,7 @@ export function FloatingNote({ label, children, ...props }) {
       <aside
         ref={asideRef}
         style={{
-          borderColor: triggerHovering ? "rgba(31, 41, 55)" : null,
+          borderColor: triggerHovering ? "rgba(31, 41, 55)" : undefined,
           lineHeight: 1.6,
         }}
         className="p-2 mb-1 text-gray-800 rounded border-2 text-xs bg-gray-100 transition hover:border-gray-800"
@@ -45,6 +50,7 @@ export function FloatingNote({ label, children, ...props }) {
 
   const asideVisible =
     !!asideEl &&
+    anchor.parentElement &&
     window.getComputedStyle(anchor.parentElement).display !== "none";
 
   return (

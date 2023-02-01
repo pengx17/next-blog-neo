@@ -115,12 +115,8 @@ const getLinkPreview = React.cache(
   async (href: string): Promise<LinkPreviewMetadata | null> => {
     try {
       const data = await fetchLinkPreview(href);
-
       // @ts-ignore
-      return adaptMeta({
-        url: href,
-        ...data,
-      });
+      return adaptMeta(data);
     } catch (err) {
       // @ts-ignore
       return adaptMeta({
@@ -217,5 +213,5 @@ export default function LinkPreview({
   showError?: boolean;
 }) {
   const meta = React.use(getLinkPreview(url));
-  return <PreviewCard data={meta} />;
+  return meta ? <PreviewCard data={meta} /> : null;
 }

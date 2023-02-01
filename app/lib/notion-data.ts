@@ -56,7 +56,7 @@ const parseProperties = <T extends object>(
 };
 
 export interface PostProperties {
-  slug: string;
+  slug?: string;
   id: string;
   name: string;
   date: string;

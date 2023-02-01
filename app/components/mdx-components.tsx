@@ -10,12 +10,30 @@ import { getPageById } from "../lib/notion-data";
 import { FloatingNote } from "./floating-note";
 import { TwitterTweetEmbed } from "./tweet-client";
 
-const cx = (...args: string[]) => {
+const cx = (...args: (string | undefined)[]) => {
   return args.filter(Boolean).join(" ");
 };
 
-const Anchor = async ({ context, children, href, ...props }) => {
+// RSC can't use React.Context. We need to pass the context to MDX explicitly.
+interface MdxContext {
+  notes: Record<string, string>;
+  tweetAstMap: Record<string, any>;
+}
+
+type WrappedProps<T extends React.HTMLAttributes<any>> = {
+  context: MdxContext;
+} & T;
+
+const Anchor = async ({
+  context,
+  children,
+  href,
+  ...props
+}: WrappedProps<React.AnchorHTMLAttributes<HTMLAnchorElement>>) => {
   const { notes, tweetAstMap } = context;
+  if (!href) {
+    return <a {...props}>{children}</a>;
+  }
   if (children === "embed") {
     const tweetId = getTweetIdFromUrl(href);
     if (tweetId && tweetAstMap[tweetId]) {
@@ -25,7 +43,10 @@ const Anchor = async ({ context, children, href, ...props }) => {
       return <TwitterTweetEmbed tweetId={tweetId} />;
     }
   }
-  if (["bookmark", "link_preview"].includes(children)) {
+  if (
+    typeof children === "string" &&
+    ["bookmark", "link_preview"].includes(children)
+  ) {
     return <LinkPreview url={href} />;
   }
   if (href.startsWith("/")) {
@@ -60,21 +81,23 @@ const Anchor = async ({ context, children, href, ...props }) => {
   // transform notion links to nextjs links (if it is in the same database)
   if (href.startsWith("/posts/") || href.startsWith("https://www.notion.so/")) {
     const pid = (href as string).split("/").pop();
-    try {
-      const post = await getPageById(pid, false);
-      if (post) {
-        return (
-          <Link
-            {...props}
-            className={cx(props.className, "underline decoration-dashed")}
-            href={"/posts/" + post.slug}
-          >
-            {children}
-          </Link>
-        );
+    if (pid) {
+      try {
+        const post = await getPageById(pid, false);
+        if (post) {
+          return (
+            <Link
+              {...props}
+              className={cx(props.className, "underline decoration-dashed")}
+              href={"/posts/" + post.slug}
+            >
+              {children}
+            </Link>
+          );
+        }
+      } catch (__) {
+        // ignore
       }
-    } catch (__) {
-      // ignore
     }
   }
 
@@ -93,15 +116,7 @@ const Anchor = async ({ context, children, href, ...props }) => {
   );
 };
 
-const InlineNote = ({ context, label, children, href, ...props }) => {
-  return (
-    <FloatingNote {...props} label={label}>
-      {children}
-    </FloatingNote>
-  );
-};
-
-const hWrapper = (Tag, defaultClassName) =>
+const hWrapper = (Tag: string, defaultClassName: string) =>
   React.forwardRef(({ className, children, ...rest }: any, ref) => {
     return (
       <Tag
@@ -130,10 +145,11 @@ const hWrapper = (Tag, defaultClassName) =>
   });
 
 export const createSectionWrapper =
-  (Tag) =>
-  ({ className, ...props }) => {
+  (Tag: React.FunctionComponent) =>
+  ({ className, ...props }: React.AllHTMLAttributes<any>) => {
     return (
       <section className={cx("my-6 relative flex", className)}>
+        {/* @ts-ignore */}
         <Tag className="flex-1" {...props} />
         <aside className="hidden md:block md:w-48 lg:block lg:w-64 xl:w-72 h-full left-full pl-2 flex-shrink-0">
           <div
@@ -145,22 +161,16 @@ export const createSectionWrapper =
     );
   };
 
-const wrapNative = (Tag, className?: string) =>
+const wrapNative = (Tag: string, className?: string) =>
   React.forwardRef(({ className: c, ...props }: any, ref) => {
     return <Tag ref={ref} className={cx(className, c)} {...props} />;
   });
-
-// RSC can't use React.Context. We need to pass the context to MDX explicitly.
-interface MdxContext {
-  notes: Record<string, string>;
-  tweetAstMap: Record<string, any>;
-}
 
 // Components to be injected to MDX
 export const getMdxComponents = (ctx: MdxContext) => {
   const mdxComponents = {
     a: Anchor,
-    Note: InlineNote,
+    Note: FloatingNote,
     // p -> div so that it won't complain that div is not a valid child of p
     p: wrapNative("div", "leading-ease"),
     h1: hWrapper("h1", "text-3xl font-bold my-12 mb-8"),
@@ -181,12 +191,17 @@ export const getMdxComponents = (ctx: MdxContext) => {
     ol: wrapNative("ol", "list-decimal pl-10 leading-ease"),
   };
 
-  ["p", "blockquote", "pre", "ul", "ol", "hr"].forEach((tag) => {
+  type MdxTag = keyof typeof mdxComponents;
+
+  (["p", "blockquote", "pre", "ul", "ol", "hr"] as MdxTag[]).forEach((tag) => {
+    // @ts-ignore
     mdxComponents[tag] = createSectionWrapper(mdxComponents[tag]);
   });
 
   Reflect.ownKeys(mdxComponents).forEach((key) => {
+    // @ts-ignore
     const Component = mdxComponents[key];
+    // @ts-ignore
     mdxComponents[key] = (props) => <Component {...props} context={ctx} />;
   });
 

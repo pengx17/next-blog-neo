@@ -12,7 +12,7 @@ const tweetAstPromiseCache = new Map<string, Promise<any>>();
 const tweetAstCache = new Map<string, any>();
 
 export const cacheTwitterEmbedsAst = cache(async (md: string) => {
-  const ids = getEmbedUrls(md).map(getTweetIdFromUrl).filter(Boolean);
+  const ids = getEmbedUrls(md).map(getTweetIdFromUrl).filter(Boolean) as string[];
   try {
     const cache = await Promise.all(
       ids.map(async (id) => {

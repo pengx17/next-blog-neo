@@ -7,7 +7,7 @@ import { visit } from "unist-util-visit";
 const themes = ["github-light"];
 let _hl$: Promise<shiki.Highlighter>;
 
-const rehypeShiki = () => async (tree) => {
+const rehypeShiki = () => async (tree: any) => {
   if (!_hl$) {
     _hl$ = shiki.getHighlighter({ themes });
   }
