@@ -1,7 +1,7 @@
 import { getPostBySlug, getPosts } from "../../../lib/notion-data";
 import { PostRenderer } from "./post-renderer";
 
-export default async function Post({ params }) {
+export default async function Post({ params }: { params: { slug: string } }) {
   const post = await getPostBySlug(params.slug);
 
   if (!post) {
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
   const items = await getPosts();
   return items.map((item) => ({
     id: item.id,
-    slug: item.slug,
+    slug: item.slug ?? item.id, // fallback to id if slug is not defined
   }));
 }
 

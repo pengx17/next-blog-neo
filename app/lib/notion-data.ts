@@ -33,9 +33,9 @@ const parseProperties = <T extends object>(
     .map(([key, value]) => {
       switch (value.type) {
         case "rich_text":
-          return [key, value.rich_text?.[0].plain_text];
+          return [key, value.rich_text?.[0]?.plain_text];
         case "title":
-          return [key, value.title?.[0].plain_text];
+          return [key, value.title?.[0]?.plain_text];
         case "number":
           return [key, value.number];
         case "checkbox":
@@ -49,6 +49,7 @@ const parseProperties = <T extends object>(
     .filter(([, v]) => v != null)
     .flatMap(([k, v]) => [
       [k, v],
+      // @ts-ignore
       [k.toString().toLowerCase(), v],
     ]);
   return Object.fromEntries(parsedProperties);
@@ -64,7 +65,7 @@ export interface PostProperties {
 export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
   try {
     const start = performance.now();
-    console.log("getting all posts from Notion API ...");
+    console.log(`getting all posts from Notion API ...(${retry})`);
     const { results } = await notion.value.databases.query({
       database_id: databaseId,
       page_size: 100, // should be enough
@@ -72,9 +73,7 @@ export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
         process.env.NODE_ENV === "production"
           ? {
               property: "Publish",
-              checkbox: {
-                equals: true,
-              },
+              checkbox: { equals: true },
             }
           : undefined,
     });
@@ -83,9 +82,9 @@ export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
       results as PageObjectResponse[]
     ).map<PostProperties>((r) => {
       return {
+        ...parseProperties("properties" in r ? r.properties : {}),
         id: r.id,
         date: r.created_time,
-        ...parseProperties("properties" in r ? r.properties : {}),
       };
     });
 
@@ -105,7 +104,7 @@ export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
 });
 
 export const getPostBySlug = cache(
-  async (slug: string): Promise<PostProperties | null> => {
+  async (slug: string): Promise<PostProperties | undefined> => {
     const posts = await getPosts();
     return posts.find((p) => p.slug === slug || p.id === slug);
   }
@@ -120,11 +119,12 @@ export const getBlocks = cache(
         start_cursor: startCursor,
       });
 
-    const filteredResults = results
-      .filter((r) => "type" in r)
-      .map((r: BlockObjectResponse) => r);
+    // @ts-ignore
+    const filteredResults: BlockObjectResponse[] = results.filter(
+      (r) => "type" in r
+    );
 
-    if (has_more) {
+    if (has_more && next_cursor) {
       return [...filteredResults, ...(await getBlocks(id, next_cursor))];
     } else {
       return filteredResults;
@@ -205,10 +205,10 @@ export const getPageById = cache(async (id: string, fetchBlocks = true) => {
   }
 
   const result = {
+    ...parseProperties<PostProperties>(page.properties),
     id: page.id,
     date: page.created_time,
     parent: page.parent,
-    ...parseProperties<PostProperties>(page.properties),
   };
 
   if (fetchBlocks) {

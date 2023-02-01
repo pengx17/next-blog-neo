@@ -5,7 +5,7 @@ export default async function Head({ params }: { params: { slug: string } }) {
   const post = await getPostBySlug(params.slug);
   return (
     <title>
-      {post.name !== undefined ? `${post.name} | pengx17` : "pengx17"}
+      {post?.name !== undefined ? `${post.name} | pengx17` : "pengx17"}
     </title>
   );
 }

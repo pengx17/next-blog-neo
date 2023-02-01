@@ -14,10 +14,10 @@ export default function Home() {
         </span>
       </div>
       <div className="sm:flex-1 sm:py-24 max-h-full overflow-auto px-12 py-12">
-        {posts.map(({ slug, date, name }) => (
+        {posts.map(({ id, slug, date, name }) => (
           <div className="mb-6" key={slug}>
             <Link
-              href={`/posts/${slug}`}
+              href={`/posts/${slug ?? id}`}
               className="text-xl font-semibold font-serif"
             >
               {name}
