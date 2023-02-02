@@ -1,4 +1,5 @@
 // Credits: https://github.com/mdx-js/mdx/discussions/1939#discussioncomment-2214962
+import path from "path";
 import rehypeParse from "rehype-parse";
 import * as shiki from "shiki";
 import { unified } from "unified";
@@ -9,7 +10,12 @@ let _hl$: Promise<shiki.Highlighter>;
 
 const rehypeShiki = () => async (tree: any) => {
   if (!_hl$) {
-    _hl$ = shiki.getHighlighter({ themes });
+    _hl$ = shiki.getHighlighter({
+      themes,
+      paths: {
+        themes: path.resolve(process.cwd(), "node_modules/shiki/themes"),
+      },
+    });
   }
 
   const highlighter = await _hl$;
