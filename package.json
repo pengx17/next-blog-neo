@@ -6,8 +6,7 @@
     "dev": "node -r './proxy.js' dev.js",
     "build": "next build",
     "start": "next start",
-    "prettier": "prettier . --write",
-    "postinstall": "cp -rf ./node_modules/shiki .shiki"
+    "prettier": "prettier . --write"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
