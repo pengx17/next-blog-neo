@@ -4,12 +4,14 @@ import rehypeParse from "rehype-parse";
 import * as shiki from "shiki";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
+import fsp from "fs/promises";
 
 const themes = ["github-light"];
 let _hl$: Promise<shiki.Highlighter>;
 
 const rehypeShiki = () => async (tree: any) => {
   if (!_hl$) {
+    console.log(await fsp.readdir(path.resolve(process.cwd(), "node_modules")));
     _hl$ = shiki.getHighlighter({
       themes,
       paths: {
