@@ -14,7 +14,8 @@ const rehypeShiki = () => async (tree: any) => {
     _hl$ = shiki.getHighlighter({
       themes,
       paths: {
-        themes: path.resolve(process.cwd(), "./shiki-themes"),
+        themes: path.resolve(process.cwd(), "./shiki/themes"),
+        languages: path.resolve(process.cwd(), "./shiki/languages"),
       },
     });
   }
