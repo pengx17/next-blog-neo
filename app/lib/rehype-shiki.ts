@@ -4,19 +4,19 @@ import rehypeParse from "rehype-parse";
 import * as shiki from "shiki";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
-import fsp from "fs/promises";
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const themes = ["github-light"];
 let _hl$: Promise<shiki.Highlighter>;
 
 const rehypeShiki = () => async (tree: any) => {
   if (!_hl$) {
-    console.log(await fsp.readdir(path.resolve(process.cwd(), "node_modules/shiki")));
-    console.log(await fsp.realpath(path.resolve(process.cwd(), "node_modules/shiki/themes")));
     _hl$ = shiki.getHighlighter({
       themes,
       paths: {
-        themes: path.resolve(process.cwd(), "node_modules/shiki/themes"),
+        themes: path.resolve(__dirname, "./shiki-themes"),
       },
     });
   }
