@@ -11,15 +11,10 @@ let _hl$: Promise<shiki.Highlighter>;
 
 const rehypeShiki = () => async (tree: any) => {
   if (!_hl$) {
-    const dirname =
-      typeof __dirname === "undefined"
-        ? url.fileURLToPath(new URL(".", import.meta.url))
-        : __dirname;
-
     _hl$ = shiki.getHighlighter({
       themes,
       paths: {
-        themes: path.resolve(dirname, "./shiki-themes"),
+        themes: path.resolve(process.cwd(), "./shiki-themes"),
       },
     });
   }
