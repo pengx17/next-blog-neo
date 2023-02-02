@@ -11,7 +11,8 @@ let _hl$: Promise<shiki.Highlighter>;
 
 const rehypeShiki = () => async (tree: any) => {
   if (!_hl$) {
-    console.log(await fsp.readdir(path.resolve(process.cwd(), "node_modules")));
+    console.log(await fsp.readdir(path.resolve(process.cwd(), "node_modules/shiki")));
+    console.log(await fsp.realpath(path.resolve(process.cwd(), "node_modules/shiki/themes")));
     _hl$ = shiki.getHighlighter({
       themes,
       paths: {
