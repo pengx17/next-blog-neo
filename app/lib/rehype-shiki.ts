@@ -4,7 +4,6 @@ import rehypeParse from "rehype-parse";
 import * as shiki from "shiki";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
-import * as url from "url";
 
 const themes = ["github-light"];
 let _hl$: Promise<shiki.Highlighter>;
