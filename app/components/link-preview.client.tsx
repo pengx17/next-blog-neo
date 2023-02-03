@@ -15,6 +15,9 @@ const normalizeUrl = (url: string) => {
 };
 
 const fetcher = (url: string) => {
+  if (!url) {
+    return Promise.resolve(null);
+  }
   return fetch(
     `/api/link-preview?url=${encodeURIComponent(normalizeUrl(url))}`
   ).then((res) => {
@@ -25,12 +28,13 @@ const fetcher = (url: string) => {
   });
 };
 
-const useLinkPreview = (href: string) => {
-  const { data, error } = useSWR(href, fetcher);
+const useLinkPreview = (href: string, visible: boolean) => {
+  const { data, error } = useSWR(visible ? href : "", fetcher);
 
   return React.useMemo(() => {
     return toLinkPreviewCardMeta({
       url: href,
+      contentType: "placeholder",
       ...data,
       error,
     });
@@ -41,6 +45,6 @@ export default function LinkPreviewClient({ url }: { url: string }) {
   const { ref, inView } = useInView({
     triggerOnce: true,
   });
-  const meta = useLinkPreview(inView ? url : "");
+  const meta = useLinkPreview(url, inView);
   return <PreviewCard ref={ref} data={meta} />;
 }

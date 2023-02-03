@@ -28,7 +28,7 @@ const n2m = lazy(() => {
 
 const parseProperties = <T extends object>(
   properties: PageObjectResponse["properties"]
-): T => {
+): Partial<T> => {
   const parsedProperties = Object.entries(properties)
     .map(([key, value]) => {
       switch (value.type) {
@@ -80,12 +80,12 @@ export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
 
     const flattenedResults = (
       results as PageObjectResponse[]
-    ).map<PostProperties>((r) => {
+    ).map((r) => {
       return {
+        date: r.created_time,
         ...parseProperties("properties" in r ? r.properties : {}),
         id: r.id,
-        date: r.created_time,
-      };
+      } as PostProperties;
     });
 
     flattenedResults.sort((a, b) => b.date.localeCompare(a.date));
@@ -205,9 +205,9 @@ export const getPageById = cache(async (id: string, fetchBlocks = true) => {
   }
 
   const result = {
+    date: page.created_time,
     ...parseProperties<PostProperties>(page.properties),
     id: page.id,
-    date: page.created_time,
     parent: page.parent,
   };
 

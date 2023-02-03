@@ -53,16 +53,7 @@ const getCardSize = (data: LinkPreviewMeta) => {
   return [width, height];
 };
 
-const adaptMeta = (d?: Metadata): LinkPreviewMeta => {
-  if (!d || !d.contentType) {
-    return {
-      url: "",
-      contentType: "placeholder",
-      favicons: [],
-      mediaType: "",
-    };
-  }
-
+const adaptMeta = (d: Metadata): LinkPreviewMeta => {
   if (isHTML(d)) {
     return d;
   }
@@ -101,7 +92,7 @@ const adaptMeta = (d?: Metadata): LinkPreviewMeta => {
   };
 };
 
-export function toLinkPreviewCardMeta(data?: Metadata): LinkPreviewCardData {
+export function toLinkPreviewCardMeta(data: Metadata): LinkPreviewCardData {
   const meta = adaptMeta(data);
   const [width, height] = getCardSize(meta);
 

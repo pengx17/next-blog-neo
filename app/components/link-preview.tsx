@@ -3,10 +3,7 @@ import { fetchLinkMeta } from "../lib/fetch-link-meta";
 import { toLinkPreviewCardMeta } from "../lib/adopt-link-preview-meta";
 import { PreviewCard } from "./preview-card";
 
-const getLinkPreview = React.cache(async (href?: string) => {
-  if (!href) {
-    return toLinkPreviewCardMeta();
-  }
+const getLinkPreview = React.cache(async (href: string) => {
   try {
     const data = await fetchLinkMeta(href);
     return toLinkPreviewCardMeta(data);
@@ -19,7 +16,7 @@ const getLinkPreview = React.cache(async (href?: string) => {
   }
 });
 
-export default function LinkPreview({ url }: { url?: string }) {
+export default function LinkPreview({ url }: { url: string }) {
   const meta = React.use(getLinkPreview(url));
   return <PreviewCard data={meta} />;
 }

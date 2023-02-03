@@ -7,7 +7,6 @@ export const PreviewCard = React.forwardRef(function PreviewCard(
   { data }: { data: LinkPreviewCardData },
   ref: React.ForwardedRef<HTMLAnchorElement>
 ) {
-  console.log(data)
   return (
     <a
       className="block cursor-pointer select-none rounded-md border border-gray-200 overflow-hidden max-w-[90vw] hover:border-blue-200 shadow-sm"
