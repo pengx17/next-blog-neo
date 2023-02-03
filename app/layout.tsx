@@ -47,7 +47,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="zh_CN"
+      lang="zh-CN"
       className={cx(
         "antialiased font-sans",
         firaCode.variable,
