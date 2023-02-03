@@ -12,6 +12,10 @@ export default async function Head() {
         name="twitter:card"
         content="https://avatars.githubusercontent.com/u/584378"
       />
+      <meta
+        name="og:image"
+        content="https://avatars.githubusercontent.com/u/584378"
+      />
     </>
   );
 }
