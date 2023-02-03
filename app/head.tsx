@@ -1,14 +1,8 @@
-import { getPostBySlug } from "../../../lib/notion-data";
-
 /* eslint-disable @next/next/no-page-custom-font */
-export default async function Head({ params }: { params: { slug: string } }) {
-  const post = await getPostBySlug(params.slug);
-  if (!post) {
-    return null;
-  }
+export default async function Head() {
   return (
     <>
-      <title>{post.name ? `${post.name} | pengx17` : "pengx17"}</title>
+      <title>pengx17</title>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       {/* @ts-expect-error see https://beta.nextjs.org/docs/api-reference/file-conventions/head#supported-head-tags */}
       <link precedence="default" rel="icon" href="/favicon.jpeg" />

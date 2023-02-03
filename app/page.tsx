@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { use } from "react";
-import { Date } from "./date";
+import { DateString } from "./date";
 import { getPosts } from "./lib/notion-data";
 
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
             </Link>
             <br />
             <span className="text-xs text-gray-600">
-              <Date dateString={date} />
+              <DateString dateString={date} />
             </span>
           </div>
         ))}
