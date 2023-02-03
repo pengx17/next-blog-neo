@@ -8,7 +8,8 @@ import LinkPreview from "./link-preview";
 import { Popover } from "./popover";
 import { getPageById } from "../lib/notion-data";
 import { FloatingNote } from "./floating-note";
-import { TwitterTweetEmbed } from "./tweet-client";
+import { TwitterTweetEmbed } from "./react-twitter-embed";
+import LinkPreviewClient from "./link-preview.client";
 
 const cx = (...args: (string | undefined)[]) => {
   return args.filter(Boolean).join(" ");
@@ -106,7 +107,7 @@ const Anchor = async ({
   }
 
   return (
-    <Popover content={<LinkPreview url={href} />}>
+    <Popover content={<LinkPreviewClient url={href} />}>
       <a
         href={href}
         className={cx(props.className, "underline")}

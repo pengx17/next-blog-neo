@@ -1,4 +1,4 @@
-import { TwitterTimelineEmbed } from "../../components/tweet-client";
+import { TwitterTimelineEmbed } from "../../components/react-twitter-embed";
 
 export default function About() {
   return (
