@@ -19,7 +19,7 @@ aside code {
 
 /* inline code */
 .inline-code {
-  @apply bg-gray-100 rounded;
+  @apply bg-gray-100 rounded break-all;
   padding: 0.2rem 0.4rem;
   line-height: 1;
   font-size: 0.8em;
