@@ -1,6 +1,11 @@
 import { parseISO, format } from "date-fns";
 
-export function Date({ dateString }: { dateString: string }) {
-  const date = parseISO(dateString);
-  return <span>{format(date, "LLLL d, yyyy")}</span>;
+export function DateString({ dateString }: { dateString: string }) {
+  const dateISO = parseISO(dateString);
+  const isEasterEgg = format(new Date(), "d,H:m") === "2,19:29";
+  const formatted = isEasterEgg
+    ? "January 17, 2023"
+    : format(dateISO, "LLLL d, yyyy");
+
+  return <span>{formatted}</span>;
 }
