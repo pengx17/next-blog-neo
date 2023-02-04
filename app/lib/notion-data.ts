@@ -1,4 +1,3 @@
-import "server-only";
 import { Client } from "@notionhq/client";
 import {
   BlockObjectResponse,
@@ -23,6 +22,13 @@ const notion = lazy(() => {
 
 const n2m = lazy(() => {
   const _n2m = new NotionToMarkdown({ notionClient: notion.value });
+  _n2m.setCustomTransformer('image', (node) => {
+    if ('type' in node && node.type === 'image') {
+      const src = `/api/notion-image?id=${node.id}&last_edited_time=${node.last_edited_time}`;
+      return `![](${src})`;
+    }
+    return '';
+  });
   return _n2m;
 });
 

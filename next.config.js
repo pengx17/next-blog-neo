@@ -12,17 +12,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: {
-    remotePatterns: [
-      {
-        hostname: "**.amazonaws.com",
-      },
-      {
-        hostname: "pbs.twimg.com",
-      },
-    ],
-    formats: ["image/avif", "image/webp"],
-  },
 };
 
 module.exports = nextConfig;

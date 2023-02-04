@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import React from "react";
+import Image from "next/image";
 import { getTweetIdFromUrl } from "../lib/utils";
 
 import Link from "next/link";
@@ -17,7 +18,7 @@ const cx = (...args: (string | undefined)[]) => {
 
 // RSC can't use React.Context. We need to pass the context to MDX explicitly.
 interface MdxContext {
-  notes: Record<string, string>;
+  notes?: Record<string, string>;
   tweetAstMap: Record<string, any>;
 }
 
