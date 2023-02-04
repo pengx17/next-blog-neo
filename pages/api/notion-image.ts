@@ -42,7 +42,6 @@ const getNotionImage: NextApiHandler = async (req, res) => {
       if (last_edited_time) {
         res.setHeader("Cache-Control", IMMUTABLE);
       }
-      res.writeHead(200, "OK");
     } else {
       res.status(getResponse.statusCode || 500);
     }
@@ -50,6 +49,7 @@ const getNotionImage: NextApiHandler = async (req, res) => {
     getResponse
       .pipe(res)
       .on("end", () => {
+        res.writeHead(200);
         res.end();
       })
       .on("error", (err) => {
