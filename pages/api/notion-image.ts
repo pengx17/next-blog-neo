@@ -6,21 +6,26 @@ const IMMUTABLE = "public, max-age=31536000, immutable";
 
 const getNotionImage: NextApiHandler = async (req, res) => {
   const { id, last_edited_time } = req.query as Record<string, string>;
-  console.log("Asset request handler", "meta:", {
+  console.log("Image request handler", "meta:", {
     id,
     last_edited_time,
   });
 
   const block = await getBlock(id);
 
-  if (!block || block.type !== "image" || block.image.type !== "file") {
+  if (!block || block.type !== "image") {
     res.status(404);
     res.end();
-    console.log("Asset request handler", "not supported block", block);
+    console.log("Image request handler", "not supported block", block);
     return;
   }
 
-  https.get(block.image.file.url, (getResponse) => {
+  const url =
+    block.image.type === "file"
+      ? block.image.file.url
+      : block.image.external.url;
+
+  https.get(url, (getResponse) => {
     const proxyHeader = (header: string) => {
       const value =
         getResponse.headers[header] ||
