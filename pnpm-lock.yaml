@@ -8,7 +8,7 @@ specifiers:
   '@types/node': ^18.11.18
   '@types/react': ^18.0.27
   '@types/react-dom': ^18.0.10
-  '@vercel/analytics': ^0.1.8
+  '@vercel/analytics': ^1.0.0
   '@vercel/node': ^2.9.0
   autoprefixer: ^10.4.13
   date-fns: ^2.29.3
@@ -59,7 +59,7 @@ devDependencies:
   '@types/node': 18.11.18
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
-  '@vercel/analytics': 0.1.8_react@18.2.0
+  '@vercel/analytics': 1.0.1
   '@vercel/node': 2.9.0_encoding@0.1.13
   autoprefixer: 10.4.13_postcss@8.4.21
   date-fns: 2.29.3
@@ -923,12 +923,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@vercel/analytics/0.1.8_react@18.2.0:
-    resolution: {integrity: sha512-PQrOI8BJ9qUiVJuQfnKiJd15eDjDJH9TBKsNeMrtelT4NAk7d9mBVz1CoZkvoFnHQ0OW7Xnqmr1F2nScfAnznQ==}
-    peerDependencies:
-      react: ^16.8||^17||^18
-    dependencies:
-      react: 18.2.0
+  /@vercel/analytics/1.0.1:
+    resolution: {integrity: sha512-Ux0c9qUfkcPqng3vrR0GTrlQdqNJ2JREn/2ydrVuKwM3RtMfF2mWX31Ijqo1opSjNAq6rK76PwtANw6kl6TAow==}
     dev: true
 
   /@vercel/build-utils/6.1.0:
