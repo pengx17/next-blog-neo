@@ -5,8 +5,7 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import { NotionToMarkdown } from "notion-to-md";
 // https://beta.nextjs.org/docs/data-fetching/caching#per-request-caching
-import { unstable_cache } from "next/cache";
-
+import { cache } from "react";
 import { lazy } from "./lazy";
 import { mdToHTML } from "./md-to-html";
 
@@ -69,55 +68,53 @@ export interface PostProperties {
   date: string;
 }
 
-export const getPosts = unstable_cache(
-  async (retry = 3): Promise<PostProperties[]> => {
-    try {
-      const start = performance.now();
-      console.log(`getting all posts from Notion API ...(${retry})`);
-      const { results } = await notion.value.databases.query({
-        database_id: databaseId,
-        page_size: 100, // should be enough
-        filter:
-          process.env.NODE_ENV === "production"
-            ? {
-                property: "Publish",
-                checkbox: { equals: true },
-              }
-            : undefined,
-      });
+export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
+  try {
+    const start = performance.now();
+    console.log(`getting all posts from Notion API ...(${retry})`);
+    const { results } = await notion.value.databases.query({
+      database_id: databaseId,
+      page_size: 100, // should be enough
+      filter:
+        process.env.NODE_ENV === "production"
+          ? {
+              property: "Publish",
+              checkbox: { equals: true },
+            }
+          : undefined,
+    });
 
-      const flattenedResults = (results as PageObjectResponse[]).map((r) => {
-        return {
-          date: r.created_time,
-          ...parseProperties("properties" in r ? r.properties : {}),
-          id: r.id,
-        } as PostProperties;
-      });
+    const flattenedResults = (results as PageObjectResponse[]).map((r) => {
+      return {
+        date: r.created_time,
+        ...parseProperties("properties" in r ? r.properties : {}),
+        id: r.id,
+      } as PostProperties;
+    });
 
-      flattenedResults.sort((a, b) => b.date.localeCompare(a.date));
+    flattenedResults.sort((a, b) => b.date.localeCompare(a.date));
 
-      console.log(
-        `getting all posts took ${(performance.now() - start).toFixed(2)}ms`
-      );
-      return flattenedResults;
-    } catch (e) {
-      console.error(e);
-      if (retry > 0) {
-        return getPosts(retry - 1);
-      }
-      return [];
+    console.log(
+      `getting all posts took ${(performance.now() - start).toFixed(2)}ms`
+    );
+    return flattenedResults;
+  } catch (e) {
+    console.error(e);
+    if (retry > 0) {
+      return getPosts(retry - 1);
     }
+    return [];
   }
-);
+});
 
-export const getPostBySlug = unstable_cache(
+export const getPostBySlug = cache(
   async (slug: string): Promise<PostProperties | undefined> => {
     const posts = await getPosts();
     return posts.find((p) => p.slug === slug || p.id === slug);
   }
 );
 
-export const getBlocks = unstable_cache(
+export const getBlocks = cache(
   async (id: string, startCursor?: string): Promise<BlockObjectResponse[]> => {
     const { results, has_more, next_cursor } =
       await notion.value.blocks.children.list({
@@ -139,7 +136,7 @@ export const getBlocks = unstable_cache(
   }
 );
 
-export const getBlock = unstable_cache(async (id: string) => {
+export const getBlock = cache(async (id: string) => {
   const start = performance.now();
   const result = await notion.value.blocks.retrieve({
     block_id: id,
@@ -166,7 +163,7 @@ const findNotesDatabaseId = (blocks: BlockObjectResponse[]) => {
   })?.id;
 };
 
-const getPageNotes = unstable_cache(async (database_id: string) => {
+const getPageNotes = cache(async (database_id: string) => {
   const start = performance.now();
 
   const { results } = await notion.value.databases.query({
@@ -201,38 +198,36 @@ const getPageNotes = unstable_cache(async (database_id: string) => {
   return Object.fromEntries(notes);
 });
 
-export const getPageById = unstable_cache(
-  async (id: string, fetchBlocks = true) => {
-    const start = performance.now();
-    const page = await notion.value.pages.retrieve({
-      page_id: id,
-    });
+export const getPageById = cache(async (id: string, fetchBlocks = true) => {
+  const start = performance.now();
+  const page = await notion.value.pages.retrieve({
+    page_id: id,
+  });
 
-    if (!("properties" in page)) {
-      return null;
-    }
-
-    const result = {
-      date: page.created_time,
-      ...parseProperties<PostProperties>(page.properties),
-      id: page.id,
-      parent: page.parent,
-    };
-
-    if (fetchBlocks) {
-      const blocks = await getBlocks(page.id);
-      Object.assign(result, { blocks });
-    }
-
-    console.log(
-      `getPageById took ${(performance.now() - start).toFixed(2)}ms for ${id}`
-    );
-
-    return result;
+  if (!("properties" in page)) {
+    return null;
   }
-);
 
-export const getPageMD = unstable_cache(async (id: string) => {
+  const result = {
+    date: page.created_time,
+    ...parseProperties<PostProperties>(page.properties),
+    id: page.id,
+    parent: page.parent,
+  };
+
+  if (fetchBlocks) {
+    const blocks = await getBlocks(page.id);
+    Object.assign(result, { blocks });
+  }
+
+  console.log(
+    `getPageById took ${(performance.now() - start).toFixed(2)}ms for ${id}`
+  );
+
+  return result;
+});
+
+export const getPageMD = cache(async (id: string) => {
   try {
     console.log("getting page blocks and notes from Notion API ...");
     const start = performance.now();

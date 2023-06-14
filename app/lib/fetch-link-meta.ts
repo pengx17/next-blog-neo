@@ -1,9 +1,9 @@
 import { getLinkPreview } from "link-preview-js";
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 
 import { Metadata } from "./link-preview-types";
 
-export const fetchLinkMeta = unstable_cache(async (url: string) => {
+export const fetchLinkMeta = cache(async (url: string) => {
   const startTime = Date.now();
   console.info("fetching " + url);
   const data = await getLinkPreview(Array.isArray(url) ? url[0] : url, {
