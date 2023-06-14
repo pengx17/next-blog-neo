@@ -1,4 +1,4 @@
-import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { fetchTweetAst } from "static-tweets";
 import { getTweetIdFromUrl } from "./utils";
 
@@ -11,7 +11,7 @@ export const getEmbedUrls = (md: string) => {
 const tweetAstPromiseCache = new Map<string, Promise<any>>();
 const tweetAstCache = new Map<string, any>();
 
-export const cacheTwitterEmbedsAst = cache(async (md: string) => {
+export const cacheTwitterEmbedsAst = unstable_cache(async (md: string) => {
   const ids = getEmbedUrls(md).map(getTweetIdFromUrl).filter(Boolean) as string[];
   try {
     const cache = await Promise.all(
