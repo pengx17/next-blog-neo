@@ -6,12 +6,7 @@ import remarkGfm from "remark-gfm";
 import { use } from "react";
 import { getMdxComponents } from "../../../components/mdx-components";
 import { DateString } from "../../../date";
-import {
-  getPageById,
-  getPageMD,
-  getPostBySlug,
-  type PostProperties,
-} from "../../../lib/notion-data";
+import { getPageMD, type PostProperties } from "../../../lib/notion-data";
 import rehypeShiki from "../../../lib/rehype-shiki";
 import { cacheTwitterEmbedsAst } from "../../../lib/scan-embeds";
 
@@ -27,7 +22,6 @@ export function PostRenderer({ id, name, date }: PostProperties) {
       <div className="text-gray-600 mb-8 ml-0.5">
         <DateString dateString={date} />
       </div>
-      {/* @ts-expect-error Server Component */}
       <MDXRemote
         options={{
           mdxOptions: {
