@@ -1,5 +1,5 @@
 import { getPageById } from "../../lib/notion-data";
-import { PostRenderer } from "../posts/[slug]/post-renderer";
+import { PostRenderer } from "../post-renderer";
 
 export default async function Tests() {
   const page = await getPageById("175984b6537d4785948ff8e6179cb914");

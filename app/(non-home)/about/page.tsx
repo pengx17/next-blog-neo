@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TwitterTimelineEmbed } from "../../components/react-twitter-embed";
 
 export default function About() {
@@ -14,9 +15,7 @@ export default function About() {
       </h3>
 
       <h3 className="my-4">
-        <a href="https://pengx17.github.io/" target="_blank" rel="noreferrer">
-          Archived Blog
-        </a>
+        <Link className="underline" href="/posts/weekly">{"My Weekly"}</Link>
       </h3>
 
       <TwitterTimelineEmbed

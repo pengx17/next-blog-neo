@@ -1,5 +1,5 @@
 import { getPostBySlug, getPosts } from "../../../lib/notion-data";
-import { PostRenderer } from "./post-renderer";
+import { PostRenderer } from "../../post-renderer";
 
 export default async function Post({ params }: { params: { slug: string } }) {
   const post = await getPostBySlug(params.slug);
