@@ -57,6 +57,8 @@ const rehypeShiki = () => async (tree: any) => {
         // The pre's parent
         // @ts-expect-error ???
         n.children[0].properties.className.push(theme);
+        // @ts-expect-error ???
+        n.children[0].properties.key = `${theme}-${lang}`;
         return n;
       })
     );

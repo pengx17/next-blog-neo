@@ -187,7 +187,7 @@ const getPageNotes = cache(async (database_id: string) => {
         })
       );
       const md = n2m.value.toMarkdownString(mdblocks);
-      return [notePage.id.replaceAll("-", ""), mdToHTML(md)] as const;
+      return [notePage.id.replaceAll("-", ""), mdToHTML(md.parent)] as const;
     })
   );
 
@@ -246,7 +246,7 @@ export const getPageMD = cache(async (id: string) => {
     console.log(
       `getPostMD took ${(performance.now() - start).toFixed(2)}ms for ${id}`
     );
-    return { md, notes };
+    return { md: md.parent, notes };
   } catch (err) {
     console.error(err);
     return { md: "failed to get post" };
