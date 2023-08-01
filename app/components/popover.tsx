@@ -1,7 +1,16 @@
 "use client";
 
-import React from "react";
-import Tippy from "@tippyjs/react";
+import React, { useState } from "react";
+import {
+  useFloating,
+  FloatingPortal,
+  useHover,
+  useInteractions,
+} from "@floating-ui/react";
+
+const cx = (...args: string[]) => {
+  return args.filter(Boolean).join(" ");
+};
 
 export function Popover({
   content,
@@ -10,18 +19,28 @@ export function Popover({
   content: React.ReactNode;
   children: React.ReactElement;
 }) {
-  const appendTo = typeof document === "undefined" ? undefined : document.body;
+  const [isOpen, setIsOpen] = useState(false);
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+  });
+  const hover = useHover(context);
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
   return (
-    <Tippy
-      interactive
-      delay={100}
-      animation="fade"
-      maxWidth={620}
-      arrow={false}
-      content={content}
-      appendTo={appendTo}
-    >
-      {children}
-    </Tippy>
+    <>
+      <FloatingPortal>
+        <div
+          {...getFloatingProps()}
+          ref={refs.setFloating}
+          style={floatingStyles}
+          className={cx("w-[620px]", isOpen ? "block" : "hidden")}
+        >
+          {content}
+        </div>
+      </FloatingPortal>
+      <span ref={refs.setReference} {...getReferenceProps()}>
+        {children}
+      </span>
+    </>
   );
 }
