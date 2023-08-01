@@ -28,16 +28,18 @@ export function Popover({
   const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
   return (
     <>
-      <FloatingPortal>
-        <div
-          {...getFloatingProps()}
-          ref={refs.setFloating}
-          style={floatingStyles}
-          className={cx("w-[620px]", isOpen ? "block" : "hidden")}
-        >
-          {content}
-        </div>
-      </FloatingPortal>
+      {isOpen && (
+        <FloatingPortal>
+          <div
+            {...getFloatingProps()}
+            ref={refs.setFloating}
+            style={floatingStyles}
+            className={cx("w-[620px]")}
+          >
+            {content}
+          </div>
+        </FloatingPortal>
+      )}
       <span ref={refs.setReference} {...getReferenceProps()}>
         {children}
       </span>

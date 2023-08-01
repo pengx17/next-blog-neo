@@ -9,7 +9,7 @@ export const PreviewCard = React.forwardRef(function PreviewCard(
 ) {
   return (
     <a
-      className="block cursor-pointer select-none rounded-md border border-gray-200 overflow-hidden max-w-[90vw] hover:border-blue-200 shadow-sm transition-all"
+      className="block cursor-pointer select-none rounded-md border border-gray-200 overflow-hidden max-w-[90vw] hover:border-blue-200 shadow-sm transition"
       href={data.url}
       ref={ref}
       rel="noopener noreferrer"
