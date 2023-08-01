@@ -1,15 +1,15 @@
 /* eslint-disable react/display-name */
 import React from "react";
 import Image from "next/image";
+import { Tweet } from "react-tweet";
 import { getTweetIdFromUrl } from "../lib/utils";
 
 import Link from "next/link";
-import { Tweet } from "react-static-tweets";
 import LinkPreview from "./link-preview";
 import { Popover } from "./popover";
 import { getPageById } from "../lib/notion-data";
 import { FloatingNote } from "./floating-note";
-import { TwitterTweetEmbed } from "./react-twitter-embed";
+
 import LinkPreviewClient from "./link-preview.client";
 
 const cx = (...args: (string | undefined)[]) => {
@@ -19,7 +19,6 @@ const cx = (...args: (string | undefined)[]) => {
 // RSC can't use React.Context. We need to pass the context to MDX explicitly.
 interface MdxContext {
   notes?: Record<string, string>;
-  tweetAstMap: Record<string, any>;
 }
 
 type WrappedProps<T extends React.HTMLAttributes<any>> = {
@@ -32,17 +31,14 @@ const Anchor = async ({
   href,
   ...props
 }: WrappedProps<React.AnchorHTMLAttributes<HTMLAnchorElement>>) => {
-  const { notes, tweetAstMap } = context;
+  const { notes } = context;
   if (!href) {
     return <a {...props}>{children}</a>;
   }
   if (children === "embed") {
     const tweetId = getTweetIdFromUrl(href);
-    if (tweetId && tweetAstMap[tweetId]) {
-      return <Tweet ast={tweetAstMap[tweetId]} />;
-    } else if (tweetId) {
-      // fallback to client rendering
-      return <TwitterTweetEmbed tweetId={tweetId} />;
+    if (tweetId) {
+      return <Tweet id={tweetId} />;
     }
   }
   if (

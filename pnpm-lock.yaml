@@ -77,12 +77,9 @@ devDependencies:
   react-intersection-observer:
     specifier: ^9.5.2
     version: 9.5.2(react@18.3.0-next-fecc288b7-20221025)
-  react-static-tweets:
-    specifier: ^2.0.0
-    version: 2.0.0(date-fns@2.30.0)(next@13.4.12)(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
-  react-twitter-embed:
-    specifier: ^4.0.4
-    version: 4.0.4(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
+  react-tweet:
+    specifier: ^3.0.3
+    version: 3.0.3(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
   react-use:
     specifier: ^17.4.0
     version: 17.4.0(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
@@ -5609,32 +5606,18 @@ packages:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
 
-  /react-static-tweets@2.0.0(date-fns@2.30.0)(next@13.4.12)(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
-    resolution: {integrity: sha512-FDXBTKBVdGkfZMMLnOkMB1P9SVJDBViczfvotkcf+i4p5QUqXJ1vP/+Th+7k0TN1BiOnOudorV2ZgFXEACjesQ==}
-    engines: {node: '>=12'}
+  /react-tweet@3.0.3(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+    resolution: {integrity: sha512-dKPpCCGGo07hV8QtOthAwVbG/VfDA22kg5ny53UHnYYMR18gv7hDYiT9ZjMS4hWLzEObz++e616Sf4qLo9hhag==}
     peerDependencies:
-      date-fns: '>=2'
-      next: '>=13'
-      react: '>=18'
-      react-dom: '>=18'
+      react: '>= 18.0.0'
+      react-dom: '>= 18.0.0'
     dependencies:
+      '@swc/helpers': 0.5.1
       clsx: 1.2.1
       date-fns: 2.30.0
-      next: 13.4.12(@babel/core@7.22.9)(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
       react: 18.3.0-next-fecc288b7-20221025
       react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
-    dev: true
-
-  /react-twitter-embed@4.0.4(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
-    resolution: {integrity: sha512-2JIL7qF+U62zRzpsh6SZDXNI3hRNVYf5vOZ1WRcMvwKouw+xC00PuFaD0aEp2wlyGaZ+f4x2VvX+uDadFQ3HVA==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
-      scriptjs: 2.5.9
+      swr: 2.2.0(react@18.3.0-next-fecc288b7-20221025)
     dev: true
 
   /react-universal-interface@0.6.2(react@18.3.0-next-fecc288b7-20221025)(tslib@2.4.1):
@@ -5998,10 +5981,6 @@ packages:
   /screenfull@5.2.0:
     resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
     engines: {node: '>=0.10.0'}
-    dev: true
-
-  /scriptjs@2.5.9:
-    resolution: {integrity: sha512-qGVDoreyYiP1pkQnbnFAUIS5AjenNwwQBdl7zeos9etl+hYKWahjRTfzAZZYBv5xNHx7vNKCmaLDQZ6Fr2AEXg==}
     dev: true
 
   /semver-compare@1.0.0:

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import "react-static-tweets/styles.css";
 
 const BackHome = () => {
   return (

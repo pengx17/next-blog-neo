@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { use } from "react";
 import { DateString } from "./date";
@@ -15,7 +16,7 @@ export default function Home() {
       </div>
       <div className="sm:flex-1 sm:py-24 max-h-full overflow-auto px-12 py-12">
         {posts.map(({ id, slug, date, name }) => (
-          <div className="mb-6" key={id + ':' + slug}>
+          <div className="mb-6" key={id + ":" + slug}>
             <Link
               href={`/posts/${slug ?? id}`}
               className="text-xl font-semibold font-serif"
@@ -34,3 +35,9 @@ export default function Home() {
 }
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "pengx17",
+  description: "A personal blog by pengx17",
+  icons: ["https://avatars.githubusercontent.com/u/584378"],
+};

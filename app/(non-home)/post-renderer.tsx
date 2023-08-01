@@ -8,15 +8,12 @@ import { getMdxComponents } from "../components/mdx-components";
 import { DateString } from "../date";
 import { getPageMD, type PostProperties } from "../lib/notion-data";
 import rehypeShiki from "../lib/rehype-shiki";
-import { cacheTwitterEmbedsAst } from "../lib/scan-embeds";
 
 export function PostRenderer({ id, name, date }: Partial<PostProperties>) {
   if (!id) {
     return null;
   }
   const { md, notes } = use(getPageMD(id));
-  // disable static cache
-  const tweetAstMap = {} ?? use(cacheTwitterEmbedsAst(md));
   return (
     <>
       <h1 className="my-6 text-4xl font-serif font-bold leading-snug">
@@ -27,6 +24,7 @@ export function PostRenderer({ id, name, date }: Partial<PostProperties>) {
           <DateString dateString={date} />
         </div>
       )}
+      {/* @ts-ignore */}
       <MDXRemote
         options={{
           mdxOptions: {
@@ -39,7 +37,6 @@ export function PostRenderer({ id, name, date }: Partial<PostProperties>) {
         // @ts-expect-error Server Component
         components={getMdxComponents({
           notes,
-          tweetAstMap,
         })}
       />
     </>

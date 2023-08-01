@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { TwitterTimelineEmbed } from "../../components/react-twitter-embed";
 
 export default function About() {
   return (
@@ -17,12 +16,6 @@ export default function About() {
       <h3 className="my-4">
         <Link className="underline" href="/posts/weekly">{"My Weekly"}</Link>
       </h3>
-
-      <TwitterTimelineEmbed
-        sourceType="profile"
-        screenName="pengx17"
-        options={{ height: 800 }}
-      />
     </>
   );
 }
