@@ -1,8 +1,8 @@
 import {
   Fira_Code,
   Noto_Serif_SC,
-  Source_Sans_Pro,
-  Source_Serif_Pro,
+  Source_Sans_3,
+  Source_Serif_4,
 } from "@next/font/google";
 
 import "./global.css";
@@ -24,14 +24,14 @@ const notoSerifSC = Noto_Serif_SC({
   variable: "--font-noto-serif-sc",
 });
 
-const sourceSansPro = Source_Sans_Pro({
+const sourceSansPro = Source_Sans_3({
   weight: ["400", "700"],
   subsets: ["latin"],
   variable: "--font-source-sans-pro",
   style: ["normal", "italic"],
 });
 
-const sourceSerifPro = Source_Serif_Pro({
+const sourceSerifPro = Source_Serif_4({
   weight: ["400", "600", "700"],
   subsets: ["latin"],
   variable: "--font-source-serif-pro",

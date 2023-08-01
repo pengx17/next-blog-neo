@@ -15,7 +15,7 @@ export default function Home() {
       </div>
       <div className="sm:flex-1 sm:py-24 max-h-full overflow-auto px-12 py-12">
         {posts.map(({ id, slug, date, name }) => (
-          <div className="mb-6" key={slug}>
+          <div className="mb-6" key={id + ':' + slug}>
             <Link
               href={`/posts/${slug ?? id}`}
               className="text-xl font-semibold font-serif"
