@@ -154,7 +154,7 @@ export const createSectionWrapper =
   (Tag: React.FunctionComponent) =>
   ({ className, ...props }: React.AllHTMLAttributes<any>) => {
     return (
-      <section className={cx("my-6 relative flex", className)}>
+      <section className={cx("my-6 relative flex section-wrapper", className)}>
         {/* @ts-ignore */}
         <Tag className="flex-1" {...props} />
         <aside className="hidden md:block md:w-48 lg:block lg:w-64 xl:w-72 h-full left-full pl-2 flex-shrink-0">

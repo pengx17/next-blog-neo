@@ -24,3 +24,8 @@ aside code {
   line-height: 1;
   font-size: 0.8em;
 }
+
+/* hack for nested section-wrapper */
+.section-wrapper .section-wrapper {
+  display: contents;
+}

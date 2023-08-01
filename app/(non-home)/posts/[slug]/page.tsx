@@ -9,9 +9,9 @@ export default async function Post({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="w-full">
+    <article className="w-full">
       <PostRenderer {...post} />
-    </div>
+    </article>
   );
 }
 

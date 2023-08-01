@@ -9,10 +9,10 @@ export default async function Post() {
   }
 
   return (
-    <div className="w-full">
+    <article className="w-full">
       <h1 className="font-serif text-4xl font-bold mt-4 mb-2">我的周报</h1>
       <PostRenderer name={page.name} id={page.id} />
-    </div>
+    </article>
   );
 }
 
