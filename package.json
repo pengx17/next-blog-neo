@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
-    "@floating-ui/react": "^0.25.0",
+    "@floating-ui/react": "^0.26.0",
     "@next/font": "^13.4.12",
     "@notionhq/client": "^2.2.9",
     "@types/node": "^18.11.18",
