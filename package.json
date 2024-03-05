@@ -50,7 +50,7 @@
     "static-tweets": "^2.0.0",
     "swr": "^2.2.0",
     "tailwindcss": "^3.3.3",
-    "tsx": "^3.12.7",
+    "tsx": "^4.0.0",
     "typescript": "^5.1.6",
     "undici": "^5.22.1",
     "unified": "^10.1.2",
