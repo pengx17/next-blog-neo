@@ -10,7 +10,7 @@ devDependencies:
     version: 7.22.9
   '@floating-ui/react':
     specifier: ^0.26.0
-    version: 0.26.3(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
+    version: 0.26.3(react-dom@18.3.1)(react@18.3.1)
   '@next/font':
     specifier: ^13.4.12
     version: 13.4.12
@@ -52,10 +52,10 @@ devDependencies:
     version: 3.0.12(encoding@0.1.13)
   next:
     specifier: ^13.4.12
-    version: 13.4.12(@babel/core@7.22.9)(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
+    version: 13.4.12(@babel/core@7.22.9)(react-dom@18.3.1)(react@18.3.1)
   next-mdx-remote:
     specifier: ^4.4.1
-    version: 4.4.1(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
+    version: 4.4.1(react-dom@18.3.1)(react@18.3.1)
   node-global-proxy:
     specifier: ^1.0.1
     version: 1.0.1
@@ -69,20 +69,20 @@ devDependencies:
     specifier: ^3.0.0
     version: 3.0.0
   react:
-    specifier: 18.3.0-next-fecc288b7-20221025
-    version: 18.3.0-next-fecc288b7-20221025
+    specifier: 18.3.1
+    version: 18.3.1
   react-dom:
-    specifier: 18.3.0-next-fecc288b7-20221025
-    version: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
+    specifier: 18.3.1
+    version: 18.3.1(react@18.3.1)
   react-intersection-observer:
     specifier: ^9.5.2
-    version: 9.5.2(react@18.3.0-next-fecc288b7-20221025)
+    version: 9.5.2(react@18.3.1)
   react-tweet:
     specifier: ^3.0.3
-    version: 3.0.3(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
+    version: 3.0.3(react-dom@18.3.1)(react@18.3.1)
   react-use:
     specifier: ^17.4.0
-    version: 17.4.0(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
+    version: 17.4.0(react-dom@18.3.1)(react@18.3.1)
   rehype-add-classes:
     specifier: ^1.0.0
     version: 1.0.0
@@ -127,7 +127,7 @@ devDependencies:
     version: 2.0.0(encoding@0.1.13)
   swr:
     specifier: ^2.2.0
-    version: 2.2.5(react@18.3.0-next-fecc288b7-20221025)
+    version: 2.2.5(react@18.3.1)
   tailwindcss:
     specifier: ^3.3.3
     version: 3.3.3
@@ -704,27 +704,27 @@ packages:
       '@floating-ui/utils': 0.1.6
     dev: true
 
-  /@floating-ui/react-dom@2.0.4(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+  /@floating-ui/react-dom@2.0.4(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-CF8k2rgKeh/49UrnIBs4BdxPUV6vize/Db1d/YbCLyp9GiVZ0BEwf5AiDSxJRCr6yOkGqTFHtmrULxkEfYZ7dQ==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
       '@floating-ui/dom': 1.5.1
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
     dev: true
 
-  /@floating-ui/react@0.26.3(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+  /@floating-ui/react@0.26.3(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-iKH8WRR0L/nLiM6qavFZxkyegIZRMxGnM9aKEc71M4wRlUNkgTamjPsOQXy11oZbDOH37MiTbk/nAPn9M2+shA==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@floating-ui/react-dom': 2.0.4(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
+      '@floating-ui/react-dom': 2.0.4(react-dom@18.3.1)(react@18.3.1)
       '@floating-ui/utils': 0.1.6
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       tabbable: 6.2.0
     dev: true
 
@@ -863,14 +863,14 @@ packages:
       - supports-color
     dev: true
 
-  /@mdx-js/react@2.3.0(react@18.3.0-next-fecc288b7-20221025):
+  /@mdx-js/react@2.3.0(react@18.3.1):
     resolution: {integrity: sha512-zQH//gdOmuu7nt2oJR29vFhDv88oGPmVw6BggmrHeMI+xgEkp1B2dX9/bMBSYtK0dyLX/aOmesKS09g222K1/g==}
     peerDependencies:
       react: '>=16'
     dependencies:
       '@types/mdx': 2.0.5
       '@types/react': 18.2.18
-      react: 18.3.0-next-fecc288b7-20221025
+      react: 18.3.1
     dev: true
 
   /@next/env@13.4.12:
@@ -5047,7 +5047,7 @@ packages:
       thenify-all: 1.6.0
     dev: true
 
-  /nano-css@5.3.5(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+  /nano-css@5.3.5(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-vSB9X12bbNu4ALBu7nigJgRViZ6ja3OU7CeuiV1zMIbXOdmkLahgtPmh3GBOlDxbKY0CitqlPdOReGlBLSp+yg==}
     peerDependencies:
       react: '*'
@@ -5057,8 +5057,8 @@ packages:
       csstype: 3.1.1
       fastest-stable-stringify: 2.0.2
       inline-style-prefixer: 6.0.4
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       rtl-css-js: 1.16.1
       sourcemap-codec: 1.4.8
       stacktrace-js: 2.0.2
@@ -5079,7 +5079,7 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /next-mdx-remote@4.4.1(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+  /next-mdx-remote@4.4.1(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-1BvyXaIou6xy3XoNF4yaMZUCb6vD2GTAa5ciOa6WoO+gAUTYsb1K4rI/HSC2ogAWLrb/7VSV52skz07vOzmqIQ==}
     engines: {node: '>=14', npm: '>=7'}
     peerDependencies:
@@ -5087,16 +5087,16 @@ packages:
       react-dom: '>=16.x <=18.x'
     dependencies:
       '@mdx-js/mdx': 2.3.0
-      '@mdx-js/react': 2.3.0(react@18.3.0-next-fecc288b7-20221025)
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
+      '@mdx-js/react': 2.3.0(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       vfile: 5.3.7
       vfile-matter: 3.0.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /next@13.4.12(@babel/core@7.22.9)(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+  /next@13.4.12(@babel/core@7.22.9)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-eHfnru9x6NRmTMcjQp6Nz0J4XH9OubmzOa7CkWL+AUrUxpibub3vWwttjduu9No16dug1kq04hiUUpo7J3m3Xw==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -5119,9 +5119,9 @@ packages:
       busboy: 1.6.0
       caniuse-lite: 1.0.30001518
       postcss: 8.4.14
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
-      styled-jsx: 5.1.1(@babel/core@7.22.9)(react@18.3.0-next-fecc288b7-20221025)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      styled-jsx: 5.1.1(@babel/core@7.22.9)(react@18.3.1)
       watchpack: 2.4.0
       zod: 3.21.4
     optionalDependencies:
@@ -5683,29 +5683,29 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /react-dom@18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025):
-    resolution: {integrity: sha512-EczZNIcOXzLFyPhSXpplVFekfUvbtHRC68TVAPfCopn8YxjMg2ROVgYs1VdSnEu2JlXKvpeIbjexAuhDprsp/A==}
+  /react-dom@18.3.1(react@18.3.1):
+    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
-      react: 18.3.0-next-fecc288b7-20221025
+      react: ^18.3.1
     dependencies:
       loose-envify: 1.4.0
-      react: 18.3.0-next-fecc288b7-20221025
-      scheduler: 0.24.0-next-fecc288b7-20221025
+      react: 18.3.1
+      scheduler: 0.23.2
     dev: true
 
-  /react-intersection-observer@9.5.2(react@18.3.0-next-fecc288b7-20221025):
+  /react-intersection-observer@9.5.2(react@18.3.1):
     resolution: {integrity: sha512-EmoV66/yvksJcGa1rdW0nDNc4I1RifDWkT50gXSFnPLYQ4xUptuDD4V7k+Rj1OgVAlww628KLGcxPXFlOkkU/Q==}
     peerDependencies:
       react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      react: 18.3.0-next-fecc288b7-20221025
+      react: 18.3.1
     dev: true
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
 
-  /react-tweet@3.0.3(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+  /react-tweet@3.0.3(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-dKPpCCGGo07hV8QtOthAwVbG/VfDA22kg5ny53UHnYYMR18gv7hDYiT9ZjMS4hWLzEObz++e616Sf4qLo9hhag==}
     peerDependencies:
       react: '>= 18.0.0'
@@ -5714,22 +5714,22 @@ packages:
       '@swc/helpers': 0.5.1
       clsx: 1.2.1
       date-fns: 2.30.0
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
-      swr: 2.2.5(react@18.3.0-next-fecc288b7-20221025)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      swr: 2.2.5(react@18.3.1)
     dev: true
 
-  /react-universal-interface@0.6.2(react@18.3.0-next-fecc288b7-20221025)(tslib@2.4.1):
+  /react-universal-interface@0.6.2(react@18.3.1)(tslib@2.4.1):
     resolution: {integrity: sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==}
     peerDependencies:
       react: '*'
       tslib: '*'
     dependencies:
-      react: 18.3.0-next-fecc288b7-20221025
+      react: 18.3.1
       tslib: 2.4.1
     dev: true
 
-  /react-use@17.4.0(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025):
+  /react-use@17.4.0(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-TgbNTCA33Wl7xzIJegn1HndB4qTS9u03QUwyNycUnXaweZkE4Kq2SB+Yoxx8qbshkZGYBDvUXbXWRUmQDcZZ/Q==}
     peerDependencies:
       react: ^16.8.0  || ^17.0.0 || ^18.0.0
@@ -5741,10 +5741,10 @@ packages:
       fast-deep-equal: 3.1.3
       fast-shallow-equal: 1.0.0
       js-cookie: 2.2.1
-      nano-css: 5.3.5(react-dom@18.3.0-next-fecc288b7-20221025)(react@18.3.0-next-fecc288b7-20221025)
-      react: 18.3.0-next-fecc288b7-20221025
-      react-dom: 18.3.0-next-fecc288b7-20221025(react@18.3.0-next-fecc288b7-20221025)
-      react-universal-interface: 0.6.2(react@18.3.0-next-fecc288b7-20221025)(tslib@2.4.1)
+      nano-css: 5.3.5(react-dom@18.3.1)(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-universal-interface: 0.6.2(react@18.3.1)(tslib@2.4.1)
       resize-observer-polyfill: 1.5.1
       screenfull: 5.2.0
       set-harmonic-interval: 1.0.1
@@ -5753,8 +5753,8 @@ packages:
       tslib: 2.4.1
     dev: true
 
-  /react@18.3.0-next-fecc288b7-20221025:
-    resolution: {integrity: sha512-lKvCNWRO9XPy8q7hLd0ODK/4Oqr54r3Vr49Y7EyNBz/kfsmNT6Vx0F69KRz/eGcbt1XDvtbA7KZd+mh8w3wONQ==}
+  /react@18.3.1:
+    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
@@ -6062,8 +6062,8 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
-  /scheduler@0.24.0-next-fecc288b7-20221025:
-    resolution: {integrity: sha512-D2r7z/2EbRXXz4k8XRQab2l71zARIwmZzLLGPAM936/dW1iF835+FMwnOe4Iep96vNJAdQavqJBP4Fm+/MadsQ==}
+  /scheduler@0.23.2:
+    resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
     dependencies:
       loose-envify: 1.4.0
     dev: true
@@ -6354,7 +6354,7 @@ packages:
       inline-style-parser: 0.1.1
     dev: true
 
-  /styled-jsx@5.1.1(@babel/core@7.22.9)(react@18.3.0-next-fecc288b7-20221025):
+  /styled-jsx@5.1.1(@babel/core@7.22.9)(react@18.3.1):
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
     engines: {node: '>= 12.0.0'}
     peerDependencies:
@@ -6369,7 +6369,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.9
       client-only: 0.0.1
-      react: 18.3.0-next-fecc288b7-20221025
+      react: 18.3.1
     dev: true
 
   /stylis@4.1.3:
@@ -6416,14 +6416,14 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /swr@2.2.5(react@18.3.0-next-fecc288b7-20221025):
+  /swr@2.2.5(react@18.3.1):
     resolution: {integrity: sha512-QtxqyclFeAsxEUeZIYmsaQ0UjimSq1RZ9Un7I68/0ClKK/U3LoyQunwkQfJZr2fc22DfIXLNDc2wFyTEikCUpg==}
     peerDependencies:
       react: ^16.11.0 || ^17.0.0 || ^18.0.0
     dependencies:
       client-only: 0.0.1
-      react: 18.3.0-next-fecc288b7-20221025
-      use-sync-external-store: 1.4.0(react@18.3.0-next-fecc288b7-20221025)
+      react: 18.3.1
+      use-sync-external-store: 1.4.0(react@18.3.1)
     dev: true
 
   /synckit@0.8.5:
@@ -6947,12 +6947,12 @@ packages:
       querystring: 0.2.0
     dev: true
 
-  /use-sync-external-store@1.4.0(react@18.3.0-next-fecc288b7-20221025):
+  /use-sync-external-store@1.4.0(react@18.3.1):
     resolution: {integrity: sha512-9WXSPC5fMv61vaupRkCKCxsPxBocVnwakBEkMIHHpkTTg6icbJtg6jzgtLDm4bl3cSHAca52rYWih0k4K3PfHw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     dependencies:
-      react: 18.3.0-next-fecc288b7-20221025
+      react: 18.3.1
     dev: true
 
   /util-deprecate@1.0.2:
