@@ -79,7 +79,7 @@ devDependencies:
     version: 9.13.1(react-dom@18.3.1)(react@18.3.1)
   react-tweet:
     specifier: ^3.0.3
-    version: 3.2.1(react-dom@18.3.1)(react@18.3.1)
+    version: 3.2.2(react-dom@18.3.1)(react@18.3.1)
   react-use:
     specifier: ^17.4.0
     version: 17.6.0(react-dom@18.3.1)(react@18.3.1)
@@ -925,8 +925,8 @@ packages:
       tslib: 2.8.1
     dev: true
 
-  /@swc/helpers@0.5.15:
-    resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
+  /@swc/helpers@0.5.17:
+    resolution: {integrity: sha512-5IKx/Y13RsYd+sauPb2x+U/xZikHjolzfuDgTAl/Tdf3Q8rslRvC19NKDLgAJQ6wsqADk10ntlv08nPFw/gO/A==}
     dependencies:
       tslib: 2.8.1
     dev: true
@@ -5758,13 +5758,13 @@ packages:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
 
-  /react-tweet@3.2.1(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-dktP3RMuwRB4pnSDocKpSsW5Hq1IXRW6fONkHhxT5EBIXsKZzdQuI70qtub1XN2dtZdkJWWxfBm/Q+kN+vRYFA==}
+  /react-tweet@3.2.2(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-hIkxAVPpN2RqWoDEbo3TTnN/pDcp9/Jb6pTgiA4EbXa9S+m2vHIvvZKHR+eS0PDIsYqe+zTmANRa5k6+/iwGog==}
     peerDependencies:
-      react: '>= 18.0.0'
-      react-dom: '>= 18.0.0'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
     dependencies:
-      '@swc/helpers': 0.5.15
+      '@swc/helpers': 0.5.17
       clsx: 2.1.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
