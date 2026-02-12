@@ -11,7 +11,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@floating-ui/react": "^0.27.0",
-    "@next/font": "^13.4.12",
+    "@next/font": "^14.0.0",
     "@notionhq/client": "^2.2.9",
     "@types/node": "^18.11.18",
     "@types/react": "^18.2.18",
@@ -22,7 +22,7 @@
     "date-fns": "^2.30.0",
     "encoding": "^0.1.13",
     "eslint": "^8.46.0",
-    "eslint-config-next": "^13.4.12",
+    "eslint-config-next": "^16.0.0",
     "link-preview-js": "^3.0.4",
     "next": "^13.4.12",
     "next-mdx-remote": "^4.4.1",
