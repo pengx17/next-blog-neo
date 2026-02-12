@@ -53,7 +53,7 @@
     "tsx": "^3.12.7",
     "typescript": "^5.1.6",
     "undici": "^5.22.1",
-    "unified": "^10.1.2",
+    "unified": "^11.0.0",
     "unist-util-visit": "^5.0.0",
     "webpack": "^5.88.2",
     "react-tweet": "^3.0.3"
