@@ -16,4 +16,5 @@ export default async function Post() {
   );
 }
 
-export const dynamic = "force-static";
+export const revalidate = 60;
+export const maxDuration = 60;
