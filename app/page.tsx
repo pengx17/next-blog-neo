@@ -34,7 +34,7 @@ export default function Home() {
   );
 }
 
-export const revalidate = 60;
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "pengx17",

@@ -30,8 +30,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export const revalidate = 60;
-export const maxDuration = 60;
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 type Props = {
   params: Promise<{ slug: string }>;
