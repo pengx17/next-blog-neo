@@ -85,9 +85,11 @@ export const getPosts = cache(async (retry = 3): Promise<PostProperties[]> => {
     });
 
     const flattenedResults = (results as PageObjectResponse[]).map((r) => {
+      const props = parseProperties("properties" in r ? r.properties : {});
       return {
         date: r.created_time,
-        ...parseProperties("properties" in r ? r.properties : {}),
+        ...props,
+        slug: props.slug?.trim(),
         id: r.id,
       } as PostProperties;
     });
