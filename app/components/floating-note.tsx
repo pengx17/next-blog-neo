@@ -12,11 +12,11 @@ export function FloatingNote({
   label: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const triggerRef = React.useRef<HTMLElement>(null);
+  const triggerRef = React.useRef<HTMLElement | null>(null);
   const [anchor, setAnchor] = React.useState<HTMLElement>();
-  const asideRef = React.useRef<HTMLElement>(null);
-  const triggerHovering = useHoverDirty(triggerRef);
-  const asideHovering = useHoverDirty(asideRef, !!anchor);
+  const asideRef = React.useRef<HTMLElement | null>(null);
+  const triggerHovering = useHoverDirty(triggerRef as React.RefObject<Element>);
+  const asideHovering = useHoverDirty(asideRef as React.RefObject<Element>, !!anchor);
 
   React.useEffect(() => {
     if (triggerRef.current && !anchor) {

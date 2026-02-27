@@ -3,7 +3,7 @@ import {
   Noto_Serif_SC,
   Source_Sans_3,
   Source_Serif_4,
-} from "@next/font/google";
+} from "next/font/google";
 
 import "./global.css";
 import { AnalyticsWrapper } from "./components/analytics";

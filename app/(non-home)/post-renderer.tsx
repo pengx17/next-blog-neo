@@ -1,5 +1,6 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+import rehypeShiki from "@shikijs/rehype";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
@@ -7,7 +8,6 @@ import { use } from "react";
 import { getMdxComponents } from "../components/mdx-components";
 import { DateString } from "../date";
 import { getPageMD, type PostProperties } from "../lib/notion-data";
-import rehypeShiki from "../lib/rehype-shiki";
 
 export function PostRenderer({ id, name, date }: Partial<PostProperties>) {
   if (!id) {
@@ -26,18 +26,19 @@ export function PostRenderer({ id, name, date }: Partial<PostProperties>) {
       )}
       {/* @ts-ignore */}
       <MDXRemote
-        options={{
-          mdxOptions: {
-            // development: process.env.NODE_ENV !== "production",
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [rehypeSlug, rehypeShiki],
-          },
-        }}
         source={md}
-        // @ts-expect-error Server Component
         components={getMdxComponents({
           notes,
         })}
+        options={{
+          mdxOptions: {
+            remarkPlugins: [remarkGfm],
+            rehypePlugins: [
+              rehypeSlug,
+              [rehypeShiki, { themes: { light: "github-light" } }],
+            ],
+          },
+        }}
       />
     </>
   );
