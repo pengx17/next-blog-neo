@@ -31,6 +31,7 @@ export async function generateStaticParams() {
 }
 
 export const revalidate = 60;
+export const maxDuration = 60;
 
 type Props = {
   params: Promise<{ slug: string }>;
