@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "sync": "tsx scripts/sync-notion.ts",
-    "build": "next build --webpack",
+    "build": "next build --webpack && next-image-export-optimizer",
     "start": "next start",
     "prettier": "prettier . --write"
   },
@@ -52,5 +52,8 @@
   },
   "lint-staged": {
     "*": "prettier --write"
+  },
+  "dependencies": {
+    "next-image-export-optimizer": "^1.20.1"
   }
 }

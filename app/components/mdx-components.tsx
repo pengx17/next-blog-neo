@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import React from "react";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import { Tweet } from "react-tweet";
 import { getTweetIdFromUrl } from "../lib/utils";
 
@@ -172,6 +172,19 @@ const wrapNative = (Tag: string, className?: string) =>
 export const getMdxComponents = (ctx: MdxContext) => {
   const mdxComponents = {
     a: Anchor,
+    img: ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+      if (!src || typeof src !== "string") return null;
+      return (
+        <ExportedImage
+          src={src}
+          alt={alt || ""}
+          width={1200}
+          height={800}
+          style={{ width: "100%", height: "auto" }}
+          sizes="(max-width: 768px) 100vw, 720px"
+        />
+      );
+    },
     Note: FloatingNote,
     // p -> div so that it won't complain that div is not a valid child of p
     p: wrapNative("div", "leading-ease"),
