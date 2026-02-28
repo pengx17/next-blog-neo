@@ -23,8 +23,10 @@
     "encoding": "^0.1.13",
     "eslint": "^8.46.0",
     "eslint-config-next": "^16.1.6",
+    "image-size": "^2.0.2",
     "link-preview-js": "^3.0.4",
     "next": "^16.1.6",
+    "next-image-export-optimizer": "^1.20.1",
     "next-mdx-remote": "^6.0.0",
     "notion-to-md": "^3.1.9",
     "postcss": "^8.5.6",
@@ -48,8 +50,7 @@
     "typescript": "^5.9.3",
     "undici": "^7.22.0",
     "unified": "^11.0.5",
-    "webpack": "^5.105.3",
-    "next-image-export-optimizer": "^1.20.1"
+    "webpack": "^5.105.3"
   },
   "lint-staged": {
     "*": "prettier --write"

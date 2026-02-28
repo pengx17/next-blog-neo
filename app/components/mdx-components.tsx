@@ -7,7 +7,7 @@ import { getTweetIdFromUrl } from "../lib/utils";
 import Link from "next/link";
 import LinkPreview from "./link-preview";
 import { Popover } from "./popover";
-import { getPageMetaById } from "../lib/content-data";
+import { getPageMetaById, getImageMeta } from "../lib/content-data";
 import { FloatingNote } from "./floating-note";
 
 import LinkPreviewClient from "./link-preview.client";
@@ -172,7 +172,7 @@ const wrapNative = (Tag: string, className?: string) =>
 export const getMdxComponents = (ctx: MdxContext) => {
   const mdxComponents = {
     a: Anchor,
-    img: ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    img: async ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
       if (!src || typeof src !== "string") return null;
       // ExportedImage only handles locally optimized images; fall back to
       // a plain <img> for external URLs.
@@ -186,12 +186,14 @@ export const getMdxComponents = (ctx: MdxContext) => {
           />
         );
       }
+      const meta = await getImageMeta();
+      const dimensions = meta[src] ?? { width: 1200, height: 800 };
       return (
         <ExportedImage
           src={src}
           alt={alt || ""}
-          width={1200}
-          height={800}
+          width={dimensions.width}
+          height={dimensions.height}
           style={{ width: "100%", height: "auto" }}
           sizes="(max-width: 768px) 100vw, 720px"
         />

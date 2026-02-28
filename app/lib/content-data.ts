@@ -112,6 +112,21 @@ export const getPageMetaById = cache(
   }
 );
 
+// Image dimensions metadata
+export const getImageMeta = cache(
+  async (): Promise<Record<string, { width: number; height: number }>> => {
+    try {
+      const data = await fs.readFile(
+        path.join(CONTENT_DIR, "image-meta.json"),
+        "utf-8"
+      );
+      return JSON.parse(data);
+    } catch {
+      return {};
+    }
+  }
+);
+
 // For standalone pages (weekly, tests)
 export const getStandalonePage = cache(
   async (key: string): Promise<PostProperties | null> => {
