@@ -7,7 +7,7 @@ import { getTweetIdFromUrl } from "../lib/utils";
 import Link from "next/link";
 import LinkPreview from "./link-preview";
 import { Popover } from "./popover";
-import { getPageById } from "../lib/notion-data";
+import { getPageMetaById } from "../lib/content-data";
 import { FloatingNote } from "./floating-note";
 
 import LinkPreviewClient from "./link-preview.client";
@@ -59,7 +59,7 @@ const Anchor = async ({
 
   if ("link_to_page" === children) {
     try {
-      const post = await getPageById(href, false);
+      const post = await getPageMetaById(href);
       if (post) {
         return (
           <Link
@@ -85,7 +85,7 @@ const Anchor = async ({
     const pid = (href as string).split("/").pop();
     if (pid) {
       try {
-        const post = await getPageById(pid, false);
+        const post = await getPageMetaById(pid);
         if (post) {
           return (
             <Link

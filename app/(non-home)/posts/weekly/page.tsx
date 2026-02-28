@@ -1,8 +1,8 @@
-import { getPageById } from "../../../lib/notion-data";
+import { getStandalonePage } from "../../../lib/content-data";
 import { PostRenderer } from "../../post-renderer";
 
 export default async function Post() {
-  const page = await getPageById("cff234b9bbf0406fb80d410a75661294");
+  const page = await getStandalonePage("weekly");
 
   if (!page) {
     return null;
@@ -15,5 +15,3 @@ export default async function Post() {
     </article>
   );
 }
-
-export const revalidate = 60;

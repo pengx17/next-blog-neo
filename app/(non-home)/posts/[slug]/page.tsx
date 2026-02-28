@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getPostBySlug, getPosts } from "../../../lib/notion-data";
+import { getPostBySlug, getPosts } from "../../../lib/content-data";
 import { PostRenderer } from "../../post-renderer";
 
 export default async function Post({
@@ -30,7 +30,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export const revalidate = 60;
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 type Props = {
   params: Promise<{ slug: string }>;

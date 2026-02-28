@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { use } from "react";
 import { getMdxComponents } from "../components/mdx-components";
 import { DateString } from "../date";
-import { getPageMD, type PostProperties } from "../lib/notion-data";
+import { getPageMD, type PostProperties } from "../lib/content-data";
 
 export function PostRenderer({ id, name, date }: Partial<PostProperties>) {
   if (!id) {
