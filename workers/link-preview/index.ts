@@ -16,12 +16,16 @@ interface LinkMeta {
 function corsHeaders(origin: string, allowedOrigins: string[]): HeadersInit {
   const isAllowed =
     allowedOrigins.length === 0 || allowedOrigins.includes(origin);
-  return {
-    "Access-Control-Allow-Origin": isAllowed ? origin : "",
+  const headers: Record<string, string> = {
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Max-Age": "86400",
+    Vary: "Origin",
   };
+  if (isAllowed && origin) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+  return headers;
 }
 
 function parseMetaTags(html: string, url: string): LinkMeta {
@@ -136,12 +140,48 @@ export default {
       );
     }
 
+    // Validate URL: only allow http/https and block private/internal IPs
+    try {
+      const parsed = new URL(targetUrl);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        return Response.json(
+          { error: "Only http and https URLs are allowed" },
+          { status: 400, headers: cors }
+        );
+      }
+      const hostname = parsed.hostname;
+      if (
+        hostname === "localhost" ||
+        hostname === "127.0.0.1" ||
+        hostname === "0.0.0.0" ||
+        hostname === "::1" ||
+        hostname.startsWith("10.") ||
+        hostname.startsWith("192.168.") ||
+        /^172\.(1[6-9]|2\d|3[01])\./.test(hostname) ||
+        hostname.endsWith(".local") ||
+        hostname.endsWith(".internal")
+      ) {
+        return Response.json(
+          { error: "Private/internal URLs are not allowed" },
+          { status: 400, headers: cors }
+        );
+      }
+    } catch {
+      return Response.json(
+        { error: "Invalid URL" },
+        { status: 400, headers: cors }
+      );
+    }
+
     // Check cache
     const cacheKey = new Request(request.url, { method: "GET" });
     const cache = caches.default;
     const cached = await cache.match(cacheKey);
     if (cached) {
-      const response = new Response(cached.body, cached);
+      const response = new Response(cached.body, {
+        status: cached.status,
+        headers: cached.headers,
+      });
       Object.entries(cors).forEach(([k, v]) => response.headers.set(k, v));
       return response;
     }

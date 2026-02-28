@@ -29,11 +29,8 @@ const notion = new Client({
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
-// Track images to download: blockId -> { url, lastEditedTime }
-const imageMap = new Map<
-  string,
-  { url: string; lastEditedTime: string }
->();
+// Track images to download: blockId -> url
+const imageMap = new Map<string, string>();
 
 // Custom image transformer: use placeholder, collect image info
 n2m.setCustomTransformer("image", (node) => {
@@ -42,10 +39,7 @@ n2m.setCustomTransformer("image", (node) => {
       node.image.type === "file"
         ? node.image.file.url
         : node.image.external.url;
-    imageMap.set(node.id, {
-      url,
-      lastEditedTime: node.last_edited_time,
-    });
+    imageMap.set(node.id, url);
     return `![](/__NOTION_IMAGE__${node.id}__)`;
   }
   return "";
@@ -339,7 +333,7 @@ async function main() {
     for (let i = 0; i < entries.length; i += CONCURRENCY) {
       const batch = entries.slice(i, i + CONCURRENCY);
       const results = await Promise.all(
-        batch.map(([blockId, { url }]) => downloadImage(blockId, url))
+        batch.map(([blockId, url]) => downloadImage(blockId, url))
       );
       batch.forEach(([blockId], idx) => {
         if (results[idx]) {

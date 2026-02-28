@@ -14,11 +14,10 @@ const normalizeUrl = (url: string) => {
   return url;
 };
 
-const LINK_PREVIEW_API =
-  process.env.NEXT_PUBLIC_LINK_PREVIEW_URL || "/api/link-preview";
+const LINK_PREVIEW_API = process.env.NEXT_PUBLIC_LINK_PREVIEW_URL;
 
 const fetcher = (url: string) => {
-  if (!url) {
+  if (!url || !LINK_PREVIEW_API) {
     return Promise.resolve(null);
   }
   return fetch(
