@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "sync": "tsx scripts/sync-notion.ts",
-    "build": "next build --webpack",
+    "build": "next build --webpack && next-image-export-optimizer",
     "start": "next start",
     "prettier": "prettier . --write"
   },
@@ -23,8 +23,10 @@
     "encoding": "^0.1.13",
     "eslint": "^8.46.0",
     "eslint-config-next": "^16.1.6",
+    "image-size": "^2.0.2",
     "link-preview-js": "^3.0.4",
     "next": "^16.1.6",
+    "next-image-export-optimizer": "^1.20.1",
     "next-mdx-remote": "^6.0.0",
     "notion-to-md": "^3.1.9",
     "postcss": "^8.5.6",

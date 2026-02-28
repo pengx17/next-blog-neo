@@ -6,6 +6,7 @@ import {
 import { NotionToMarkdown } from "notion-to-md";
 import * as fs from "fs/promises";
 import * as path from "path";
+import { imageSize } from "image-size";
 import { mdToHTML } from "../app/lib/md-to-html";
 
 // --- Config ---
@@ -354,6 +355,28 @@ async function main() {
       }
     }
   }
+
+  // 9. Generate image metadata (dimensions)
+  console.log("Generating image metadata...");
+  const imageFiles = await fs.readdir(IMAGES_DIR).catch(() => []);
+  const imageMeta: Record<string, { width: number; height: number }> = {};
+  for (const file of imageFiles) {
+    const filePath = path.join(IMAGES_DIR, file);
+    try {
+      const buf = await fs.readFile(filePath);
+      const dimensions = imageSize(new Uint8Array(buf));
+      if (dimensions.width && dimensions.height) {
+        imageMeta[`/notion-images/${file}`] = {
+          width: dimensions.width,
+          height: dimensions.height,
+        };
+      }
+    } catch {
+      // skip unreadable files
+    }
+  }
+  await writeJSON(path.join(CONTENT_DIR, "image-meta.json"), imageMeta);
+  console.log(`Wrote image metadata for ${Object.keys(imageMeta).length} images\n`);
 
   console.log("\n=== Sync complete ===");
 }

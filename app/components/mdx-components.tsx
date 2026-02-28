@@ -1,13 +1,13 @@
 /* eslint-disable react/display-name */
 import React from "react";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import { Tweet } from "react-tweet";
 import { getTweetIdFromUrl } from "../lib/utils";
 
 import Link from "next/link";
 import LinkPreview from "./link-preview";
 import { Popover } from "./popover";
-import { getPageMetaById } from "../lib/content-data";
+import { getPageMetaById, getImageMeta } from "../lib/content-data";
 import { FloatingNote } from "./floating-note";
 
 import LinkPreviewClient from "./link-preview.client";
@@ -172,6 +172,33 @@ const wrapNative = (Tag: string, className?: string) =>
 export const getMdxComponents = (ctx: MdxContext) => {
   const mdxComponents = {
     a: Anchor,
+    img: async ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+      if (!src || typeof src !== "string") return null;
+      // ExportedImage only handles locally optimized images; fall back to
+      // a plain <img> for external URLs.
+      if (src.startsWith("http://") || src.startsWith("https://")) {
+        return (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt={alt || ""}
+            style={{ width: "100%", height: "auto" }}
+          />
+        );
+      }
+      const meta = await getImageMeta();
+      const dimensions = meta[src] ?? { width: 1200, height: 800 };
+      return (
+        <ExportedImage
+          src={src}
+          alt={alt || ""}
+          width={dimensions.width}
+          height={dimensions.height}
+          style={{ width: "100%", height: "auto" }}
+          sizes="(max-width: 768px) 100vw, 720px"
+        />
+      );
+    },
     Note: FloatingNote,
     // p -> div so that it won't complain that div is not a valid child of p
     p: wrapNative("div", "leading-ease"),
