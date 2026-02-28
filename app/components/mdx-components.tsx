@@ -174,6 +174,18 @@ export const getMdxComponents = (ctx: MdxContext) => {
     a: Anchor,
     img: ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
       if (!src || typeof src !== "string") return null;
+      // ExportedImage only handles locally optimized images; fall back to
+      // a plain <img> for external URLs.
+      if (src.startsWith("http://") || src.startsWith("https://")) {
+        return (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt={alt || ""}
+            style={{ width: "100%", height: "auto" }}
+          />
+        );
+      }
       return (
         <ExportedImage
           src={src}
