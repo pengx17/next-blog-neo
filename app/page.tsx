@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { use } from "react";
 import { DateString } from "./date";
-import { getPosts } from "./lib/notion-data";
+import { getPosts } from "./lib/content-data";
 
 export default function Home() {
   const posts = use(getPosts());
@@ -34,7 +34,8 @@ export default function Home() {
   );
 }
 
-export const revalidate = 60;
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 export const metadata: Metadata = {
   title: "pengx17",

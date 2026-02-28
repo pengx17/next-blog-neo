@@ -14,12 +14,15 @@ const normalizeUrl = (url: string) => {
   return url;
 };
 
+const LINK_PREVIEW_API =
+  process.env.NEXT_PUBLIC_LINK_PREVIEW_URL || "/api/link-preview";
+
 const fetcher = (url: string) => {
   if (!url) {
     return Promise.resolve(null);
   }
   return fetch(
-    `/api/link-preview?url=${encodeURIComponent(normalizeUrl(url))}`
+    `${LINK_PREVIEW_API}?url=${encodeURIComponent(normalizeUrl(url))}`
   ).then((res) => {
     if (res.status >= 400) {
       throw res.statusText;

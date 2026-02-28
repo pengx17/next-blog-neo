@@ -2,7 +2,7 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  serverExternalPackages: ["shiki"],
+  output: "export",
   basePath: process.env.BASE_PATH ?? "",
 };
 

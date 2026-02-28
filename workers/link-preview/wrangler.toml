@@ -1,0 +1,6 @@
+name = "link-preview"
+main = "index.ts"
+compatibility_date = "2024-01-01"
+
+[vars]
+ALLOWED_ORIGINS = ""

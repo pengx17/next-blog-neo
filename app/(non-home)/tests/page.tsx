@@ -1,8 +1,8 @@
-import { getPageById } from "../../lib/notion-data";
+import { getStandalonePage } from "../../lib/content-data";
 import { PostRenderer } from "../post-renderer";
 
 export default async function Tests() {
-  const page = await getPageById("175984b6537d4785948ff8e6179cb914");
+  const page = await getStandalonePage("tests");
 
   if (!page) {
     return null;
