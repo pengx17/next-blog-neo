@@ -1,6 +1,10 @@
 import { Metadata } from "next";
 
-import { getPostBySlug, getPosts } from "../../../lib/content-data";
+import {
+  getPostBySlug,
+  getPostContentBySlug,
+  getPosts,
+} from "../../../lib/content-data";
 import { PostRenderer } from "../../post-renderer";
 
 export default async function Post({
@@ -37,6 +41,20 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+function extractDescription(md: string, maxLen = 180): string | undefined {
+  const text = md
+    // remove common markdown constructs
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1")
+    .replace(/[\*_~>#-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!text) return undefined;
+  return text.length > maxLen ? `${text.slice(0, maxLen - 1)}…` : text;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
@@ -45,11 +63,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
+  const title = post.name ? `${post.name} | pengx17` : "pengx17";
+  const content = await getPostContentBySlug(slug);
+  const description =
+    (content?.md ? extractDescription(content.md) : undefined) ||
+    "A personal blog by pengx17";
+
+  const images = ["https://avatars.githubusercontent.com/u/584378"];
+
   return {
-    title: post.name ? `${post.name} | pengx17` : "pengx17",
+    title,
+    description,
+    alternates: {
+      canonical: `/posts/${slug}`,
+    },
     openGraph: {
-      images: ["https://avatars.githubusercontent.com/u/584378"],
-      description: "A personal blog by pengx17",
+      title,
+      description,
+      url: `/posts/${slug}`,
+      type: "article",
+      images,
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
     },
   };
 }

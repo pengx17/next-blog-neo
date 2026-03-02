@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import {
   Fira_Code,
   Noto_Serif_SC,
@@ -38,6 +39,13 @@ const sourceSerifPro = Source_Serif_4({
   style: ["normal", "italic"],
 });
 
+export const metadata: Metadata = {
+  metadataBase: new URL("https://pengx17.pages.dev"),
+  title: "pengx17",
+  description: "A personal blog by pengx17",
+  icons: ["https://avatars.githubusercontent.com/u/584378"],
+};
+
 export default function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -53,7 +61,7 @@ export default function RootLayout({
         firaCode.variable,
         notoSerifSC.variable,
         sourceSansPro.variable,
-        sourceSerifPro.variable
+        sourceSerifPro.variable,
       )}
     >
       <head />

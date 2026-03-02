@@ -129,6 +129,7 @@ const hWrapper = (Tag: string, defaultClassName: string) =>
         <>
           {children}
           <span
+            aria-hidden="true"
             style={{
               position: "absolute",
               right: "calc(100% + .2rem)",
@@ -137,7 +138,7 @@ const hWrapper = (Tag: string, defaultClassName: string) =>
               fontSize: "0.6em",
               lineHeight: 1,
             }}
-            className="font-normal font-mono uppercase select-none"
+            className="font-normal font-mono uppercase select-none pointer-events-none"
           >
             {Tag}
           </span>
@@ -210,11 +211,11 @@ export const getMdxComponents = (ctx: MdxContext) => {
     hr: wrapNative("hr", "h-1.5 border-gray-400 border-t border-b my-4"),
     blockquote: wrapNative(
       "blockquote",
-      "py-0.5 px-4 border-green-900 border-l-4"
+      "py-0.5 px-4 border-green-900 border-l-4",
     ),
     pre: wrapNative(
       "pre",
-      "text-[13px] p-4 !bg-gray-100 leading-ease w-full overflow-auto rounded"
+      "text-[13px] p-4 !bg-gray-100 leading-ease w-full overflow-auto rounded",
     ),
     ul: wrapNative("ul", "list-disc pl-10 leading-ease"),
     ol: wrapNative("ol", "list-decimal pl-10 leading-ease"),
