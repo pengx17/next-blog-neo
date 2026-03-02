@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Heading level badge (h2/h3/...) is a visual decoration.
+ * Render it via pseudo element so it won't pollute heading textContent/TOC/SEO.
+ */
+.heading-with-level::before {
+  content: attr(data-heading-level);
+  position: absolute;
+  right: calc(100% + 0.2rem);
+  top: calc(50% - 0.4em);
+  opacity: 0.1;
+  font-size: 0.6em;
+  line-height: 1;
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
 a {
   @apply hover:text-red-700;
   text-decoration-thickness: 2px;
