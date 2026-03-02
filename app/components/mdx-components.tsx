@@ -123,26 +123,15 @@ const hWrapper = (Tag: string, defaultClassName: string) =>
     return (
       <Tag
         ref={ref}
-        className={cx("font-serif relative", className, defaultClassName)}
+        data-heading-level={Tag}
+        className={cx(
+          "font-serif relative heading-with-level",
+          className,
+          defaultClassName
+        )}
         {...rest}
       >
-        <>
-          {children}
-          <span
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              right: "calc(100% + .2rem)",
-              opacity: ".1",
-              top: "calc(50% - .4em)",
-              fontSize: "0.6em",
-              lineHeight: 1,
-            }}
-            className="font-normal font-mono uppercase select-none pointer-events-none"
-          >
-            {Tag}
-          </span>
-        </>
+        {children}
       </Tag>
     );
   });
