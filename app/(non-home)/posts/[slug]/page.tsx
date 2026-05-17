@@ -45,6 +45,7 @@ function extractDescription(md: string, maxLen = 180): string | undefined {
   const text = md
     // remove common markdown constructs
     .replace(/```[\s\S]*?```/g, " ")
+    .replace(/!\[[^\]]*\]\([^\)]*\)/g, " ") // drop image markdown so caption noise doesn't leak in
     .replace(/`([^`]+)`/g, "$1")
     .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1")
     .replace(/[\*_~>#-]/g, " ")
@@ -53,6 +54,16 @@ function extractDescription(md: string, maxLen = 180): string | undefined {
 
   if (!text) return undefined;
   return text.length > maxLen ? `${text.slice(0, maxLen - 1)}…` : text;
+}
+
+function extractFirstImage(md: string): string | undefined {
+  // Match the first markdown image ![alt](path); ignore data URIs and external
+  // images so we only surface local notion-images for OG.
+  const match = md.match(/!\[[^\]]*\]\(([^)]+)\)/);
+  if (!match) return undefined;
+  const url = match[1].trim();
+  if (!url || url.startsWith("data:")) return undefined;
+  return url;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -69,7 +80,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     (content?.md ? extractDescription(content.md) : undefined) ||
     "A personal blog by pengx17";
 
-  const images = ["https://avatars.githubusercontent.com/u/584378"];
+  // Prefer the first image embedded in the post body; metadataBase resolves
+  // relative paths (e.g. /notion-images/...png) into absolute OG URLs. Fall
+  // back to the avatar when the post has no inline images.
+  const firstImage = content?.md ? extractFirstImage(content.md) : undefined;
+  const images = firstImage
+    ? [firstImage, "https://avatars.githubusercontent.com/u/584378"]
+    : ["https://avatars.githubusercontent.com/u/584378"];
 
   return {
     title,
