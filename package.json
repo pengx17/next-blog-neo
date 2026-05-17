@@ -59,7 +59,8 @@
     "overrides": {
       "fast-uri": "^3.1.2",
       "picomatch@<2.3.2": ">=2.3.2",
-      "flatted": "^3.4.2"
+      "flatted": "^3.4.2",
+      "postcss": "^8.5.10"
     }
   }
 }
