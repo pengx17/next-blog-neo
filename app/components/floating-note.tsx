@@ -238,6 +238,75 @@ function FloatingNoteRail({
   );
 }
 
+function FloatingNoteBottomSheet({
+  notes,
+  activeId,
+  setActiveId,
+}: {
+  notes: NoteItem[];
+  activeId: string | null;
+  setActiveId: (id: string | null) => void;
+}) {
+  const activeNote = notes.find((note) => note.id === activeId);
+  const isOpen = !!activeNote;
+
+  // Lock body scroll while the sheet is open so the page underneath doesn't
+  // tug on momentum scroll on iOS.
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [isOpen]);
+
+  // Allow ESC to close (keyboards on tablets / accessibility).
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveId(null);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen, setActiveId]);
+
+  return (
+    <div className="md:hidden" aria-hidden={!isOpen}>
+      <div
+        className={cx(
+          "fixed inset-0 z-30 bg-black/40 transition-opacity duration-200",
+          isOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
+        )}
+        onClick={() => setActiveId(null)}
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        className={cx(
+          "fixed inset-x-0 bottom-0 z-40 max-h-[70vh] overflow-y-auto rounded-t-2xl bg-white px-5 pb-6 pt-3 shadow-2xl transition-transform duration-200",
+          isOpen ? "translate-y-0" : "translate-y-full",
+        )}
+      >
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-gray-300" />
+        <button
+          type="button"
+          aria-label="Close note"
+          className="absolute right-4 top-3 rounded-full p-1 text-gray-400 transition hover:text-gray-700"
+          onClick={() => setActiveId(null)}
+        >
+          ×
+        </button>
+        <div className="text-sm leading-relaxed text-gray-800">
+          {activeNote?.content}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function FloatingNotesProvider({
   children,
 }: {
@@ -288,6 +357,11 @@ export function FloatingNotesProvider({
         activeId={activeId}
         setActiveId={setActiveId}
       />
+      <FloatingNoteBottomSheet
+        notes={notes}
+        activeId={activeId}
+        setActiveId={setActiveId}
+      />
     </FloatingNoteContext.Provider>
   );
 }
@@ -327,6 +401,8 @@ export function FloatingNote({
     <span
       ref={triggerRef}
       data-note-anchor={id}
+      role="button"
+      tabIndex={0}
       style={{
         textDecorationStyle: "dotted",
         textDecorationColor: "rgba(31, 41, 55)",
@@ -339,6 +415,18 @@ export function FloatingNote({
       onMouseLeave={() => context?.setActiveId(null)}
       onFocus={() => context?.setActiveId(id)}
       onBlur={() => context?.setActiveId(null)}
+      onClick={(event) => {
+        // On touch devices hover never fires, so click is the only way to
+        // surface the note. Toggle: tap again to close (mobile bottom sheet).
+        event.preventDefault();
+        context?.setActiveId(focused ? null : id);
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          context?.setActiveId(focused ? null : id);
+        }
+      }}
       {...props}
     >
       {label ?? "💭"}
