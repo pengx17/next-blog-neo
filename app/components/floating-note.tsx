@@ -41,7 +41,7 @@ export function FloatingNote({
           borderColor: triggerHovering ? "rgba(31, 41, 55)" : undefined,
           lineHeight: 1.6,
         }}
-        className="p-2 mb-1 text-gray-800 rounded border-2 text-xs bg-gray-100 transition hover:border-gray-800"
+        className="p-2 mb-1 text-gray-800 rounded-sm border-2 text-xs bg-gray-100 transition hover:border-gray-800"
       >
         {children}
       </aside>,

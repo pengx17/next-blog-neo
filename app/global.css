@@ -1,6 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /*
  * Heading level badge (h2/h3/...) is a visual decoration.
@@ -38,7 +56,7 @@ aside code {
 
 /* inline code */
 .inline-code {
-  @apply bg-gray-100 rounded break-all;
+  @apply bg-gray-100 rounded-sm break-all;
   padding: 0.2rem 0.4rem;
   line-height: 1;
   font-size: 0.8em;
