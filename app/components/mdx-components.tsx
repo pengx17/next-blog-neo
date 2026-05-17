@@ -143,7 +143,7 @@ export const createSectionWrapper =
       <section className={cx("my-6 relative flex section-wrapper", className)}>
         {/* @ts-ignore */}
         <Tag className="flex-1" {...props} />
-        <aside className="hidden md:block md:w-48 lg:block lg:w-64 xl:w-72 h-full left-full pl-2 flex-shrink-0">
+        <aside className="hidden md:block md:w-48 lg:block lg:w-64 xl:w-72 h-full left-full pl-2 shrink-0">
           <div
             className="sticky right-0 top-4 bottom-4 min-h-full"
             data-aside-container
@@ -204,7 +204,7 @@ export const getMdxComponents = (ctx: MdxContext) => {
     ),
     pre: wrapNative(
       "pre",
-      "text-[13px] p-4 !bg-gray-100 leading-ease w-full overflow-auto rounded",
+      "text-[13px] p-4 bg-gray-100! leading-ease w-full overflow-auto rounded-sm",
     ),
     ul: wrapNative("ul", "list-disc pl-10 leading-ease"),
     ol: wrapNative("ol", "list-decimal pl-10 leading-ease"),

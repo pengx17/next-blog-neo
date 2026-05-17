@@ -27,3 +27,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode
+/public/notion-images/nextImageExportOptimizer/
+/public/notion-images/next-image-export-optimizer-hashes.json
