@@ -1,8 +1,296 @@
 "use client";
 
 import React from "react";
-import ReactDom from "react-dom";
-import { useHoverDirty, useWindowSize } from "react-use";
+
+type NoteItem = {
+  id: string;
+  label: React.ReactNode;
+  content: React.ReactNode;
+  anchor: HTMLElement | null;
+};
+
+type NotePosition = {
+  id: string;
+  top: number;
+  marker: boolean;
+  targetTop: number;
+};
+
+type FloatingNoteContextValue = {
+  activeId: string | null;
+  register: (note: NoteItem) => void;
+  unregister: (id: string) => void;
+  setAnchor: (id: string, anchor: HTMLElement | null) => void;
+  setActiveId: (id: string | null) => void;
+};
+
+const FloatingNoteContext =
+  React.createContext<FloatingNoteContextValue | null>(null);
+
+const NOTE_RAIL_TOP = 72;
+const NOTE_RAIL_BOTTOM = 28;
+const NOTE_MIN_GAP = 12;
+
+function cx(...args: (string | false | null | undefined)[]) {
+  return args.filter(Boolean).join(" ");
+}
+
+function estimateHeight(note: NoteItem, active: boolean) {
+  const contentText =
+    typeof note.content === "string"
+      ? note.content
+      : typeof note.label === "string"
+        ? note.label
+        : "";
+  const estimated = Math.ceil(contentText.length / 36) * 20 + 36;
+  return Math.max(44, Math.min(active ? 260 : 128, estimated || 92));
+}
+
+function placeNotes({
+  notes,
+  activeId,
+  heights,
+}: {
+  notes: NoteItem[];
+  activeId: string | null;
+  heights: Map<string, number>;
+}) {
+  if (typeof window === "undefined" || window.innerWidth < 768) {
+    return [];
+  }
+
+  const centerY = window.innerHeight * 0.46;
+  const candidates = notes
+    .map((note) => {
+      if (!note.anchor) return null;
+      const rect = note.anchor.getBoundingClientRect();
+      if (rect.bottom < -160 || rect.top > window.innerHeight + 160) {
+        return null;
+      }
+      const measured = heights.get(note.id);
+      const height = measured || estimateHeight(note, note.id === activeId);
+      const targetTop = rect.top + rect.height / 2 - height / 2;
+      return {
+        id: note.id,
+        height,
+        targetTop,
+        viewportDistance: Math.abs(rect.top + rect.height / 2 - centerY),
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a!.targetTop - b!.targetTop) as {
+    id: string;
+    height: number;
+    targetTop: number;
+    viewportDistance: number;
+  }[];
+
+  if (!candidates.length) return [];
+
+  const bottomLimit = Math.max(
+    NOTE_RAIL_TOP + 120,
+    window.innerHeight - NOTE_RAIL_BOTTOM,
+  );
+
+  const laidOut: (typeof candidates[number] & { top: number })[] = [];
+  for (const item of candidates) {
+    const previous = laidOut[laidOut.length - 1];
+    laidOut.push({
+      ...item,
+      top: Math.max(
+        NOTE_RAIL_TOP,
+        item.targetTop,
+        previous ? previous.top + previous.height + NOTE_MIN_GAP : NOTE_RAIL_TOP,
+      ),
+    });
+  }
+
+  for (let index = laidOut.length - 1; index >= 0; index -= 1) {
+    const item = laidOut[index];
+    const maxTop =
+      index === laidOut.length - 1
+        ? bottomLimit - item.height
+        : laidOut[index + 1].top - NOTE_MIN_GAP - item.height;
+    item.top = Math.min(item.top, maxTop);
+  }
+
+  return laidOut.map((item) => ({
+    id: item.id,
+    top: Math.max(NOTE_RAIL_TOP, item.top),
+    targetTop: item.targetTop,
+    marker:
+      item.id !== activeId &&
+      (item.top < NOTE_RAIL_TOP ||
+        item.top + item.height > bottomLimit ||
+        item.viewportDistance > window.innerHeight * 0.62),
+  }));
+}
+
+function FloatingNoteRail({
+  notes,
+  activeId,
+  setActiveId,
+}: {
+  notes: NoteItem[];
+  activeId: string | null;
+  setActiveId: (id: string | null) => void;
+}) {
+  const noteRefs = React.useRef(new Map<string, HTMLElement>());
+  const [positions, setPositions] = React.useState<NotePosition[]>([]);
+  const [viewportHeight, setViewportHeight] = React.useState(0);
+
+  const updatePositions = React.useCallback(() => {
+    setViewportHeight(window.innerHeight);
+    const heights = new Map<string, number>();
+    noteRefs.current.forEach((el, id) => {
+      heights.set(id, el.offsetHeight);
+    });
+    setPositions(placeNotes({ notes, activeId, heights }));
+  }, [activeId, notes]);
+
+  React.useEffect(() => {
+    updatePositions();
+    const onChange = () => requestAnimationFrame(updatePositions);
+    window.addEventListener("scroll", onChange, { passive: true });
+    window.addEventListener("resize", onChange);
+    const observer = new ResizeObserver(onChange);
+    observer.observe(document.body);
+    return () => {
+      window.removeEventListener("scroll", onChange);
+      window.removeEventListener("resize", onChange);
+      observer.disconnect();
+    };
+  }, [updatePositions]);
+
+  React.useEffect(() => {
+    updatePositions();
+  }, [activeId, updatePositions]);
+
+  if (!notes.length) return null;
+
+  const positionById = new Map(positions.map((pos) => [pos.id, pos]));
+  const activePosition = positions.find((pos) => pos.id === activeId);
+  const nearestId =
+    activeId ||
+    positions
+      .slice()
+      .sort(
+        (a, b) =>
+          Math.abs(a.targetTop - viewportHeight * 0.46) -
+          Math.abs(b.targetTop - viewportHeight * 0.46),
+      )[0]?.id ||
+    null;
+
+  return (
+    <div
+      aria-hidden={positions.length === 0}
+      className="pointer-events-none fixed inset-y-0 right-6 z-20 hidden w-44 md:block lg:right-10 lg:w-56 xl:right-[max(3rem,calc((100vw-72rem)/2+2rem))] xl:w-64"
+    >
+      <div className="relative h-full">
+        {activePosition && (
+          <div
+            className="absolute right-full mr-2 h-px w-8 bg-gray-300 transition-transform"
+            style={{ transform: `translateY(${activePosition.top + 18}px)` }}
+          />
+        )}
+        {notes.map((note) => {
+          const position = positionById.get(note.id);
+          if (!position) return null;
+          const focused = note.id === activeId || note.id === nearestId;
+          if (position.marker) {
+            return (
+              <button
+                key={note.id}
+                type="button"
+                aria-label="Show note"
+                className="pointer-events-auto absolute right-0 h-2 w-10 rounded-full bg-gray-300 transition hover:bg-gray-700"
+                style={{ transform: `translateY(${position.top + 12}px)` }}
+                onMouseEnter={() => setActiveId(note.id)}
+                onFocus={() => setActiveId(note.id)}
+                onClick={() => setActiveId(note.id)}
+              />
+            );
+          }
+          return (
+            <aside
+              key={note.id}
+              ref={(el) => {
+                if (el) noteRefs.current.set(note.id, el);
+                else noteRefs.current.delete(note.id);
+              }}
+              className={cx(
+                "pointer-events-auto absolute right-0 rounded-sm border bg-white/92 px-3 py-2 text-xs leading-relaxed text-gray-800 shadow-sm backdrop-blur transition-all duration-200",
+                focused
+                  ? "max-h-64 overflow-auto border-gray-800 opacity-100"
+                  : "max-h-28 overflow-hidden border-gray-200 opacity-45 hover:opacity-90",
+              )}
+              style={{ transform: `translateY(${position.top}px)` }}
+              onMouseEnter={() => setActiveId(note.id)}
+              onMouseLeave={() => setActiveId(null)}
+              onFocus={() => setActiveId(note.id)}
+            >
+              {note.content}
+            </aside>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export function FloatingNotesProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [notesById, setNotesById] = React.useState<Record<string, NoteItem>>(
+    {},
+  );
+  const [activeId, setActiveId] = React.useState<string | null>(null);
+
+  const register = React.useCallback((note: NoteItem) => {
+    setNotesById((current) => ({ ...current, [note.id]: note }));
+  }, []);
+
+  const unregister = React.useCallback((id: string) => {
+    setNotesById((current) => {
+      const next = { ...current };
+      delete next[id];
+      return next;
+    });
+  }, []);
+
+  const setAnchor = React.useCallback(
+    (id: string, anchor: HTMLElement | null) => {
+      setNotesById((current) => {
+        const existing = current[id];
+        if (!existing || existing.anchor === anchor) return current;
+        return { ...current, [id]: { ...existing, anchor } };
+      });
+    },
+    [],
+  );
+
+  const value = React.useMemo(
+    () => ({ activeId, register, unregister, setAnchor, setActiveId }),
+    [activeId, register, setAnchor, unregister],
+  );
+  const notes = React.useMemo(() => Object.values(notesById), [notesById]);
+  const hasNotes = notes.length > 0;
+
+  return (
+    <FloatingNoteContext.Provider value={value}>
+      <div className={hasNotes ? "md:pr-48 lg:pr-64 xl:pr-72" : undefined}>
+        {children}
+      </div>
+      <FloatingNoteRail
+        notes={notes}
+        activeId={activeId}
+        setActiveId={setActiveId}
+      />
+    </FloatingNoteContext.Provider>
+  );
+}
 
 export function FloatingNote({
   label,
@@ -12,69 +300,48 @@ export function FloatingNote({
   label: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const triggerRef = React.useRef<HTMLElement | null>(null);
-  const [anchor, setAnchor] = React.useState<HTMLElement>();
-  const asideRef = React.useRef<HTMLElement | null>(null);
-  const triggerHovering = useHoverDirty(triggerRef as React.RefObject<Element>);
-  const asideHovering = useHoverDirty(asideRef as React.RefObject<Element>, !!anchor);
+  const id = React.useId();
+  const triggerRef = React.useRef<HTMLSpanElement | null>(null);
+  const context = React.useContext(FloatingNoteContext);
 
   React.useEffect(() => {
-    if (triggerRef.current && !anchor) {
-      setTimeout(() => {
-        let el = triggerRef.current
-          ?.closest("section")
-          ?.querySelector<HTMLElement>("[data-aside-container]");
-        setAnchor(el ?? undefined);
-      }, 100);
-    }
-  }, [triggerRef, anchor]);
+    if (!context) return;
+    context.register({
+      id,
+      label,
+      content: children,
+      anchor: triggerRef.current,
+    });
+    context.setAnchor(id, triggerRef.current);
+    return () => context.unregister(id);
+  }, [children, context, id, label]);
 
-  // This will trigger re-render when window size changed.
-  useWindowSize();
+  React.useEffect(() => {
+    if (!context) return;
+    context.setAnchor(id, triggerRef.current);
+  }, [context, id]);
 
-  const focused = triggerHovering || asideHovering;
-  const asideEl =
-    anchor &&
-    ReactDom.createPortal(
-      <aside
-        ref={asideRef}
-        style={{
-          borderColor: triggerHovering ? "rgba(31, 41, 55)" : undefined,
-          lineHeight: 1.6,
-          // Dim non-focused notes so consecutive floating notes don't fight
-          // for visual attention when their sticky containers visually
-          // collide in the right margin; the hovered one wins.
-          opacity: focused ? 1 : 0.45,
-          maxHeight: focused ? undefined : "5.5rem",
-          overflow: focused ? "visible" : "hidden",
-        }}
-        className="p-2 mb-1 text-gray-800 rounded-sm border-2 text-xs bg-gray-100 transition hover:border-gray-800"
-      >
-        {children}
-      </aside>,
-      anchor
-    );
-
-  const asideVisible =
-    !!asideEl &&
-    anchor.parentElement &&
-    window.getComputedStyle(anchor.parentElement).display !== "none";
+  const focused = context?.activeId === id;
 
   return (
     <span
       ref={triggerRef}
+      data-note-anchor={id}
       style={{
         textDecorationStyle: "dotted",
         textDecorationColor: "rgba(31, 41, 55)",
-        textDecorationLine: asideVisible ? "underline" : "none",
+        textDecorationLine: "underline",
         textUnderlineOffset: "2px",
-        backgroundColor: asideHovering ? "rgb(209, 213, 219)" : undefined,
+        backgroundColor: focused ? "rgb(229, 231, 235)" : undefined,
       }}
-      className="cursor-pointer hover:bg-gray-300 transition underline break-all"
+      className="cursor-pointer break-all underline transition hover:bg-gray-300"
+      onMouseEnter={() => context?.setActiveId(id)}
+      onMouseLeave={() => context?.setActiveId(null)}
+      onFocus={() => context?.setActiveId(id)}
+      onBlur={() => context?.setActiveId(null)}
       {...props}
     >
       {label ?? "💭"}
-      {asideEl}
     </span>
   );
 }
