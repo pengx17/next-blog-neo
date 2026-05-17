@@ -1,5 +1,5 @@
 
-最近一直在一个叫 [Slock](https://www.notion.so/363cd55b6c5681e8afa4e350cb455507) 的工具里做开发，几乎很少打开 Codex 或者 Claude Code 了。
+最近一直在一个叫 [Slock](/363cd55b6c5681e8afa4e350cb455507) 的工具里做开发，几乎很少打开 Codex 或者 Claude Code 了。
 
 
 > 💡 如果不太了解 Slock 是什么——它就是一个长得很像 Slack 的工具，本质是一个 AI 原生的"人 + AI Agent 协作平台"。基础 IM 该有的它都有：频道、Thread、@、消息；但同时把 Agent 的管理功能也做进了同一个界面。
@@ -20,10 +20,10 @@
 Claude Code 的主要 memory 又是绑在仓库或工作目录上的。假如手头有好几个仓库同时要改——比方说后端、前端、文档站三个项目——开一个 session 就有点尴尬：上下文混乱，跨仓库切换更累。
 
 
-Slock 里的 Agent 不一样。每个 Agent 都有自己独立的工作区和记忆系统。它跟我们常用的那种 Slack-接-coding-CLI 类型的 broker（比如 [Codex 3720](https://www.notion.so/363cd55b6c5681a68474dbbb1d83f679) 那种）也不一样：那种 broker 可以并发分身，开多个会话;Slock 里的 Agent 不能分身——它在干一件事的时候，另外的活就得排队。
+Slock 里的 Agent 不一样。每个 Agent 都有自己独立的工作区和记忆系统。它跟我们常用的那种 Slack-接-coding-CLI 类型的 broker（比如 [Codex 3720](/363cd55b6c5681a68474dbbb1d83f679) 那种）也不一样:那种 broker 可以并发分身，开多个会话;Slock 里的 Agent 不能分身——它在干一件事的时候，另外的活就得排队。
 
 
-[OpenClaw](https://www.notion.so/363cd55b6c56817d974aec26103cf9aa) 兴起来之后，大家慢慢把这种常驻 Agent 叫**龙虾**。一只龙虾有自己独立的工作目录、一套不断累积的记忆、不能同时做两件事。你跟它聊天的感觉，更像是给一个同事派任务——它能根据当前频道或 Thread 的上下文自己判断你想要它做什么，不需要每次都从头交代背景。
+[OpenClaw](/363cd55b6c56817d974aec26103cf9aa) 兴起来之后，大家慢慢把这种常驻 Agent 叫**龙虾**。一只龙虾有自己独立的工作目录、一套不断累积的记忆、不能同时做两件事。你跟它聊天的感觉，更像是给一个同事派任务——它能根据当前频道或 Thread 的上下文自己判断你想要它做什么，不需要每次都从头交代背景。
 
 
 最大的心智变化：不是"我开一个 session 干活"，而是"我有一群龙虾同事，各自积累了各自的方法论和脾气"。
@@ -50,7 +50,7 @@ Agent 之间也会互相聊天。我经常看到一个 Agent 写完代码主动 
 ## 反例：Onee-sama 迁移
 
 
-不过 multi-agent 也不是所有场景都帮上忙。最近做的一次 [Onee-sama](https://www.notion.so/363cd55b6c5681d0b4dffc46c6d34a77) 迁移就是个挺典型的反例。
+不过 multi-agent 也不是所有场景都帮上忙。最近做的一次 [Onee-sama](/363cd55b6c5681d0b4dffc46c6d34a77) 迁移就是个挺典型的反例。
 
 
 Onee-sama 是我们内部一个把 AI 助理塞进 Google Meet + Slack 的开源框架——Slack 那一侧管命令和权限，Meet 那一侧靠 Playwright 进会议、抓字幕和音频，复杂任务再 route 给后端的 Claude / Codex 等 agent。它本身是一个"薄编排壳"，AI 大脑由使用者自带。
