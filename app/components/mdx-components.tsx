@@ -164,29 +164,41 @@ export const getMdxComponents = (ctx: MdxContext) => {
     a: Anchor,
     img: async ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
       if (!src || typeof src !== "string") return null;
+      const caption = (alt ?? "").trim();
       // ExportedImage only handles locally optimized images; fall back to
       // a plain <img> for external URLs.
+      let media: React.ReactNode;
       if (src.startsWith("http://") || src.startsWith("https://")) {
-        return (
+        media = (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={src}
-            alt={alt || ""}
+            alt={caption}
             style={{ width: "100%", height: "auto" }}
           />
         );
+      } else {
+        const meta = await getImageMeta();
+        const dimensions = meta[src] ?? { width: 1200, height: 800 };
+        media = (
+          <ExportedImage
+            src={src}
+            alt={caption}
+            width={dimensions.width}
+            height={dimensions.height}
+            style={{ width: "100%", height: "auto" }}
+            sizes="(max-width: 768px) 100vw, 720px"
+          />
+        );
       }
-      const meta = await getImageMeta();
-      const dimensions = meta[src] ?? { width: 1200, height: 800 };
+      if (!caption) return media;
       return (
-        <ExportedImage
-          src={src}
-          alt={alt || ""}
-          width={dimensions.width}
-          height={dimensions.height}
-          style={{ width: "100%", height: "auto" }}
-          sizes="(max-width: 768px) 100vw, 720px"
-        />
+        <figure className="my-6">
+          {media}
+          <figcaption className="text-sm text-gray-500 text-center mt-2 leading-snug">
+            {caption}
+          </figcaption>
+        </figure>
       );
     },
     Note: FloatingNote,
