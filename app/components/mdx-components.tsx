@@ -201,8 +201,10 @@ export const getMdxComponents = (ctx: MdxContext) => {
         );
       }
       if (!caption) return media;
+      // Don't add vertical margin here — the surrounding section wrapper
+      // already supplies `my-6`. Adding it twice double-padded image rows.
       return (
-        <figure className="my-6">
+        <figure>
           {media}
           <figcaption className="text-sm text-gray-500 text-center mt-2 leading-snug">
             {caption}

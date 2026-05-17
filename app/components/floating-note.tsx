@@ -32,6 +32,7 @@ export function FloatingNote({
   // This will trigger re-render when window size changed.
   useWindowSize();
 
+  const focused = triggerHovering || asideHovering;
   const asideEl =
     anchor &&
     ReactDom.createPortal(
@@ -40,6 +41,12 @@ export function FloatingNote({
         style={{
           borderColor: triggerHovering ? "rgba(31, 41, 55)" : undefined,
           lineHeight: 1.6,
+          // Dim non-focused notes so consecutive floating notes don't fight
+          // for visual attention when their sticky containers visually
+          // collide in the right margin; the hovered one wins.
+          opacity: focused ? 1 : 0.45,
+          maxHeight: focused ? undefined : "5.5rem",
+          overflow: focused ? "visible" : "hidden",
         }}
         className="p-2 mb-1 text-gray-800 rounded-sm border-2 text-xs bg-gray-100 transition hover:border-gray-800"
       >
