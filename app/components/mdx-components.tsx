@@ -47,14 +47,23 @@ const Anchor = async ({
   ) {
     return <LinkPreview url={href} />;
   }
-  if (href.startsWith("/")) {
-    const noteId = href.slice(1);
-
-    if (notes?.[noteId]) {
-      const noteHTML = notes[noteId];
-      const note = <div dangerouslySetInnerHTML={{ __html: noteHTML }} />;
-      return <FloatingNote label={children}>{note}</FloatingNote>;
-    }
+  // FloatingNote lookup: extract a note id from any of the URL shapes the
+  // sync produces (relative `/<id>`, or `https://www.notion.so/<id>` from
+  // notion-to-md page mentions); normalise dashes; then look it up.
+  const noteId = (() => {
+    let id: string | undefined;
+    if (href.startsWith("/")) id = href.slice(1);
+    else if (href.startsWith("https://www.notion.so/"))
+      id = href.slice("https://www.notion.so/".length);
+    else if (href.startsWith("https://notion.so/"))
+      id = href.slice("https://notion.so/".length);
+    if (!id) return undefined;
+    return id.split(/[/?#]/)[0].replace(/-/g, "");
+  })();
+  if (noteId && notes?.[noteId]) {
+    const noteHTML = notes[noteId];
+    const note = <div dangerouslySetInnerHTML={{ __html: noteHTML }} />;
+    return <FloatingNote label={children}>{note}</FloatingNote>;
   }
 
   if ("link_to_page" === children) {
