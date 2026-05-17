@@ -46,6 +46,13 @@ function estimateHeight(note: NoteItem, active: boolean) {
   return Math.max(44, Math.min(active ? 260 : 128, estimated || 92));
 }
 
+function hasHoverPointer() {
+  return (
+    typeof window === "undefined" ||
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  );
+}
+
 function placeNotes({
   notes,
   activeId,
@@ -92,7 +99,7 @@ function placeNotes({
     window.innerHeight - NOTE_RAIL_BOTTOM,
   );
 
-  const laidOut: (typeof candidates[number] & { top: number })[] = [];
+  const laidOut: ((typeof candidates)[number] & { top: number })[] = [];
   for (const item of candidates) {
     const previous = laidOut[laidOut.length - 1];
     laidOut.push({
@@ -100,7 +107,9 @@ function placeNotes({
       top: Math.max(
         NOTE_RAIL_TOP,
         item.targetTop,
-        previous ? previous.top + previous.height + NOTE_MIN_GAP : NOTE_RAIL_TOP,
+        previous
+          ? previous.top + previous.height + NOTE_MIN_GAP
+          : NOTE_RAIL_TOP,
       ),
     });
   }
@@ -126,6 +135,17 @@ function placeNotes({
   }));
 }
 
+function samePositions(a: NotePosition[], b: NotePosition[]) {
+  if (a.length !== b.length) return false;
+  return a.every(
+    (item, index) =>
+      item.id === b[index]?.id &&
+      item.top === b[index]?.top &&
+      item.targetTop === b[index]?.targetTop &&
+      item.marker === b[index]?.marker,
+  );
+}
+
 function FloatingNoteRail({
   notes,
   activeId,
@@ -140,12 +160,25 @@ function FloatingNoteRail({
   const [viewportHeight, setViewportHeight] = React.useState(0);
 
   const updatePositions = React.useCallback(() => {
+    const computePositions = () => {
+      const heights = new Map<string, number>();
+      noteRefs.current.forEach((el, id) => {
+        heights.set(id, el.offsetHeight);
+      });
+      return placeNotes({ notes, activeId, heights });
+    };
+
     setViewportHeight(window.innerHeight);
-    const heights = new Map<string, number>();
-    noteRefs.current.forEach((el, id) => {
-      heights.set(id, el.offsetHeight);
+    setPositions((current) => {
+      const next = computePositions();
+      return samePositions(current, next) ? current : next;
     });
-    setPositions(placeNotes({ notes, activeId, heights }));
+    requestAnimationFrame(() => {
+      setPositions((current) => {
+        const next = computePositions();
+        return samePositions(current, next) ? current : next;
+      });
+    });
   }, [activeId, notes]);
 
   React.useEffect(() => {
@@ -274,21 +307,18 @@ function FloatingNoteBottomSheet({
   return (
     <div className="md:hidden" aria-hidden={!isOpen}>
       <div
-        className={cx(
-          "fixed inset-0 z-30 bg-black/40 transition-opacity duration-200",
-          isOpen
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0",
-        )}
+        className="fixed inset-0 z-30 bg-black/40 transition-opacity duration-200"
+        style={{
+          opacity: isOpen ? 1 : 0,
+          pointerEvents: isOpen ? "auto" : "none",
+        }}
         onClick={() => setActiveId(null)}
       />
       <div
         role="dialog"
         aria-modal="true"
-        className={cx(
-          "fixed inset-x-0 bottom-0 z-40 max-h-[70vh] overflow-y-auto rounded-t-2xl bg-white px-5 pb-6 pt-3 shadow-2xl transition-transform duration-200",
-          isOpen ? "translate-y-0" : "translate-y-full",
-        )}
+        className="fixed inset-x-0 bottom-0 z-40 max-h-[70vh] overflow-y-auto rounded-t-2xl bg-white px-5 pb-6 pt-3 shadow-2xl transition-transform duration-200"
+        style={{ transform: isOpen ? "translateY(0)" : "translateY(100%)" }}
       >
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-gray-300" />
         <button
@@ -411,15 +441,26 @@ export function FloatingNote({
         backgroundColor: focused ? "rgb(229, 231, 235)" : undefined,
       }}
       className="cursor-pointer break-all underline transition hover:bg-gray-300"
-      onMouseEnter={() => context?.setActiveId(id)}
-      onMouseLeave={() => context?.setActiveId(null)}
+      onMouseEnter={() => {
+        if (hasHoverPointer()) context?.setActiveId(id);
+      }}
+      onMouseLeave={() => {
+        if (hasHoverPointer()) context?.setActiveId(null);
+      }}
       onFocus={() => context?.setActiveId(id)}
-      onBlur={() => context?.setActiveId(null)}
+      onBlur={() => {
+        // Touch browsers often blur the inline trigger immediately after tap,
+        // which would close the mobile bottom sheet before it becomes visible.
+        if (hasHoverPointer()) {
+          context?.setActiveId(null);
+        }
+      }}
       onClick={(event) => {
         // On touch devices hover never fires, so click is the only way to
-        // surface the note. Toggle: tap again to close (mobile bottom sheet).
+        // surface the note. Always open here: focus can fire before click on
+        // mobile, and a toggle would immediately close the sheet again.
         event.preventDefault();
-        context?.setActiveId(focused ? null : id);
+        context?.setActiveId(id);
       }}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
