@@ -13,7 +13,7 @@ importers:
         version: 7.29.0
       '@floating-ui/react':
         specifier: ^0.27.0
-        version: 0.27.19(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 0.27.19(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@notionhq/client':
         specifier: ^4.0.2
         version: 4.0.2
@@ -34,7 +34,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       '@vercel/analytics':
         specifier: ^1.6.1
-        version: 1.6.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)
+        version: 1.6.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -55,13 +55,13 @@ importers:
         version: 4.0.3
       next:
         specifier: ^16.1.6
-        version: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       next-image-export-optimizer:
         specifier: ^1.20.1
-        version: 1.20.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)
+        version: 1.20.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
       next-mdx-remote:
         specifier: ^6.0.0
-        version: 6.0.0(@types/react@19.2.14)(react@19.2.5)
+        version: 6.0.0(@types/react@19.2.14)(react@19.2.6)
       notion-to-md:
         specifier: ^3.1.9
         version: 3.1.9(encoding@0.1.13)
@@ -73,19 +73,19 @@ importers:
         version: 3.8.3
       react:
         specifier: ^19.1.0
-        version: 19.2.5
+        version: 19.2.6
       react-dom:
         specifier: ^19.1.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.6)
       react-intersection-observer:
         specifier: ^10.0.3
-        version: 10.0.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 10.0.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react-tweet:
         specifier: ^3.3.0
-        version: 3.3.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 3.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react-use:
         specifier: ^17.6.0
-        version: 17.6.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 17.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       rehype-add-classes:
         specifier: ^1.0.0
         version: 1.0.0
@@ -112,7 +112,7 @@ importers:
         version: 3.23.0
       swr:
         specifier: ^2.4.0
-        version: 2.4.1(react@19.2.5)
+        version: 2.4.1(react@19.2.6)
       tailwindcss:
         specifier: ^4.3.0
         version: 4.3.0
@@ -2692,10 +2692,10 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  react-dom@19.2.5:
-    resolution: {integrity: sha512-J5bAZz+DXMMwW/wV3xzKke59Af6CHY7G4uYLN1OvBcKEsWOs4pQExj86BBKamxl/Ik5bx9whOrvBlSDfWzgSag==}
+  react-dom@19.2.6:
+    resolution: {integrity: sha512-0prMI+hvBbPjsWnxDLxlCGyM8PN6UuWjEUCYmZhO67xIV9Xasa/r/vDnq+Xyq4Lo27g8QSbO5YzARu0D1Sps3g==}
     peerDependencies:
-      react: ^19.2.5
+      react: ^19.2.6
 
   react-intersection-observer@10.0.3:
     resolution: {integrity: sha512-luICLMbs0zxTO/70Zy7K5jOXkABPEVSAF8T3FdZUlctsrIaPLmx8TZe2SSA+CY2HGWfz2INyNTnp82pxNNsShA==}
@@ -2727,8 +2727,8 @@ packages:
       react: '*'
       react-dom: '*'
 
-  react@19.2.5:
-    resolution: {integrity: sha512-llUJLzz1zTUBrskt2pwZgLq59AemifIftw4aB7JxOqf1HY2FDaGDxgwpAPVzHU1kdWabH7FauP4i1oEeer2WCA==}
+  react@19.2.6:
+    resolution: {integrity: sha512-sfWGGfavi0xr8Pg0sVsyHMAOziVYKgPLNrS7ig+ivMNb3wbCBw3KxtflsGBAwD3gYQlE/AEZsTLgToRrSCjb0Q==}
     engines: {node: '>=0.10.0'}
 
   recma-build-jsx@1.0.0:
@@ -3554,18 +3554,18 @@ snapshots:
       '@floating-ui/core': 1.7.5
       '@floating-ui/utils': 0.2.11
 
-  '@floating-ui/react-dom@2.1.8(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@floating-ui/react-dom@2.1.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
     dependencies:
       '@floating-ui/dom': 1.7.6
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
 
-  '@floating-ui/react@0.27.19(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@floating-ui/react@0.27.19(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
     dependencies:
-      '@floating-ui/react-dom': 2.1.8(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@floating-ui/react-dom': 2.1.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@floating-ui/utils': 0.2.11
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
       tabbable: 6.4.0
 
   '@floating-ui/utils@0.2.11': {}
@@ -3732,11 +3732,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.5)':
+  '@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6)':
     dependencies:
       '@types/mdx': 2.0.13
       '@types/react': 19.2.14
-      react: 19.2.5
+      react: 19.2.6
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
@@ -4161,10 +4161,10 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vercel/analytics@1.6.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)':
+  '@vercel/analytics@1.6.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)':
     optionalDependencies:
-      next: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      react: 19.2.5
+      next: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react: 19.2.6
 
   '@webassemblyjs/ast@1.14.1':
     dependencies:
@@ -6070,15 +6070,15 @@ snapshots:
 
   ms@2.1.3: {}
 
-  nano-css@5.6.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  nano-css@5.6.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
       css-tree: 1.1.3
       csstype: 3.2.3
       fastest-stable-stringify: 2.0.2
       inline-style-prefixer: 7.0.1
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
       rtl-css-js: 1.16.1
       stacktrace-js: 2.0.2
       stylis: 4.3.6
@@ -6091,19 +6091,19 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  next-image-export-optimizer@1.20.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5):
+  next-image-export-optimizer@1.20.1(next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6):
     dependencies:
-      next: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      react: 19.2.5
+      next: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react: 19.2.6
       sharp: 0.34.5
       typescript: 5.9.3
 
-  next-mdx-remote@6.0.0(@types/react@19.2.14)(react@19.2.5):
+  next-mdx-remote@6.0.0(@types/react@19.2.14)(react@19.2.6):
     dependencies:
       '@babel/code-frame': 7.29.0
       '@mdx-js/mdx': 3.1.1
-      '@mdx-js/react': 3.1.1(@types/react@19.2.14)(react@19.2.5)
-      react: 19.2.5
+      '@mdx-js/react': 3.1.1(@types/react@19.2.14)(react@19.2.6)
+      react: 19.2.6
       unist-util-remove: 4.0.0
       unist-util-visit: 5.1.0
       vfile: 6.0.3
@@ -6112,16 +6112,16 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  next@16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       '@next/env': 16.2.6
       '@swc/helpers': 0.5.15
       baseline-browser-mapping: 2.10.29
       caniuse-lite: 1.0.30001792
       postcss: 8.4.31
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
-      styled-jsx: 5.1.6(@babel/core@7.29.0)(react@19.2.5)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
+      styled-jsx: 5.1.6(@babel/core@7.29.0)(react@19.2.6)
     optionalDependencies:
       '@next/swc-darwin-arm64': 16.2.6
       '@next/swc-darwin-x64': 16.2.6
@@ -6314,33 +6314,33 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-dom@19.2.5(react@19.2.5):
+  react-dom@19.2.6(react@19.2.6):
     dependencies:
-      react: 19.2.5
+      react: 19.2.6
       scheduler: 0.27.0
 
-  react-intersection-observer@10.0.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  react-intersection-observer@10.0.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
-      react: 19.2.5
+      react: 19.2.6
     optionalDependencies:
-      react-dom: 19.2.5(react@19.2.5)
+      react-dom: 19.2.6(react@19.2.6)
 
   react-is@16.13.1: {}
 
-  react-tweet@3.3.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  react-tweet@3.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       '@swc/helpers': 0.5.19
       clsx: 2.1.1
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
-      swr: 2.4.1(react@19.2.5)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
+      swr: 2.4.1(react@19.2.6)
 
-  react-universal-interface@0.6.2(react@19.2.5)(tslib@2.8.1):
+  react-universal-interface@0.6.2(react@19.2.6)(tslib@2.8.1):
     dependencies:
-      react: 19.2.5
+      react: 19.2.6
       tslib: 2.8.1
 
-  react-use@17.6.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  react-use@17.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       '@types/js-cookie': 2.2.7
       '@xobotyi/scrollbar-width': 1.9.5
@@ -6348,10 +6348,10 @@ snapshots:
       fast-deep-equal: 3.1.3
       fast-shallow-equal: 1.0.0
       js-cookie: 2.2.1
-      nano-css: 5.6.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
-      react-universal-interface: 0.6.2(react@19.2.5)(tslib@2.8.1)
+      nano-css: 5.6.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
+      react-universal-interface: 0.6.2(react@19.2.6)(tslib@2.8.1)
       resize-observer-polyfill: 1.5.1
       screenfull: 5.2.0
       set-harmonic-interval: 1.0.1
@@ -6359,7 +6359,7 @@ snapshots:
       ts-easing: 0.2.0
       tslib: 2.8.1
 
-  react@19.2.5: {}
+  react@19.2.6: {}
 
   recma-build-jsx@1.0.0:
     dependencies:
@@ -6781,10 +6781,10 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.7
 
-  styled-jsx@5.1.6(@babel/core@7.29.0)(react@19.2.5):
+  styled-jsx@5.1.6(@babel/core@7.29.0)(react@19.2.6):
     dependencies:
       client-only: 0.0.1
-      react: 19.2.5
+      react: 19.2.6
     optionalDependencies:
       '@babel/core': 7.29.0
 
@@ -6800,11 +6800,11 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  swr@2.4.1(react@19.2.5):
+  swr@2.4.1(react@19.2.6):
     dependencies:
       dequal: 2.0.3
-      react: 19.2.5
-      use-sync-external-store: 1.6.0(react@19.2.5)
+      react: 19.2.6
+      use-sync-external-store: 1.6.0(react@19.2.6)
 
   tabbable@6.4.0: {}
 
@@ -7012,9 +7012,9 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  use-sync-external-store@1.6.0(react@19.2.5):
+  use-sync-external-store@1.6.0(react@19.2.6):
     dependencies:
-      react: 19.2.5
+      react: 19.2.6
 
   vfile-matter@5.0.1:
     dependencies:
