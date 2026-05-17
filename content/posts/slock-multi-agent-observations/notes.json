@@ -1,1 +1,6 @@
-{}
+{
+  "363cd55b6c5681d0b4dffc46c6d34a77": "<p>开源框架，把 AI 助理塞进 Google Meet 会议 + Slack 工作流。它本身是一个薄编排壳——audio / captions 收集 + 命令路由 + 权限管理——AI 大脑由你自己挂（Claude / Codex / 别的）。源码：<a href=\"https://github.com/afk-surf/oneesama\" class=\"underline\">oneesama</a>。</p>",
+  "363cd55b6c56817d974aec26103cf9aa": "<p>一个面向 agent workflow 的开发框架，\"龙虾\"这个术语就是从它的社区里慢慢叫开的——用来指代\"独居、长记忆、不能分身\"那类常驻 agent。</p>",
+  "363cd55b6c5681a68474dbbb1d83f679": "<p>把 coding CLI（如 Codex）接进 Slack 的一种 broker——人在 Slack 里 @ 它，它在后端 spawn 一个 Codex app-server thread 干活、汇报结果。每个 Slack thread 对应一个独立 workspace，跑完即弃，不积累长期身份。源码：<a href=\"https://github.com/HOOLC/slack-codex-broker\" class=\"underline\">slack-codex-broker</a>。</p>",
+  "363cd55b6c5681e8afa4e350cb455507": "<p>AI 原生的人 + AI Agent 协作平台。UI 类似 Slack（频道 / Thread / DM / @），但把 Agent 注册、调度、记忆都做进同一个界面。每个 Agent 是一个常驻进程，有自己的工作目录、独立记忆和身份。</p>"
+}
