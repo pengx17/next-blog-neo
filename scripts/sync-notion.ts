@@ -33,7 +33,12 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
 // Track images to download: blockId -> url
 const imageMap = new Map<string, string>();
 
-// Custom image transformer: use placeholder, collect image info
+// Escape characters that would break the markdown image-alt syntax.
+function escapeAlt(text: string): string {
+  return text.replace(/\\/g, "\\\\").replace(/\]/g, "\\]").replace(/\s+/g, " ").trim();
+}
+
+// Custom image transformer: use placeholder, collect image info, preserve caption
 n2m.setCustomTransformer("image", (node) => {
   if ("type" in node && node.type === "image") {
     const url =
@@ -41,7 +46,11 @@ n2m.setCustomTransformer("image", (node) => {
         ? node.image.file.url
         : node.image.external.url;
     imageMap.set(node.id, url);
-    return `![](/__NOTION_IMAGE__${node.id}__)`;
+    const caption = (node.image.caption ?? [])
+      .map((rt: { plain_text?: string }) => rt.plain_text ?? "")
+      .join("");
+    const alt = escapeAlt(caption);
+    return `![${alt}](/__NOTION_IMAGE__${node.id}__)`;
   }
   return "";
 });
@@ -199,11 +208,11 @@ function replaceImagePlaceholders(
   downloadedImages: Map<string, string>
 ): string {
   return md.replace(
-    /!\[\]\(\/__NOTION_IMAGE__([a-f0-9-]+)__\)/g,
-    (match, blockId) => {
+    /!\[((?:\\\]|[^\]])*)\]\(\/__NOTION_IMAGE__([a-f0-9-]+)__\)/g,
+    (match, alt, blockId) => {
       const filename = downloadedImages.get(blockId);
       if (filename) {
-        return `![](/notion-images/${filename})`;
+        return `![${alt}](/notion-images/${filename})`;
       }
       console.warn(`  [warn] No downloaded image for block ${blockId}`);
       return match;
