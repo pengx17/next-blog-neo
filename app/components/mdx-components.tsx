@@ -149,25 +149,9 @@ export const createSectionWrapper =
   (Tag: React.FunctionComponent) =>
   ({ className, ...props }: React.AllHTMLAttributes<any>) => {
     return (
-      // Reserve right-side padding for the floating-note aside instead of
-      // using a flex sibling. With flex+stretch the body row would inherit
-      // the aside's natural height, padding short paragraphs to fit a tall
-      // note. Absolute positioning keeps section height = body content
-      // height; the note overflows visually into the reserved gutter only.
-      <section
-        className={cx(
-          "my-6 relative section-wrapper md:pr-48 lg:pr-64 xl:pr-72",
-          className
-        )}
-      >
+      <section className={cx("my-6 section-wrapper", className)}>
         {/* @ts-ignore */}
         <Tag {...props} />
-        <aside className="hidden md:block absolute top-0 right-0 md:w-48 lg:w-64 xl:w-72 pl-2 h-full pointer-events-none">
-          <div
-            className="sticky top-4 pointer-events-auto"
-            data-aside-container
-          />
-        </aside>
       </section>
     );
   };

@@ -5,6 +5,7 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
 import { use } from "react";
+import { FloatingNotesProvider } from "../components/floating-note";
 import { getMdxComponents } from "../components/mdx-components";
 import { DateString } from "../date";
 import { getPageMD, type PostProperties } from "../lib/content-data";
@@ -24,22 +25,24 @@ export function PostRenderer({ id, name, date }: Partial<PostProperties>) {
           <DateString dateString={date} />
         </div>
       )}
-      {/* @ts-ignore */}
-      <MDXRemote
-        source={md}
-        components={getMdxComponents({
-          notes,
-        })}
-        options={{
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [
-              rehypeSlug,
-              [rehypeShiki, { themes: { light: "github-light" } }],
-            ],
-          },
-        }}
-      />
+      <FloatingNotesProvider>
+        {/* @ts-ignore */}
+        <MDXRemote
+          source={md}
+          components={getMdxComponents({
+            notes,
+          })}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+              rehypePlugins: [
+                rehypeSlug,
+                [rehypeShiki, { themes: { light: "github-light" } }],
+              ],
+            },
+          }}
+        />
+      </FloatingNotesProvider>
     </>
   );
 }
