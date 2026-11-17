@@ -57,7 +57,7 @@
   },
   "pnpm": {
     "overrides": {
-      "fast-uri": "^3.1.2",
+      "fast-uri": "^4.0.0",
       "picomatch@<2.3.2": ">=2.3.2",
       "flatted": "^3.4.2",
       "postcss": "^8.5.10"
